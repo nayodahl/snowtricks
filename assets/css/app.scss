@@ -143,7 +143,7 @@ h6 {
 }
 
 .mb100 {
-    margin-bottom: 100px;
+    margin-bottom: 20px;
 }
 
 .nomarginbottom {
@@ -631,11 +631,19 @@ fieldset[disabled] .btn-primary.active {
 
 #headerwrap {
     background-color: transparent;
-    overflow: hidden;
+    overflow: visible ;
     background-image: url(../img/bg/bg1.jpg);
     background-size: 100vw;
     max-height: 100vh !important;
     height: 100vh !important;
+
+}
+
+#chevron {
+    color: #333;
+    position: absolute;
+    right: 1%;
+    bottom: 1%;
 }
 
 .opaque {
@@ -938,6 +946,11 @@ section h3.section-subheading {
     position: relative;
 }
 
+.card {
+    border: 1px solid rgba(0, 0, 0, 0.125);
+    border-radius: 0.4rem;
+}
+
 
 /*-----------------------------------------------------------------------------------*/
 
@@ -999,7 +1012,8 @@ section h3.section-subheading {
 .project-item .post-title {
     margin-top: 0;
     margin-bottom: 20px;
-    font-size: 22px;
+    padding-left: 30px;
+    font-size: 16px;
     letter-spacing: 4px;
 }
 
@@ -1275,8 +1289,8 @@ textarea#comments {
 }
 
 footer.white-wrapper {
-    padding: 60px 0;
-    background-color: #000;
+    padding: 20px 0;
+    background-color: #444;
 }
 
 footer.white-wrapper * {
@@ -2015,7 +2029,7 @@ footer.white-wrapper .social-links li a {
 
     #headerwrap {
         background-color: transparent;
-        overflow: hidden;
+        overflow: visible;
         background-image: url(../img/bg/bg1.jpg);
         max-height: 50vh !important;
         height: 50vh !important;
@@ -2036,7 +2050,6 @@ footer.white-wrapper .social-links li a {
         width: 100%;
     }
 }
-
 
 /*-----------------------------------------------------------------------------------*/
 
