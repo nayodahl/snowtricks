@@ -15,8 +15,6 @@ class TricksController extends AbstractController
     
     public function home(): Response
     {
-        $number = random_int(0, 100);
-
         return $this->render('home.html.twig');
     }
 }
