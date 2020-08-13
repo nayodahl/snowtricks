@@ -686,6 +686,14 @@ header .intro-text .intro-heading {
     color: #333;
 }
 
+header.masthead .overlay .intro-heading {
+    color: white;
+}
+
+.intro-heading h2 {
+    font-size: 70px;
+}
+
 
 /* HEADER STYLES */
 
@@ -856,7 +864,7 @@ section {
 }
 
 .section-inner {
-    padding: 120px 0
+    padding: 60px 10px 0 0
 }
 
 .contact-section-inner {
@@ -951,55 +959,28 @@ section h3.section-subheading {
     border-radius: 0.4rem;
 }
 
-
-/*-----------------------------------------------------------------------------------*/
-
-
-/*  7 - PORTFOLIO
-/*-----------------------------------------------------------------------------------*/
-
-.portfolio-items {
-    margin-left: -15px;
-    margin-right: -15px;
-}
-
-.pad-masonry-portfolio-items .masonry-portfolio-item {
-    margin-bottom: 30px
-}
-
-.fixed-filters {
+header.masthead {
+    margin-bottom: 30px;
+    background: no-repeat center center;
+    background-color: #868e96;
+    background-attachment: scroll;
     position: relative;
-    overflow: hidden;
-}
+    background-size: cover;
+  }
+  
+header.masthead .overlay {
+    position: relative;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    background-color: #212529;
+    opacity: 0.4;
+  }
 
-.fixed-filters .masonry-portfolio-filter {
-    position: absolute;
-    top: 15px;
-    left: 50%;
-    width: 600px;
-    margin-left: -300px;
-    z-index: 10;
-    background: rgba(255, 255, 255, 0.9);
-    padding-bottom: 15px;
-}
-
-.isotope-item {
-    z-index: 2
-}
-
-.isotope-hidden.isotope-item {
-    pointer-events: none;
-    z-index: 1
-}
-
-.portfolio-filter a {
-    margin: 0 10px;
-    border-color: #f3f3f3;
-}
-
-.portfolio-filter a.active {
-    border-color: #222;
-}
+.col-carousel{
+    padding-top: 40px;
+  }
 
 
 /*-----------------------------------------------------------------------------------*/
@@ -1021,6 +1002,7 @@ section h3.section-subheading {
     font-size: 12px;
     margin-right: 20px;
     font-weight: 300;
+    text-transform: uppercase;
 }
 
 .meta-item.post-date {
