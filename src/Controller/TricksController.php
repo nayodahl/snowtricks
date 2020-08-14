@@ -13,7 +13,7 @@ class TricksController extends AbstractController
      *
      */
     
-    public function home(): Response
+    public function showHome(): Response
     {
         return $this->render('home.html.twig');
     }
@@ -28,7 +28,7 @@ class TricksController extends AbstractController
         return $this->render('trick.html.twig');
     }
 
-        /**
+    /**
      * @Route("/login")
      *
      */
@@ -36,5 +36,35 @@ class TricksController extends AbstractController
     public function showLogin(): Response
     {
         return $this->render('login.html.twig');
+    }
+
+    /**
+     * @Route("/signin")
+     *
+     */
+    
+    public function showSignin(): Response
+    {
+        return $this->render('signin.html.twig');
+    }
+
+    /**
+     * @Route("/forgot")
+     *
+     */
+    
+    public function showForgotPassword(): Response
+    {
+        return $this->render('forgot.html.twig');
+    }
+
+    /**
+     * @Route("/reset")
+     *
+     */
+    
+    public function showResetPassword(): Response
+    {
+        return $this->render('reset.html.twig');
     }
 }

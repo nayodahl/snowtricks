@@ -5,13 +5,13 @@
             <div class="container login-section-inner">
                 <div class="row">
                     <div class="col-lg-6 col-md-4 mx-auto">            
-                        <h2 class="section-heading" id="logintitle">Connexion</h2>
-                        <form method="post" action="/account/login" name="sentLogin" id="loginform" class="needs-validation login-form" novalidate>
+                        <h2 class="section-heading" id="logintitle">Inscription</h2>
+                        <form method="post" action="/account/signin" name="sentSignin" id="signinForm" class="needs-validation login-form" novalidate>
                             <div class="control-group">
                                 <div class="form-group floating-label-form-group controls">
                                 <label for="login">Login</label>
-                                <input name="login" type="text" class="form-control" id="login" required data-validation-required-message="Entrez votre identifiant de connexion (login).">
-                                <div class="invalid-feedback">Entrez votre identifiant de connexion (login).</div>
+                                <input name="login" type="text" class="form-control" id="login" required data-validation-required-message="Entrez votre nom.">
+                                <div class="invalid-feedback">Entrez un pseudo valide.</div>
                                 <p class="help-block text-danger"></p>
                                 </div>
                             </div>
@@ -23,15 +23,30 @@
                                 <p class="help-block text-danger"></p>
                                 </div>
                             </div>
+                            <div class="control-group">
+                                <div class="form-group floating-label-form-group controls">
+                                <label for="confirm">Confirmation</label>
+                                <input name="confirm" type="password" class="form-control" id="confirm" required data-validation-required-message="Confirmez votre mot de passe.">
+                                <div class="invalid-feedback">Les mots de passe ne correspondent pas.</div>
+                                <p class="help-block text-danger"></p>
+                                </div>
+                            </div>
+                            <div class="control-group">
+                                <div class="form-group floating-label-form-group controls">
+                                <label for="email">Email</label>
+                                <input name="email" type="email" class="form-control" id="email" required data-validation-required-message="Entrez votre adresse email.">
+                                <div class="invalid-feedback">Entrez email valide.</div>
+                                <p class="help-block text-danger"></p>
+                                </div>
+                            </div>
                             <br>
                             <div id="success"></div>
                             <div class="form-group form-inline justify-content-center">
-                                <a href="/" class="btn btn-primary">Annuler</a>
-                                <button type="submit" class="btn btn-primary" id="sendLoginButton">Connexion</button>
+                                <a href="/login" class="btn btn-primary">Annuler</a>
+                                <button type="submit" class="btn btn-primary" id="sendLoginButton">Créer un compte</button>
                             </div>
-                            <input type="hidden" name="token" id="token" value="login"/>
-                        </form>
-
+                            <input type="hidden" name="token" id="token" value="test"/>
+                        </form> 
                         <hr>
 
                         <script>
@@ -53,15 +68,7 @@
                                 });
                             }, false);
                             })();
-                        </script>
-
-                        <div class="col-md-6 mx-auto">
-                            <a href="/signin">Pas encore de compte ?</a>
-                        </div>
-                        <div class="col-md-6 mx-auto">
-                            <a href="/forgot">Mot de passe oublié ?</a>
-                        </div>
-                        
+                        </script>                        
                     </div>
                 </div>    
             </div>

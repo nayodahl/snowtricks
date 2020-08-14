@@ -5,13 +5,13 @@
             <div class="container login-section-inner">
                 <div class="row">
                     <div class="col-lg-6 col-md-4 mx-auto">            
-                        <h2 class="section-heading" id="logintitle">Connexion</h2>
+                        <h2 class="section-heading" id="logintitle">Réinitialisation de mot de passe</h2>
                         <form method="post" action="/account/login" name="sentLogin" id="loginform" class="needs-validation login-form" novalidate>
                             <div class="control-group">
                                 <div class="form-group floating-label-form-group controls">
-                                <label for="login">Login</label>
-                                <input name="login" type="text" class="form-control" id="login" required data-validation-required-message="Entrez votre identifiant de connexion (login).">
-                                <div class="invalid-feedback">Entrez votre identifiant de connexion (login).</div>
+                                <label for="login">Email</label>
+                                <input name="email" type="email" class="form-control" id="email" required data-validation-required-message="Entrez votre email.">
+                                <div class="invalid-feedback">Entrez votre email.</div>
                                 <p class="help-block text-danger"></p>
                                 </div>
                             </div>
@@ -26,10 +26,10 @@
                             <br>
                             <div id="success"></div>
                             <div class="form-group form-inline justify-content-center">
-                                <a href="/" class="btn btn-primary">Annuler</a>
-                                <button type="submit" class="btn btn-primary" id="sendLoginButton">Connexion</button>
+                                <a href="/login" class="btn btn-primary">Annuler</a>
+                                <button type="submit" class="btn btn-primary" id="sendLoginButton">Réinitialiser</button>
                             </div>
-                            <input type="hidden" name="token" id="token" value="login"/>
+                            <input type="hidden" name="token" id="token" value="test"/>
                         </form>
 
                         <hr>
@@ -54,13 +54,6 @@
                             }, false);
                             })();
                         </script>
-
-                        <div class="col-md-6 mx-auto">
-                            <a href="/signin">Pas encore de compte ?</a>
-                        </div>
-                        <div class="col-md-6 mx-auto">
-                            <a href="/forgot">Mot de passe oublié ?</a>
-                        </div>
                         
                     </div>
                 </div>    
