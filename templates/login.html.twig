@@ -1,0 +1,66 @@
+{% extends 'layout.html.twig' %}
+
+{% block content %}               
+        <section>
+            <div class="container login-section-inner">
+                <div class="row">
+                    <div class="col-lg-6 col-md-4 mx-auto">            
+                        <h2 class="section-heading" id="logintitle">Connexion</h2>
+                        <form method="post" action="/account/login" name="sentLogin" id="loginform" class="needs-validation login-form" novalidate>
+                            <div class="control-group">
+                                <div class="form-group floating-label-form-group controls">
+                                <label for="login">Login</label>
+                                <input name="login" type="text" class="form-control" id="login" required data-validation-required-message="Entrez votre identifiant de connexion (login).">
+                                <div class="invalid-feedback">Entrez votre identifiant de connexion (login).</div>
+                                <p class="help-block text-danger"></p>
+                                </div>
+                            </div>
+                            <div class="control-group">
+                                <div class="form-group floating-label-form-group controls">
+                                <label for="password">Mot de passe</label>
+                                <input name="password" type="password" class="form-control" id="password" required data-validation-required-message="Entrez votre mot de passe.">
+                                <div class="invalid-feedback">Entrez un mot de passe valide.</div>
+                                <p class="help-block text-danger"></p>
+                                </div>
+                            </div>
+                            <br>
+                            <div id="success"></div>
+                            <div class="form-group form-inline justify-content-center">
+                                <a href="/" class="btn btn-primary">Annuler</a>&nbsp;
+                                <button type="submit" class="btn btn-primary" id="sendLoginButton">Connexion</button>
+                            </div>
+                            <input type="hidden" name="token" id="token" value="login"/>
+                        </form>
+
+                        <hr>
+
+                        <script>
+                            // starter JavaScript for disabling form submissions if there are invalid fields, from bootstrap4 doc
+                            (function() {
+                            'use strict';
+                            window.addEventListener('load', function() {
+                                // Fetch all the forms we want to apply custom Bootstrap validation styles to
+                                var forms = document.getElementsByClassName('needs-validation');
+                                // Loop over them and prevent submission
+                                var validation = Array.prototype.filter.call(forms, function(form) {
+                                form.addEventListener('submit', function(event) {
+                                    if (form.checkValidity() === false) {
+                                    event.preventDefault();
+                                    event.stopPropagation();
+                                    }
+                                    form.classList.add('was-validated');
+                                }, false);
+                                });
+                            }, false);
+                            })();
+                        </script>
+
+                        <div class="col-md-6 mx-auto">
+                            <a href="/signin">Pas encore de compte ?</a>
+                        </div>
+                        
+                    </div>
+                </div>    
+            </div>
+        </section>
+{% endblock %}

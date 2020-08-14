@@ -462,7 +462,8 @@ fieldset[disabled] .btn-primary.active {
 
 .navbar {
     border-color: transparent;
-    background-color: #182326
+    background-color: #333;
+    opacity: 50%;
 }
 
 .navbar .navbar-brand {
@@ -865,6 +866,14 @@ section {
 
 .section-inner {
     padding: 60px 10px 0 0
+}
+
+.login-section-inner{
+    padding: 160px 10px 0 0
+}
+
+.login-form{
+    padding: 30px 0 30px 0;
 }
 
 .contact-section-inner {
@@ -1272,7 +1281,7 @@ textarea#comments {
 
 footer.white-wrapper {
     padding: 20px 0;
-    background-color: #444;
+    background-color: #333;
 }
 
 footer.white-wrapper * {
@@ -1304,41 +1313,8 @@ footer.white-wrapper .social-links li a {
     padding-right: 20px;
 }
 
-
-/* FOOTER STYLES */
-
-.footer-image-bg {
-    background-image: url(../img/footer-bg.jpeg);
-    background-size: cover;
-    background-position: center center;
-}
-
-.footer-image-bg .dark-wrapper,
-.footer-image-bg .white-wrapper {
-    background-color: transparent !important;
-    border: none;
-}
-
-.footer-image-bg *,
-.footer-image-bg a {
-    color: #222;
-}
-
-.dark-footer-image-bg {
-    background-image: url(../img/dark-footer-bg.jpeg);
-    background-size: cover;
-    background-position: center center;
-}
-
-.dark-footer-image-bg .dark-wrapper,
-.dark-footer-image-bg .white-wrapper {
-    background-color: rgba(0, 0, 0, 0.6) !important;
-    border: none;
-}
-
-.dark-footer-image-bg *,
-.dark-footer-image-bg a {
-    color: #ddd;
+#footer-wrapper{
+    padding-top: 50px;
 }
 
 
@@ -1913,7 +1889,7 @@ footer.white-wrapper .social-links li a {
     .navbar {
         padding: 10px 0;
         border: 0;
-        background-color: transparent;
+        //background-color: transparent;
         -webkit-transition: all .5s ease-in-out;
         -moz-transition: all .5s ease-in-out;
         -o-transition: all .5s ease-in-out;

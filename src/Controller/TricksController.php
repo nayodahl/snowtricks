@@ -27,4 +27,14 @@ class TricksController extends AbstractController
     {
         return $this->render('trick.html.twig');
     }
+
+        /**
+     * @Route("/login")
+     *
+     */
+    
+    public function showLogin(): Response
+    {
+        return $this->render('login.html.twig');
+    }
 }
