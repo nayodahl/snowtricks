@@ -128,13 +128,72 @@
         <section>
             <div class="container section-inner">
                 <div class="row">
-                    <div class="col-lg-10 mx-auto">
-                        <h4>Commentaires</h4>
-                        <p> Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque tempus pharetra egestas. Morbi vitae enim suscipit, scelerisque dui ac, feugiat 
-                        </p>
-                                                <p> Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque tempus pharetra egestas. Morbi vitae enim suscipit, scelerisque dui ac, feugiat 
-                        </p>
-                    </div>                 
+                    <div id="comments-list" class="col-lg-10 gap wow mx-auto">
+                        
+                        <!-- Comment form -->
+                        <div id="comments-form" class="row wow">
+                            <div class="col-lg-6 mx-auto">
+                                <div id="comment_message"></div>
+                                <form method="post" id="commentform" class="comment-form" role="form">
+                                    <textarea name="comments1" class="form-control" id="comments1" placeholder="Votre commentaire *" required data-validation-required-message="Please enter a message."></textarea>
+                                    <a class="btn btn-primary pull-right" href="#">Ajouter un commentaire</a>
+                                </form>
+                            </div>
+                        </div>
+                        <hr>
+                        <!--/.Comment form-->
+                        
+                        <div class="mt60 mb50 single-section-title">
+                            <h3>3 Commentaires</h3>
+                        </div>
+
+                        <div class="media">
+                            <div class="pull-left">
+                                <img class="avatar comment-avatar" src="{{ asset('build/images/users/1.jpg') }}" alt="">  
+                            </div>
+                            <div class="media-body">
+                                <div class="well">
+                                    <div class="media-heading meta-item">
+                                        <span class="heading-font">Dave Evans</span>&nbsp; <small> le 30/07/2020 à 14h50</small>
+                                    </div>
+                                    <p>Was are delightful solicitude discovered collecting man day. Resolving neglected sir tolerably but existence conveying for. Day his put off unaffected literature partiality inhabiting.</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="media">
+                            <div class="pull-left">
+                                <img class="avatar comment-avatar" src="{{ asset('build/images/users/2.jpg') }}" alt="">
+                            </div>
+                            <div class="media-body">
+                                <div class="well">
+                                    <div class="media-heading meta-item">
+                                        <span class="heading-font">Stéphanie Evans</span>&nbsp; <small>le 30/07/2020 à 14h50</small>
+                                    </div>
+                                    <p>Wicket longer admire do barton vanity itself do in it. Preferred to sportsmen it engrossed listening. Park gate sell they west hard for the. Abode stuff noisy manor blush yet the far. Up colonel so between removed so do.</p>
+                                </div>
+                            </div>
+                        </div>                       
+                            
+                        <div class="media">
+                            <div class="pull-left">
+                                <img class="avatar comment-avatar" src="{{ asset('build/images/users/3.jpg') }}" alt="">
+                            </div>
+                            <div class="media-body">
+                                <div class="well">
+                                    <div class="media-heading meta-item">
+                                        <span class="heading-font">Jean-Michel Rosé</span>&nbsp; <small>le 30/07/2020 à 14h50</small>
+                                    </div>
+                                    <p>Quitting informed concerns can men now. Projection to or up conviction uncommonly delightful continuing. In appetite ecstatic opinions hastened by handsome admitted.</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row paging justify-content-center">
+                            <a class="btn btn-primary" href="#"><i class="fa fa-plus-circle fa-3x" aria-hidden="true"></i></a>                    
+                        </div>
+
+                    </div>              
                 </div>
             </div>
         </section>
