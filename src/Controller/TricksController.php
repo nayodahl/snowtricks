@@ -2,17 +2,15 @@
 
 namespace App\Controller;
 
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class TricksController extends AbstractController
 {
     /**
      * @Route("/")
-     *
      */
-    
     public function showHome(): Response
     {
         return $this->render('home.html.twig');
@@ -20,9 +18,7 @@ class TricksController extends AbstractController
 
     /**
      * @Route("/trick")
-     *
      */
-    
     public function showTrick(): Response
     {
         return $this->render('trick.html.twig');
@@ -30,9 +26,7 @@ class TricksController extends AbstractController
 
     /**
      * @Route("/login")
-     *
      */
-    
     public function showLogin(): Response
     {
         return $this->render('login.html.twig');
@@ -40,9 +34,7 @@ class TricksController extends AbstractController
 
     /**
      * @Route("/signin")
-     *
      */
-    
     public function showSignin(): Response
     {
         return $this->render('signin.html.twig');
@@ -50,9 +42,7 @@ class TricksController extends AbstractController
 
     /**
      * @Route("/forgot")
-     *
      */
-    
     public function showForgotPassword(): Response
     {
         return $this->render('forgot.html.twig');
@@ -60,9 +50,7 @@ class TricksController extends AbstractController
 
     /**
      * @Route("/reset")
-     *
      */
-    
     public function showResetPassword(): Response
     {
         return $this->render('reset.html.twig');
