@@ -32,6 +32,12 @@ class Video
      */
     private $lastUpdate;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=Trick::class, inversedBy="videos")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $trick;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -69,6 +75,18 @@ class Video
     public function setLastUpdate(\DateTimeInterface $lastUpdate): self
     {
         $this->lastUpdate = $lastUpdate;
+
+        return $this;
+    }
+
+    public function getTrick(): ?Trick
+    {
+        return $this->trick;
+    }
+
+    public function setTrick(?Trick $trick): self
+    {
+        $this->trick = $trick;
 
         return $this;
     }
