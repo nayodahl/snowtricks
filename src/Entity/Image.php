@@ -18,7 +18,7 @@ class Image
     private $id;
 
     /**
-     * @ORM\Column(type="blob")
+     * @ORM\Column(type="string", length=255)
      */
     private $content;
 

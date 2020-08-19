@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Trick;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -13,15 +14,23 @@ class TricksController extends AbstractController
      */
     public function showHome(): Response
     {
-        return $this->render('home.html.twig');
+        $latestTricks = $this->getDoctrine()->getRepository(Trick::class)->findAllWithImage();
+
+        return $this->render('home.html.twig', [
+            'tricks' => $latestTricks,
+        ]);
     }
 
     /**
-     * @Route("/trick")
+     * @Route("/trick/{id}")
      */
-    public function showTrick(): Response
+    public function showTrick($id): Response
     {
-        return $this->render('trick.html.twig');
+        $trick = $this->getDoctrine()->getRepository(Trick::class)->findOneByIdWithMedia($id);
+
+        return $this->render('trick.html.twig', [
+            'trick' => $trick[0],
+        ]);
     }
 
     /**

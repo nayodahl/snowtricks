@@ -19,6 +19,37 @@ class TrickRepository extends ServiceEntityRepository
         parent::__construct($registry, Trick::class);
     }
 
+    public function findAllWithImage()
+    {
+        $entityManager = $this->getEntityManager();
+        $query = $entityManager->createQuery(
+            'SELECT t.id, t.title, t.created, i.content, i.id
+            FROM App\Entity\Trick t
+            JOIN App\Entity\Image i
+            WHERE t.id = i.trick
+            ORDER BY t.created ASC'
+        );
+
+        return $query->getResult();
+    }
+
+    public function findOneByIdWithMedia($id)
+    {
+        $entityManager = $this->getEntityManager();
+        $query = $entityManager->createQuery(
+            'SELECT t.id, t.title, t.description, t.created, t.lastUpdate, i.content, i.id, c.name
+            FROM App\Entity\Trick t
+            JOIN App\Entity\Image i
+            JOIN App\Entity\Category c
+            WHERE t.id = i.trick
+            AND t.id = :id
+            AND t.category = c.id'
+        )->setParameter('id', $id);
+
+        return $query->getResult();
+
+    }
+
     // /**
     //  * @return Trick[] Returns an array of Trick objects
     //  */

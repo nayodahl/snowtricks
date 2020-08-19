@@ -22,96 +22,25 @@
             <div class="container section-inner">
                 <div class="row" id="tricks">
 
-                    <div class="card col-sm-4 blog-item mb100 wow match-height">
-                        <div class="row">
-                            <div class="col-xs-12">
-                                <div class="hover-item mb30">
-                                    <img src="{{ asset('build/images/news/1.jpg') }}" class="img-responsive smoothie" alt="title">
-                                    <div class="overlay-item-caption smoothie"></div>
-                                    <div class="hover-item-caption smoothie">
-                                        <h3 class="vertical-center smoothie"><a href="single-post-right-sidebar.html" class="smoothie btn btn-primary page-scroll" title="view article">Voir</a></h3>
-                                    </div>
-                                </div>
-                                <h2 class="post-title">Stalefish</h2>
-                            </div>
-                        </div>
-                    </div>
+                    {% for trick in tricks %}
 
                     <div class="card col-sm-4 blog-item mb100 wow match-height">
                         <div class="row">
                             <div class="col-xs-12">
                                 <div class="hover-item mb30">
-                                    <img src="{{ asset('build/images/news/2.jpg') }}" class="img-responsive smoothie" alt="title">
+                                    <img src="img/trick/{{ trick.content }}" class="img-responsive smoothie" alt="photo de la figure">
                                     <div class="overlay-item-caption smoothie"></div>
                                     <div class="hover-item-caption smoothie">
-                                        <h3 class="vertical-center smoothie"><a href="single-post-right-sidebar.html" class="smoothie btn btn-primary page-scroll" title="view article">Voir</a></h3>
+                                        <h3 class="vertical-center smoothie"><a href="/trick/{{ trick.id }}" class="smoothie btn btn-primary page-scroll" title="view article">Voir</a></h3>
                                     </div>
                                 </div>
-                                <h2 class="post-title">Backflip</h2>
+                                <h2 class="post-title">{{ trick.title }}</h2>
                             </div>
                         </div>
                     </div>
 
-                    <div class="card col-sm-4 blog-item mb100 wow match-height">
-                        <div class="row">
-                            <div class="col-xs-12">
-                                <div class="hover-item mb30">
-                                    <img src="{{ asset('build/images/news/3.jpg') }}" class="img-responsive smoothie" alt="title">
-                                    <div class="overlay-item-caption smoothie"></div>
-                                    <div class="hover-item-caption smoothie">
-                                        <h3 class="vertical-center smoothie"><a href="single-post-right-sidebar.html" class="smoothie btn btn-primary page-scroll" title="view article">Voir</a></h3>
-                                    </div>
-                                </div>
-                                <h2 class="post-title">360</h2>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="card col-sm-4 blog-item mb100 wow match-height">
-                        <div class="row">
-                            <div class="col-xs-12">
-                                <div class="hover-item mb30">
-                                    <img src="{{ asset('build/images/news/4.jpg') }}" class="img-responsive smoothie" alt="title">
-                                    <div class="overlay-item-caption smoothie"></div>
-                                    <div class="hover-item-caption smoothie">
-                                        <h3 class="vertical-center smoothie"><a href="single-post-right-sidebar.html" class="smoothie btn btn-primary page-scroll" title="view article">Voir</a></h3>
-                                    </div>
-                                </div>
-                                <h2 class="post-title">FrontFlip</h2>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="card col-sm-4 blog-item mb100 wow match-height">
-                        <div class="row">
-                            <div class="col-xs-12">
-                                <div class="hover-item mb30">
-                                    <img src="{{ asset('build/images/news/5.jpg') }}" class="img-responsive smoothie" alt="title">
-                                    <div class="overlay-item-caption smoothie"></div>
-                                    <div class="hover-item-caption smoothie">
-                                        <h3 class="vertical-center smoothie"><a href="single-post-right-sidebar.html" class="smoothie btn btn-primary page-scroll" title="view article">Voir</a></h3>
-                                    </div>
-                                </div>
-                                <h2 class="post-title">Nose Slide</h2>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="card col-sm-4 blog-item mb100 wow match-height">
-                        <div class="row">
-                            <div class="col-xs-12">
-                                <div class="hover-item mb30">
-                                    <img src="{{ asset('build/images/news/6.jpg') }}" class="img-responsive smoothie" alt="title">
-                                    <div class="overlay-item-caption smoothie"></div>
-                                    <div class="hover-item-caption smoothie">
-                                        <h3 class="vertical-center smoothie"><a href="single-post-right-sidebar.html" class="smoothie btn btn-primary page-scroll" title="view article">Voir</a></h3>
-                                    </div>
-                                </div>
-                                <h2 class="post-title">Slide</h2>
-                            </div>
-                        </div>
-                    </div>
-
+                    {% endfor %}                  
+                    
                 </div>
 
                 <div class="row paging justify-content-center">

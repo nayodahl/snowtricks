@@ -3,11 +3,11 @@
 {% block content %}
 
         <!-- Header -->
-        <header class="masthead" style="background-image: url('{{ asset('build/images/news/9.jpg') }}')">
+        <header class="masthead" style="background-image: url('/img/trick/{{ trick.content }}')">
             <div class="container">
                 <div class="row">       
                     <div class="intro-text vertical-center smoothie col overlay">
-                        <div class="intro-heading wow fadeIn heading-font" data-wow-delay="0.2s"><h2>Trick Name</h2></div>                                   
+                        <div class="intro-heading wow fadeIn heading-font" data-wow-delay="0.2s"><h2>{{ trick.title }}</h2></div>                                   
                     </div>
                 </div>
             </div> 
@@ -51,7 +51,7 @@
                                     <div class="col-md-4" style="float:left">
                                         <div class="card mb-2">
                                         <img class="card-img-top"
-                                            src="https://mdbootstrap.com/img/Photos/Horizontal/City/4-col/img%20(60).jpg" alt="Card image cap">
+                                            src="/img/trick/{{ trick.content }}" alt="Card image cap">
                                         </div>
                                     </div>
 
@@ -112,13 +112,13 @@
             <div class="container section-inner">
                 <div class="row">
                     <div class="col-lg-10 mx-auto">
-                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque tempus pharetra egestas. Morbi vitae enim suscipit, scelerisque dui ac, feugiat elit. In egestas porta bibendum. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Ut aliquet magna nisl, nec interdum nulla elementum aliquet. Quisque a augue venenatis nulla varius feugiat non eget ex. Etiam finibus viverra sagittis. Mauris lobortis non dolor ut consectetur. Vivamus eu elit quis velit vehicula efficitur ut et lacus. Integer sit amet tellus tempor, efficitur sapien vel, pretium mi. Etiam faucibus sem tortor, eget maximus ante elementum a. Donec sodales justo ultricies aliquam dapibus. Nunc rhoncus diam leo, et elementum tellus consectetur in.
+                        <p>
+                            {{ trick.description }}
                         </p>
                         <div class="item-metas text-muted mb30">
-                            <span class="meta-item"><i class="pe-icon pe-7s-folder"></i> ajouté le <span> 12/08/2020 à 13h45</span></span>
-                            <span class="meta-item"><i class="pe-icon pe-7s-ticket"></i> catégorie <span>grab</span></span>
-                            <span class="meta-item"><i class="pe-icon pe-7s-user"></i> auteur <span>Danny Jones</span></span>
-                            <span class="meta-item"><i class="pe-icon pe-7s-comment"></i> modifié le <span>13/08/2020 à 08h30</span></span>
+                            <span class="meta-item"><i class="pe-icon pe-7s-folder"></i> ajouté le <span>{{ trick.created|date("d/m/Y \\à\\ H\\hi") }}</span></span>
+                            <span class="meta-item"><i class="pe-icon pe-7s-ticket"></i> catégorie <span>{{ trick.name }}</span></span>
+                            <span class="meta-item"><i class="pe-icon pe-7s-comment"></i> modifié le <span>{{ trick.lastUpdate|date("d/m/Y \\à\\ H\\hi") }}</span></span>
                         </div>
                     </div>                 
                 </div>

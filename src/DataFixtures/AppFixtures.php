@@ -27,11 +27,11 @@ class AppFixtures extends Fixture
             $category->setCreated(new DateTime());
             $category->setLastUpdate(new DateTime());
 
-            // create 3 tricks per category
-            for ($j = 1; $j <= 3; ++$j) {
+            // create 2 tricks per category
+            for ($j = 1; $j <= 2; ++$j) {
                 $trick = new Trick();
                 $trick->setTitle($faker->words(2, true));
-                $trick->setDescription($faker->paragraph);
+                $trick->setDescription($faker->paragraph(5, false));
                 $trick->setCreated(new DateTime());
                 $trick->setLastUpdate(new DateTime());
                 $trick->setCategory($category);
@@ -39,7 +39,7 @@ class AppFixtures extends Fixture
 
                 // create Image for trick
                 $image = new Image();
-                $image->setContent($faker->image('/tmp', 800, 600));
+                $image->setContent($faker->image('public/test/', 800, 600, null, false));
                 $image->setTrick($trick);
                 $image->setCreated(new DateTime());
                 $image->setLastUpdate(new DateTime());
