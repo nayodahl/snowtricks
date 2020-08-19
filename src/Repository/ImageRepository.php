@@ -19,6 +19,20 @@ class ImageRepository extends ServiceEntityRepository
         parent::__construct($registry, Image::class);
     }
 
+    public function getImagesFromTrick(int $trickId): array
+    {
+        $entityManager = $this->getEntityManager();
+        $query = $entityManager->createQuery(
+            'SELECT i
+            FROM App\Entity\Image i
+            JOIN App\Entity\Trick t
+            WHERE i.trick = t.id
+            AND t.id = :id'
+        )->setParameter('id', $trickId);
+
+        return $query->getResult();
+    }
+
     // /**
     //  * @return Image[] Returns an array of Image objects
     //  */

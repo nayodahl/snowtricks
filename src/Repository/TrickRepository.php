@@ -37,12 +37,10 @@ class TrickRepository extends ServiceEntityRepository
     {
         $entityManager = $this->getEntityManager();
         $query = $entityManager->createQuery(
-            'SELECT t.id, t.title, t.description, t.created, t.lastUpdate, i.content, i.id, c.name
+            'SELECT t.id, t.title, t.description, t.created, t.lastUpdate, c.name
             FROM App\Entity\Trick t
-            JOIN App\Entity\Image i
             JOIN App\Entity\Category c
-            WHERE t.id = i.trick
-            AND t.id = :id
+            WHERE t.id = :id
             AND t.category = c.id'
         )->setParameter('id', $id);
 

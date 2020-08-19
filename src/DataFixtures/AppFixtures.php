@@ -27,7 +27,7 @@ class AppFixtures extends Fixture
             $category->setCreated(new DateTime());
             $category->setLastUpdate(new DateTime());
 
-            // create 2 tricks per category
+            // create 2 tricks, images and video per category
             for ($j = 1; $j <= 2; ++$j) {
                 $trick = new Trick();
                 $trick->setTitle($faker->words(2, true));

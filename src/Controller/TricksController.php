@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Comment;
+use App\Entity\Image;
 use App\Entity\Trick;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -11,6 +12,8 @@ use Symfony\Component\Routing\Annotation\Route;
 class TricksController extends AbstractController
 {
     /**
+     * 
+     * 
      * @Route("/", name="app_home")
      */
     public function showHome(): Response
@@ -23,21 +26,26 @@ class TricksController extends AbstractController
     }
 
     /**
-     * @Route("/trick/{id}", name="app_trick")
+     * Matches /trick/*
+     * 
+     * @Route("/trick/{id}", name="app_trick", requirements={"id"="\d+"})
      */
     public function showTrick($id): Response
     {
         $trick = $this->getDoctrine()->getRepository(Trick::class)->findOneByIdWithMedia($id);
         $comments = $this->getDoctrine()->getRepository(Comment::class)->getCommentsFromTrick($id);
+        $images = $this->getDoctrine()->getRepository(Image::class)->getImagesFromTrick($id);
     
         return $this->render('trick.html.twig', [
             'trick' => $trick,
-            'comments' => $comments
+            'comments' => $comments,
+            'mainImage' => $images[0], //temporary, used to select the main image now
+            'images' => $images
         ]);
     }
 
     /**
-     * @Route("/login")
+     * @Route("/login", name="app_login")
      */
     public function showLogin(): Response
     {
@@ -45,7 +53,7 @@ class TricksController extends AbstractController
     }
 
     /**
-     * @Route("/signin")
+     * @Route("/signin", name="app_signin")
      */
     public function showSignin(): Response
     {
@@ -53,7 +61,7 @@ class TricksController extends AbstractController
     }
 
     /**
-     * @Route("/forgot")
+     * @Route("/forgot", name="app_forgot")
      */
     public function showForgotPassword(): Response
     {
@@ -61,7 +69,7 @@ class TricksController extends AbstractController
     }
 
     /**
-     * @Route("/reset")
+     * @Route("/reset", name="app_reset")
      */
     public function showResetPassword(): Response
     {

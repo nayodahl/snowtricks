@@ -3,7 +3,7 @@
 {% block content %}
 
         <!-- Header -->
-        <header class="masthead" style="background-image: url('/img/trick/{{ trick.content }}')">
+        <header class="masthead" style="background-image: url('/img/trick/{{ mainImage.content }}')">
             <div class="container">
                 <div class="row">       
                     <div class="intro-text vertical-center smoothie col overlay">
@@ -21,7 +21,7 @@
             
                         <!--Carousel Wrapper-->
                         <div id="multi-item-example" class="carousel slide carousel-multi-item" data-ride="carousel">
-
+                            
                             <!--Controls-->
                             <div class="controls-top">
                                 <a class="carousel-control-prev" href="#multi-item-example" role="button" data-slide="prev">
@@ -51,27 +51,29 @@
                                     <div class="col-md-4" style="float:left">
                                         <div class="card mb-2">
                                         <img class="card-img-top"
-                                            src="/img/trick/{{ trick.content }}" alt="Card image cap">
+                                            src="/img/trick/{{ mainImage.content }}" alt="Photo de la figure">
                                         </div>
                                     </div>
-
+                                    
+                                    {% for image in images %}
                                     <div class="col-md-4" style="float:left">
                                         <div class="card mb-2">
                                         <img class="card-img-top"
-                                            src="https://mdbootstrap.com/img/Photos/Horizontal/City/4-col/img%20(47).jpg" alt="Card image cap">
+                                            src="/img/trick/{{ image.content }}" alt="Card image cap">
                                         </div>
                                     </div>
-
+                                    {% endfor %}
+                                    {#}
                                     <div class="col-md-4" style="float:left">
                                         <div class="card mb-2">
                                         <img class="card-img-top"
                                             src="https://mdbootstrap.com/img/Photos/Horizontal/City/4-col/img%20(60).jpg" alt="Card image cap">
                                         </div>
                                     </div>
-
+                                    #}
                                 </div>
                                 <!--/.First slide-->
-
+                            
                                 <!--Second slide-->
                                 <div class="carousel-item">
 
@@ -81,7 +83,7 @@
                                             src="https://mdbootstrap.com/img/Photos/Horizontal/City/4-col/img%20(60).jpg" alt="Card image cap">
                                         </div>
                                     </div>
-
+                                    
                                     <div class="col-md-4" style="float:left">
                                         <div class="card mb-2">
                                         <img class="card-img-top"
@@ -95,10 +97,10 @@
                                             src="https://mdbootstrap.com/img/Photos/Horizontal/City/4-col/img%20(47).jpg" alt="Card image cap">
                                         </div>
                                     </div>
-
+                                    
                                 </div>
                                 <!--/.Second slide-->                
-
+                            
                             </div>
                             <!--/.Slides-->
 
