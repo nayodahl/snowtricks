@@ -19,6 +19,20 @@ class CommentRepository extends ServiceEntityRepository
         parent::__construct($registry, Comment::class);
     }
 
+    public function getCommentsFromTrick(int $trickId): array
+    {
+        $entityManager = $this->getEntityManager();
+        $query = $entityManager->createQuery(
+            'SELECT c.content, c.lastUpdate, u.photo, u.login
+            FROM App\Entity\Comment c
+            JOIN App\Entity\User u
+            WHERE c.user = u.id
+            AND c.trick = :id'
+        )->setParameter('id', $trickId);
+
+        return $query->getResult();
+    }
+
     // /**
     //  * @return Comment[] Returns an array of Comment objects
     //  */

@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Comment;
 use App\Entity\Trick;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -10,7 +11,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class TricksController extends AbstractController
 {
     /**
-     * @Route("/")
+     * @Route("/", name="app_home")
      */
     public function showHome(): Response
     {
@@ -22,14 +23,16 @@ class TricksController extends AbstractController
     }
 
     /**
-     * @Route("/trick/{id}")
+     * @Route("/trick/{id}", name="app_trick")
      */
     public function showTrick($id): Response
     {
         $trick = $this->getDoctrine()->getRepository(Trick::class)->findOneByIdWithMedia($id);
-
+        $comments = $this->getDoctrine()->getRepository(Comment::class)->getCommentsFromTrick($id);
+    
         return $this->render('trick.html.twig', [
-            'trick' => $trick[0],
+            'trick' => $trick,
+            'comments' => $comments
         ]);
     }
 

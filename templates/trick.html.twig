@@ -143,51 +143,31 @@
                         <hr>
                         <!--/.Comment form-->
                         
-                        <div class="mt60 mb50 single-section-title">
-                            <h3>3 Commentaires</h3>
-                        </div>
+                        {% if comments is  empty %}
+                            <div class="mt60 mb50 single-section-title">
+                                <h3>Aucun Commentaire</h3>
+                            </div>
+                        {% else %}
+                            <div class="mt60 mb50 single-section-title">
+                                <h3>{{ comments|length }} Commentaires</h3>
+                            </div>
 
-                        <div class="media">
-                            <div class="pull-left">
-                                <img class="avatar comment-avatar" src="{{ asset('build/images/users/1.jpg') }}" alt="">  
-                            </div>
-                            <div class="media-body">
-                                <div class="well">
-                                    <div class="media-heading meta-item">
-                                        <span class="heading-font">Dave Evans</span>&nbsp; <small> le 30/07/2020 à 14h50</small>
+                            {% for comment in comments %}
+                                <div class="media">
+                                    <div class="pull-left">
+                                        <img class="avatar comment-avatar" src="/img/avatar/{{ comment.photo }}" alt="">  
                                     </div>
-                                    <p>Was are delightful solicitude discovered collecting man day. Resolving neglected sir tolerably but existence conveying for. Day his put off unaffected literature partiality inhabiting.</p>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="media">
-                            <div class="pull-left">
-                                <img class="avatar comment-avatar" src="{{ asset('build/images/users/2.jpg') }}" alt="">
-                            </div>
-                            <div class="media-body">
-                                <div class="well">
-                                    <div class="media-heading meta-item">
-                                        <span class="heading-font">Stéphanie Evans</span>&nbsp; <small>le 30/07/2020 à 14h50</small>
+                                    <div class="media-body">
+                                        <div class="well">
+                                            <div class="media-heading meta-item">
+                                                <span class="heading-font">{{ comment.login }}</span>&nbsp; <small> le {{ comment.lastUpdate|date("d/m/Y \\à\\ H\\hi") }}</small>
+                                            </div>
+                                            <p>{{ comment.content }}</p>
+                                        </div>
                                     </div>
-                                    <p>Wicket longer admire do barton vanity itself do in it. Preferred to sportsmen it engrossed listening. Park gate sell they west hard for the. Abode stuff noisy manor blush yet the far. Up colonel so between removed so do.</p>
                                 </div>
-                            </div>
-                        </div>                       
-                            
-                        <div class="media">
-                            <div class="pull-left">
-                                <img class="avatar comment-avatar" src="{{ asset('build/images/users/3.jpg') }}" alt="">
-                            </div>
-                            <div class="media-body">
-                                <div class="well">
-                                    <div class="media-heading meta-item">
-                                        <span class="heading-font">Jean-Michel Rosé</span>&nbsp; <small>le 30/07/2020 à 14h50</small>
-                                    </div>
-                                    <p>Quitting informed concerns can men now. Projection to or up conviction uncommonly delightful continuing. In appetite ecstatic opinions hastened by handsome admitted.</p>
-                                </div>
-                            </div>
-                        </div>
+                            {% endfor %}
+                        {% endif %}
 
                         <div class="row paging justify-content-center">
                             <a class="btn btn-primary" href="#"><i class="fa fa-plus-circle fa-3x" aria-hidden="true"></i></a>                    

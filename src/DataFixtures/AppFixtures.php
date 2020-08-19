@@ -39,7 +39,7 @@ class AppFixtures extends Fixture
 
                 // create Image for trick
                 $image = new Image();
-                $image->setContent($faker->image('public/test/', 800, 600, null, false));
+                $image->setContent($faker->image('public/img/trick/', 860, 580, null, false));
                 $image->setTrick($trick);
                 $image->setCreated(new DateTime());
                 $image->setLastUpdate(new DateTime());
@@ -56,13 +56,13 @@ class AppFixtures extends Fixture
             $manager->persist($category);
         }
 
-        // create 20 users
-        for ($i = 1; $i <= 20; ++$i) {
+        // create 10 users
+        for ($i = 1; $i <= 10; ++$i) {
             $user = new User();
             $user->setLogin($faker->userName);
             $user->setPassword($faker->password);
             $user->setEmail($faker->email);
-            $user->setPhoto($faker->image('/tmp', 640, 480));
+            $user->setPhoto($faker->image('public/img/avatar/', 128, 128, 'people', false));
             $user->setActivated('1');
             $user->setCreated(new DateTime());
             $user->setLastUpdate(new DateTime());

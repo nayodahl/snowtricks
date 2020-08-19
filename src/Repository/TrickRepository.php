@@ -19,7 +19,7 @@ class TrickRepository extends ServiceEntityRepository
         parent::__construct($registry, Trick::class);
     }
 
-    public function findAllWithImage()
+    public function findAllWithImage(): array
     {
         $entityManager = $this->getEntityManager();
         $query = $entityManager->createQuery(
@@ -33,7 +33,7 @@ class TrickRepository extends ServiceEntityRepository
         return $query->getResult();
     }
 
-    public function findOneByIdWithMedia($id)
+    public function findOneByIdWithMedia(int $id): array
     {
         $entityManager = $this->getEntityManager();
         $query = $entityManager->createQuery(
@@ -46,8 +46,7 @@ class TrickRepository extends ServiceEntityRepository
             AND t.category = c.id'
         )->setParameter('id', $id);
 
-        return $query->getResult();
-
+        return $query->getSingleResult();
     }
 
     // /**
