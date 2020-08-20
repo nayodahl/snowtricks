@@ -19,6 +19,20 @@ class VideoRepository extends ServiceEntityRepository
         parent::__construct($registry, Video::class);
     }
 
+    public function getVideosFromTrick(int $trickId): array
+    {
+        $entityManager = $this->getEntityManager();
+        $query = $entityManager->createQuery(
+            'SELECT v
+            FROM App\Entity\Video v
+            JOIN App\Entity\Trick t
+            WHERE v.trick = t.id
+            AND t.id = :id'
+        )->setParameter('id', $trickId);
+
+        return $query->getResult();
+    }
+
     // /**
     //  * @return Video[] Returns an array of Video objects
     //  */

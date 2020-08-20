@@ -28,7 +28,12 @@
                         <div class="row">
                             <div class="col-xs-12">
                                 <div class="hover-item mb30">
-                                    <img src="img/trick/{{ trick.content }}" class="img-responsive smoothie" alt="photo de la figure">
+                                    {% if trick.featured is null %}
+                                        <img src="{{ asset('build/images/bg/gradient1.jpg') }}" class="img-responsive smoothie" alt="photo de la figure">
+                                    {% else %}
+                                        <img src="img/trick/{{ trick.featured }}" class="img-responsive smoothie" alt="photo de la figure">                                        
+                                    {% endif %}                                    
+                                    
                                     <div class="overlay-item-caption smoothie"></div>
                                     <div class="hover-item-caption smoothie">
                                         <h3 class="vertical-center smoothie"><a href="/trick/{{ trick.id }}" class="smoothie btn btn-primary page-scroll" title="view article">Voir</a></h3>

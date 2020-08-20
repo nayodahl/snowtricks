@@ -19,26 +19,31 @@ class TrickRepository extends ServiceEntityRepository
         parent::__construct($registry, Trick::class);
     }
 
-    public function findAllWithImage(): array
+    // /**
+    //  * @return an array with all tricks plus its featured image if it has one
+    //  */
+    public function findAllWithFeatured(): array
     {
         $entityManager = $this->getEntityManager();
         $query = $entityManager->createQuery(
-            'SELECT t.id, t.title, t.created, i.content, i.id
+            'SELECT t.id, t.title, t.lastUpdate, i.content AS featured
             FROM App\Entity\Trick t
-            JOIN App\Entity\Image i
-            WHERE t.id = i.trick
-            ORDER BY t.created ASC'
+            LEFT JOIN App\Entity\Image i
+            WITH t.featured = i.id
+            ORDER BY t.lastUpdate DESC'
         );
 
         return $query->getResult();
     }
 
-    public function findOneByIdWithMedia(int $id): array
+    public function findOneByIdWithCategoryAndFeatured(int $id): array
     {
         $entityManager = $this->getEntityManager();
         $query = $entityManager->createQuery(
-            'SELECT t.id, t.title, t.description, t.created, t.lastUpdate, c.name
+            'SELECT t.id, t.title, t.description, t.created, t.lastUpdate, c.name, i.content AS featured
             FROM App\Entity\Trick t
+            LEFT JOIN App\Entity\Image i
+            WITH t.featured = i.id
             JOIN App\Entity\Category c
             WHERE t.id = :id
             AND t.category = c.id'

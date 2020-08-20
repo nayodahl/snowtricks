@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Comment;
 use App\Entity\Image;
 use App\Entity\Trick;
+use App\Entity\Video;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -18,7 +19,7 @@ class TricksController extends AbstractController
      */
     public function showHome(): Response
     {
-        $latestTricks = $this->getDoctrine()->getRepository(Trick::class)->findAllWithImage();
+        $latestTricks = $this->getDoctrine()->getRepository(Trick::class)->findAllWithFeatured();
 
         return $this->render('home.html.twig', [
             'tricks' => $latestTricks,
@@ -32,15 +33,16 @@ class TricksController extends AbstractController
      */
     public function showTrick($id): Response
     {
-        $trick = $this->getDoctrine()->getRepository(Trick::class)->findOneByIdWithMedia($id);
+        $trick = $this->getDoctrine()->getRepository(Trick::class)->findOneByIdWithCategoryAndFeatured($id);
         $comments = $this->getDoctrine()->getRepository(Comment::class)->getCommentsFromTrick($id);
         $images = $this->getDoctrine()->getRepository(Image::class)->getImagesFromTrick($id);
+        $videos = $this->getDoctrine()->getRepository(Video::class)->getVideosFromTrick($id);
     
         return $this->render('trick.html.twig', [
             'trick' => $trick,
             'comments' => $comments,
-            'mainImage' => $images[0], //temporary, used to select the main image now
-            'images' => $images
+            'images' => $images,
+            'videos' => $videos
         ]);
     }
 
