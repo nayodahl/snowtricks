@@ -2,10 +2,10 @@
 
 namespace App\Controller;
 
-use App\Entity\Comment;
-use App\Entity\Image;
-use App\Entity\Trick;
-use App\Entity\Video;
+use App\Repository\CommentRepository;
+use App\Repository\ImageRepository;
+use App\Repository\TrickRepository;
+use App\Repository\VideoRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -13,13 +13,13 @@ use Symfony\Component\Routing\Annotation\Route;
 class TricksController extends AbstractController
 {
     /**
-     * 
-     * 
-     * @Route("/", name="app_home")
+     * @Route("/", defaults={"page": "1", "_format"="html"}, methods="GET", name="app_home")
+     *
+     * @Route("/{page<[1-9]\d*>}", defaults={"_format"="html"}, methods="GET", name="app_home_paginated")
      */
-    public function showHome(): Response
+    public function showHome(int $page = 1, TrickRepository $trickRepo): Response
     {
-        $latestTricks = $this->getDoctrine()->getRepository(Trick::class)->findAllWithFeatured();
+        $latestTricks = $trickRepo->findAllWithFeatured($page);
 
         return $this->render('home.html.twig', [
             'tricks' => $latestTricks,
@@ -27,22 +27,22 @@ class TricksController extends AbstractController
     }
 
     /**
-     * Matches /trick/*
-     * 
+     * Matches /trick/*.
+     *
      * @Route("/trick/{id}", name="app_trick", requirements={"id"="\d+"})
      */
-    public function showTrick($id): Response
+    public function showTrick(int $id, TrickRepository $trickRepo, CommentRepository $commentRepo, ImageRepository $imageRepo, VideoRepository $videoRepo): Response
     {
-        $trick = $this->getDoctrine()->getRepository(Trick::class)->findOneByIdWithCategoryAndFeatured($id);
-        $comments = $this->getDoctrine()->getRepository(Comment::class)->getCommentsFromTrick($id);
-        $images = $this->getDoctrine()->getRepository(Image::class)->getImagesFromTrick($id);
-        $videos = $this->getDoctrine()->getRepository(Video::class)->getVideosFromTrick($id);
-    
+        $trick = $trickRepo->findOneByIdWithCategoryAndFeatured($id);
+        $comments = $commentRepo->getCommentsFromTrick($id);
+        $images = $imageRepo->getImagesFromTrick($id);
+        $videos = $videoRepo->getVideosFromTrick($id);
+
         return $this->render('trick.html.twig', [
             'trick' => $trick,
             'comments' => $comments,
             'images' => $images,
-            'videos' => $videos
+            'videos' => $videos,
         ]);
     }
 

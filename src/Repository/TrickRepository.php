@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Trick;
+use App\Pagination\Paginator;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -22,9 +23,17 @@ class TrickRepository extends ServiceEntityRepository
     // /**
     //  * @return an array with all tricks plus its featured image if it has one
     //  */
-    public function findAllWithFeatured(): array
+    public function findAllWithFeatured(int $currentPage = 1): Paginator
     {
         $entityManager = $this->getEntityManager();
+        $query = $entityManager->createQueryBuilder()
+            ->select('t.id', 't.title', 't.lastUpdate', 'i.content')
+            ->from('App\Entity\Trick', 't')
+            ->leftJoin('t.images', 'i', 'WITH', 't.featured = i.id')
+            ->orderBy('t.lastUpdate', 'DESC')
+        ;
+
+        /*
         $query = $entityManager->createQuery(
             'SELECT t.id, t.title, t.lastUpdate, i.content AS featured
             FROM App\Entity\Trick t
@@ -32,8 +41,8 @@ class TrickRepository extends ServiceEntityRepository
             WITH t.featured = i.id
             ORDER BY t.lastUpdate DESC'
         );
-
-        return $query->getResult();
+        */
+        return (new Paginator($query))->paginate($currentPage);
     }
 
     public function findOneByIdWithCategoryAndFeatured(int $id): array
@@ -51,33 +60,4 @@ class TrickRepository extends ServiceEntityRepository
 
         return $query->getSingleResult();
     }
-
-    // /**
-    //  * @return Trick[] Returns an array of Trick objects
-    //  */
-    /*
-    public function findByExampleField($value)
-    {
-        return $this->createQueryBuilder('t')
-            ->andWhere('t.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('t.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-        ;
-    }
-    */
-
-    /*
-    public function findOneBySomeField($value): ?Trick
-    {
-        return $this->createQueryBuilder('t')
-            ->andWhere('t.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
-    }
-    */
 }

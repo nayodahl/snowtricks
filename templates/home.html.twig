@@ -22,16 +22,16 @@
             <div class="container section-inner">
                 <div class="row" id="tricks">
 
-                    {% for trick in tricks %}
+                    {% for trick in tricks.results %}
 
                     <div class="card col-sm-4 blog-item mb100 wow match-height">
                         <div class="row">
                             <div class="col-xs-12">
                                 <div class="hover-item mb30">
-                                    {% if trick.featured is null %}
+                                    {% if trick.content is null %}
                                         <img src="{{ asset('build/images/bg/gradient1.jpg') }}" class="img-responsive smoothie" alt="photo de la figure">
                                     {% else %}
-                                        <img src="img/trick/{{ trick.featured }}" class="img-responsive smoothie" alt="photo de la figure">                                        
+                                        <img src="img/trick/{{ trick.content }}" class="img-responsive smoothie" alt="photo de la figure">                                        
                                     {% endif %}                                    
                                     
                                     <div class="overlay-item-caption smoothie"></div>
@@ -51,6 +51,37 @@
                 <div class="row paging justify-content-center">
                     <a class="btn btn-primary" href="#"><i class="fa fa-plus-circle fa-3x" aria-hidden="true"></i></a>                    
                 </div>
+
+
+                 <!-- Pagination -->
+                {% if tricks.hasToPaginate %}
+                <div class="row">
+                    <div class="col-4 mx-auto navigation text-center">
+                        <ul class="pagination row justify-content-center">
+                            {% if tricks.hasPreviousPage %}
+                                <li class="prev"><a href="{{ path('app_home_paginated', {page: tricks.previousPage}) }}" rel="previous"><i class="fa fw fa-arrow-left"></i> Précédent </a></li>
+                            {% else %}
+                                <li class="prev disabled"><span><i class="fa fw fa-arrow-left"></i> {{ 'tricks.previous'|trans }}</span></li>
+                            {% endif %}
+
+                            {% for i in 1..tricks.lastPage %}
+                                {% if i == tricks.currentPage %}
+                                    <li class="active"><span>{{ i }} <span class="sr-only">{{ 'tricks.current'|trans }}</span></span></li>
+                                {% else %}
+                                    <li><a href="{{ path('app_home_paginated', {page: i}) }}">{{ i }}</a></li>
+                                {% endif %}
+                            {% endfor %}
+
+                            {% if tricks.hasNextPage %}
+                                <li class="next"><a href="{{ path('app_home_paginated', {page: tricks.nextPage}) }}" rel="next"> Suivant <i class="fa fw fa-arrow-right"></i></a></li>
+                            {% else %}
+                                <li class="next disabled"><span>{{ 'tricks.next'|trans }} <i class="fa fw fa-arrow-right"></i></span></li>
+                            {% endif %}
+                        </ul>
+                    </div>
+                </div>
+
+                {% endif %}
             </div>            
         </section>
 
