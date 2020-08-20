@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Comment;
+use App\Pagination\Paginator;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -19,46 +20,19 @@ class CommentRepository extends ServiceEntityRepository
         parent::__construct($registry, Comment::class);
     }
 
-    public function getCommentsFromTrick(int $trickId): array
+    public function findAllCommentsFromTrick(int $trickId, int $currentPage = 1): Paginator
     {
         $entityManager = $this->getEntityManager();
-        $query = $entityManager->createQuery(
-            'SELECT c.content, c.lastUpdate, u.photo, u.login
-            FROM App\Entity\Comment c
-            JOIN App\Entity\User u
-            WHERE c.user = u.id
-            AND c.trick = :id'
-        )->setParameter('id', $trickId);
-
-        return $query->getResult();
-    }
-
-    // /**
-    //  * @return Comment[] Returns an array of Comment objects
-    //  */
-    /*
-    public function findByExampleField($value)
-    {
-        return $this->createQueryBuilder('c')
-            ->andWhere('c.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('c.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
+        $query = $entityManager->createQueryBuilder()
+            ->select('c.content', 'c.lastUpdate', 'u.photo', 'u.login')
+            ->from('App\Entity\Comment', 'c')
+            ->join('c.user', 'u')
+            ->where('c.user = u.id')
+            ->andWhere('c.trick = :id')
+            ->orderBy('c.lastUpdate', 'DESC')
+            ->setParameter('id', $trickId)
         ;
-    }
-    */
 
-    /*
-    public function findOneBySomeField($value): ?Comment
-    {
-        return $this->createQueryBuilder('c')
-            ->andWhere('c.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
+        return (new Paginator($query))->paginate($currentPage);
     }
-    */
 }

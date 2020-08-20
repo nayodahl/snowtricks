@@ -108,7 +108,7 @@
                         </p>
                         <div class="item-metas text-muted mb30">
                             <span class="meta-item"><i class="pe-icon pe-7s-folder"></i> ajouté le <span>{{ trick.created|date("d/m/Y \\à\\ H\\hi") }}</span></span>
-                            <span class="meta-item"><i class="pe-icon pe-7s-ticket"></i> catégorie <span>{{ trick.name }}</span></span>
+                            <span class="meta-item"><i class="pe-icon pe-7s-ticket"></i> catégorie <span>{{ trick.category }}</span></span>
                             <span class="meta-item"><i class="pe-icon pe-7s-comment"></i> modifié le <span>{{ trick.lastUpdate|date("d/m/Y \\à\\ H\\hi") }}</span></span>
                         </div>
                     </div>                 
@@ -134,16 +134,16 @@
                         <hr>
                         <!--/.Comment form-->
                         
-                        {% if comments is  empty %}
-                            <div class="mt60 mb50 single-section-title">
+                        {% if comments.getNumResults == 0 %}
+                            <div class="mt60 mb50 single-section-title" id="comments">
                                 <h3>Aucun Commentaire</h3>
                             </div>
                         {% else %}
-                            <div class="mt60 mb50 single-section-title">
-                                <h3>{{ comments|length }} Commentaires</h3>
+                            <div class="mt60 mb50 single-section-title" id="comments">
+                                <h3>{{ comments.getNumResults }} Commentaires</h3>
                             </div>
 
-                            {% for comment in comments %}
+                            {% for comment in comments.results %}
                                 <div class="media">
                                     <div class="pull-left">
                                         <img class="avatar comment-avatar" src="/img/avatar/{{ comment.photo }}" alt="">  
@@ -160,9 +160,28 @@
                             {% endfor %}
                         {% endif %}
 
-                        <div class="row paging justify-content-center">
-                            <a class="btn btn-primary" href="#"><i class="fa fa-plus-circle fa-3x" aria-hidden="true"></i></a>                    
+                        <!--<div class="row paging justify-content-center"><a class="btn btn-primary" href="#"><i class="fa fa-plus-circle fa-3x" aria-hidden="true"></i></a></div>-->
+
+                        <!-- Pagination -->
+                        {% if comments.hasToPaginate %}
+                        <div class="row">
+                            <div class="col-4 mx-auto navigation text-center">
+                                <ul class="pagination row justify-content-center">
+                                    {% if comments.hasPreviousPage %}
+                                        <li class="prev"><a class="btn btn-primary" href="{{ path('app_trick_paginated', {id: trick.id, page: comments.previousPage}) }}#comments" rel="previous"><i class="fa fw fa-arrow-left"></i> Précédent </a></li>
+                                    {% else %}
+                                        <li class="btn btn-primary prev"><span><i class="fa fw fa-arrow-left"></i> Précédent</span></li>
+                                    {% endif %}
+
+                                    {% if comments.hasNextPage %}
+                                        <li class="next"><a class="btn btn-primary" href="{{ path('app_trick_paginated', {id: trick.id, page: comments.nextPage}) }}#comments" rel="next"> Suivant <i class="fa fw fa-arrow-right"></i></a></li>
+                                    {% else %}
+                                        <li class="btn btn-primary next"><span>Suivant <i class="fa fw fa-arrow-right"></i></span></li>
+                                    {% endif %}
+                                </ul>
+                            </div>
                         </div>
+                        {% endif %}
 
                     </div>              
                 </div>

@@ -27,20 +27,20 @@ class TricksController extends AbstractController
     }
 
     /**
-     * Matches /trick/*.
+     * @Route("/trick/{id}", defaults={"page": "1", "_format"="html"}, methods="GET", name="app_trick", requirements={"id"="\d+"})
      *
-     * @Route("/trick/{id}", name="app_trick", requirements={"id"="\d+"})
+     * @Route("/trick/{id}/{page<[1-9]\d*>}", defaults={"_format"="html"}, methods="GET", name="app_trick_paginated", requirements={"id"="\d+"})
      */
-    public function showTrick(int $id, TrickRepository $trickRepo, CommentRepository $commentRepo, ImageRepository $imageRepo, VideoRepository $videoRepo): Response
+    public function showTrick(int $id, int $page = 1, TrickRepository $trickRepo, CommentRepository $commentRepo, ImageRepository $imageRepo, VideoRepository $videoRepo): Response
     {
         $trick = $trickRepo->findOneByIdWithCategoryAndFeatured($id);
-        $comments = $commentRepo->getCommentsFromTrick($id);
+        $latestComments = $commentRepo->findAllCommentsFromTrick($id, $page);
         $images = $imageRepo->getImagesFromTrick($id);
         $videos = $videoRepo->getVideosFromTrick($id);
 
         return $this->render('trick.html.twig', [
             'trick' => $trick,
-            'comments' => $comments,
+            'comments' => $latestComments,
             'images' => $images,
             'videos' => $videos,
         ]);

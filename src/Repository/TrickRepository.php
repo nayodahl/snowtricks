@@ -40,7 +40,7 @@ class TrickRepository extends ServiceEntityRepository
     {
         $entityManager = $this->getEntityManager();
         $query = $entityManager->createQuery(
-            'SELECT t.id, t.title, t.description, t.created, t.lastUpdate, c.name, i.content AS featured
+            'SELECT t.id, t.title, t.description, t.created, t.lastUpdate, c.name AS category, i.content AS featured
             FROM App\Entity\Trick t
             LEFT JOIN App\Entity\Image i
             WITH t.featured = i.id
