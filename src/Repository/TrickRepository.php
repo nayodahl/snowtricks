@@ -33,15 +33,6 @@ class TrickRepository extends ServiceEntityRepository
             ->orderBy('t.lastUpdate', 'DESC')
         ;
 
-        /*
-        $query = $entityManager->createQuery(
-            'SELECT t.id, t.title, t.lastUpdate, i.content AS featured
-            FROM App\Entity\Trick t
-            LEFT JOIN App\Entity\Image i
-            WITH t.featured = i.id
-            ORDER BY t.lastUpdate DESC'
-        );
-        */
         return (new Paginator($query))->paginate($currentPage);
     }
 

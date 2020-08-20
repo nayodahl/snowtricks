@@ -14,3 +14,25 @@ import $ from 'jquery';
 import 'bootstrap'; // adds functions to jQuery
 
 console.log("hello jquery");
+
+
+$('#tricks').on('click', '#load-more', function(e) {
+  
+    // prevent new page load
+
+    e.preventDefault();
+    
+    // store next page number
+
+    var next_page = $(this).attr('href');
+    
+    // remove older posts button from DOM
+
+    //$(this).remove();
+    
+    // ajax older posts below existing posts
+
+    $('#tricks').append(
+        $('<div />').load(next_page + ' #tricks')
+    );
+});

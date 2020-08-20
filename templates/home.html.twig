@@ -8,8 +8,9 @@
                 <div class="row">
                     <div class="col">         
                         <div class="intro-text vertical-center text-left smoothie col">
-                        <div class="intro-heading wow fadeIn heading-font" data-wow-delay="0.2s">Snowtricks</div>
-                        <div class="intro-sub-heading wow fadeIn secondary-font" data-wow-delay="0.4s">Le site communautaire qui regroupe tous les tricks <span class="rotate">du Snowboard</span></div>
+                            <div class="intro-heading wow fadeIn heading-font" data-wow-delay="0.2s">Snowtricks</div>
+                            <div class="intro-sub-heading wow fadeIn secondary-font" data-wow-delay="0.4s">Le site communautaire qui regroupe tous les tricks <span class="rotate">du Snowboard</span></div>
+                        </div>
                     </div>                  
                 </div>
             </div>
@@ -47,11 +48,8 @@
                     {% endfor %}                  
                     
                 </div>
-
-                <div class="row paging justify-content-center">
-                    <a class="btn btn-primary" href="#"><i class="fa fa-plus-circle fa-3x" aria-hidden="true"></i></a>                    
-                </div>
-
+                
+                <!-- <div class="row paging justify-content-center"><a class="btn btn-primary" id="load-more" href="{{ tricks.nextPage }}"><i class="fa fa-plus-circle fa-3x" aria-hidden="true"></i></a></div> -->
 
                  <!-- Pagination -->
                 {% if tricks.hasToPaginate %}
@@ -59,23 +57,15 @@
                     <div class="col-4 mx-auto navigation text-center">
                         <ul class="pagination row justify-content-center">
                             {% if tricks.hasPreviousPage %}
-                                <li class="prev"><a href="{{ path('app_home_paginated', {page: tricks.previousPage}) }}" rel="previous"><i class="fa fw fa-arrow-left"></i> Précédent </a></li>
+                                <li class="prev"><a class="btn btn-primary" href="{{ path('app_home_paginated', {page: tricks.previousPage}) }}#tricks" rel="previous"><i class="fa fw fa-arrow-left"></i> Précédent </a></li>
                             {% else %}
-                                <li class="prev disabled"><span><i class="fa fw fa-arrow-left"></i> {{ 'tricks.previous'|trans }}</span></li>
+                                <li class="btn btn-primary prev"><span><i class="fa fw fa-arrow-left"></i> Précédent</span></li>
                             {% endif %}
 
-                            {% for i in 1..tricks.lastPage %}
-                                {% if i == tricks.currentPage %}
-                                    <li class="active"><span>{{ i }} <span class="sr-only">{{ 'tricks.current'|trans }}</span></span></li>
-                                {% else %}
-                                    <li><a href="{{ path('app_home_paginated', {page: i}) }}">{{ i }}</a></li>
-                                {% endif %}
-                            {% endfor %}
-
                             {% if tricks.hasNextPage %}
-                                <li class="next"><a href="{{ path('app_home_paginated', {page: tricks.nextPage}) }}" rel="next"> Suivant <i class="fa fw fa-arrow-right"></i></a></li>
+                                <li class="next"><a class="btn btn-primary" href="{{ path('app_home_paginated', {page: tricks.nextPage}) }}#tricks" rel="next"> Suivant <i class="fa fw fa-arrow-right"></i></a></li>
                             {% else %}
-                                <li class="next disabled"><span>{{ 'tricks.next'|trans }} <i class="fa fw fa-arrow-right"></i></span></li>
+                                <li class="btn btn-primary next"><span>Suivant <i class="fa fw fa-arrow-right"></i></span></li>
                             {% endif %}
                         </ul>
                     </div>
