@@ -125,14 +125,38 @@
                         <div id="comments-form" class="row wow">
                             <div class="col-lg-6 mx-auto">
                                 <div id="comment_message"></div>
+
+                                {{ form_start(commentForm) }}
+                                    {{ form_row(commentForm.content, {
+                                        label: 'votre commentaire ',
+                                        help: null
+                                    }) }}
+                                    <button type="submit" class="btn btn-primary pull-right">Ajouter un commentaire</button>
+                                {{ form_end(commentForm) }}
+
+                                {#
                                 <form method="post" id="commentform" class="comment-form" role="form">
                                     <textarea name="comments1" class="form-control" id="comments1" placeholder="Votre commentaire *" required data-validation-required-message="Please enter a message."></textarea>
                                     <a class="btn btn-primary pull-right" href="#">Ajouter un commentaire</a>
                                 </form>
+                                #}
                             </div>
                         </div>
                         <hr>
                         <!--/.Comment form-->
+
+                        {% for message in app.flashes('success') %}
+                            <div class="alert alert-success alert-dismissible" role="alert">
+                                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                                {{ message }}
+                            </div>    
+                        {% endfor %}
+                        {% for message in app.flashes('error') %}
+                            <div class="alert alert-danger alert-dismissible" role="alert">
+                                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                                {{ message }}
+                            </div>    
+                        {% endfor %} 
                         
                         {% if comments.getNumResults == 0 %}
                             <div class="mt60 mb50 single-section-title" id="comments">
@@ -140,7 +164,7 @@
                             </div>
                         {% else %}
                             <div class="mt60 mb50 single-section-title" id="comments">
-                                <h3>{{ comments.getNumResults }} Commentaires</h3>
+                                <h3>{{ comments.getNumResults }} Commentaire{% if comments.getNumResults > 1 %}s{% endif %}</h3>
                             </div>
 
                             {% for comment in comments.results %}
@@ -165,7 +189,7 @@
                         <!-- Pagination -->
                         {% if comments.hasToPaginate %}
                         <div class="row">
-                            <div class="col-4 mx-auto navigation text-center">
+                            <div class="col-md-4 col-sm-2 mx-auto navigation text-center">
                                 <ul class="pagination row justify-content-center">
                                     {% if comments.hasPreviousPage %}
                                         <li class="prev"><a class="btn btn-primary" href="{{ path('app_trick_paginated', {id: trick.id, page: comments.previousPage}) }}#comments" rel="previous"><i class="fa fw fa-arrow-left"></i> Précédent </a></li>
