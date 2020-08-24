@@ -36,7 +36,19 @@
                                 help: null,
                                 'attr': {'class': 'form-control'}
                             }) }}
-
+                            {#
+                            {{ form_row(trickForm.images, {
+                                label: 'images',
+                                help: null,
+                                'attr': {'class': 'form-control'}
+                            }) }}
+                            {{ form_row(trickForm.videos, {
+                                label: 'vidéos',
+                                help: null,
+                                'attr': {'class': 'form-control'}
+                            }) }}
+                            #}
+                            <a class="btn btn-primary" href="{{ path('app_home', {'_fragment': 'tricks'}) }}">Annuler</a>
                             <button type="submit" class="btn btn-primary pull-right">Enregistrer</button>
                         {{ form_end(trickForm) }}
                     </div>            

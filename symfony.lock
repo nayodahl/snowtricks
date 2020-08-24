@@ -6,7 +6,7 @@
         "version": "1.5.1"
     },
     "composer/xdebug-handler": {
-        "version": "1.4.2"
+        "version": "1.4.3"
     },
     "doctrine/data-fixtures": {
         "version": "1.4.3"

@@ -3,9 +3,12 @@
 namespace App\Form;
 
 use App\Entity\Category;
+use App\Entity\Image;
 use App\Entity\Trick;
+use App\Entity\Video;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -28,9 +31,9 @@ class TrickFormType extends AbstractType
             ->add('category', EntityType::class, [
                 'class' => Category::class,
                 'choice_label' => 'name',
-                'placeholder' => 'Choisissez une catégorie',
+                'placeholder' => 'Choisissez une catégorie'
             ])
-        ;
+            ;
     }
 
     public function configureOptions(OptionsResolver $resolver): void

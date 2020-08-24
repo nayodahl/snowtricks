@@ -94,6 +94,18 @@
                                 help: null,
                                 'attr': {'class': 'form-control'}
                             }) }}
+                            {#}
+                            {{ form_row(trickForm.images, {
+                                label: 'images',
+                                help: null,
+                                'attr': {'class': 'form-control'}
+                            }) }}
+                            {{ form_row(trickForm.videos, {
+                                label: 'vidéos',
+                                help: null,
+                                'attr': {'class': 'form-control'}
+                            }) }}
+                            #}
                             <a class="btn btn-primary" href="/delete/{{ trick.id }}">Supprimer le trick</a>
                             <button type="submit" class="btn btn-primary pull-right">Enregistrer les modifications</button>
                         {{ form_end(trickForm) }}
