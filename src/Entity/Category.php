@@ -25,16 +25,6 @@ class Category
     private $name;
 
     /**
-     * @ORM\Column(type="datetime")
-     */
-    private $created;
-
-    /**
-     * @ORM\Column(type="datetime")
-     */
-    private $lastUpdate;
-
-    /**
      * @ORM\OneToMany(targetEntity=Trick::class, mappedBy="category")
      */
     private $tricks;
@@ -57,30 +47,6 @@ class Category
     public function setName(string $name): self
     {
         $this->name = $name;
-
-        return $this;
-    }
-
-    public function getCreated(): ?\DateTimeInterface
-    {
-        return $this->created;
-    }
-
-    public function setCreated(\DateTimeInterface $created): self
-    {
-        $this->created = $created;
-
-        return $this;
-    }
-
-    public function getLastUpdate(): ?\DateTimeInterface
-    {
-        return $this->lastUpdate;
-    }
-
-    public function setLastUpdate(\DateTimeInterface $lastUpdate): self
-    {
-        $this->lastUpdate = $lastUpdate;
 
         return $this;
     }

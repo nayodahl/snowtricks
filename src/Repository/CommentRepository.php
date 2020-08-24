@@ -24,12 +24,12 @@ class CommentRepository extends ServiceEntityRepository
     {
         $entityManager = $this->getEntityManager();
         $query = $entityManager->createQueryBuilder()
-            ->select('c.content', 'c.lastUpdate', 'u.photo', 'u.login')
+            ->select('c.content', 'c.created', 'u.photo', 'u.login')
             ->from('App\Entity\Comment', 'c')
             ->join('c.user', 'u')
             ->where('c.user = u.id')
             ->andWhere('c.trick = :id')
-            ->orderBy('c.lastUpdate', 'DESC')
+            ->orderBy('c.created', 'DESC')
             ->setParameter('id', $trickId)
         ;
 

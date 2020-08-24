@@ -52,7 +52,6 @@ class TricksController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $comment = $form->getData();
             $comment->setCreated(new DateTime());
-            $comment->setLastUpdate(new DateTime());
             $comment->setUser($userRepository->find(201));   // temporary arbitrary user, waiting for authentication
             $comment->setTrick($trickRepo->find($id));
 
@@ -82,8 +81,6 @@ class TricksController extends AbstractController
         $trick = $trickRepo->findOneByIdWithCategoryAndFeatured($id);
         $images = $imageRepo->getImagesFromTrick($id);
         $videos = $videoRepo->getVideosFromTrick($id);
-
-        $test=$trickRepo->find($id);
 
         // trick form generation
         $form = $this->createForm(TrickFormType::class, $trickRepo->find($id));

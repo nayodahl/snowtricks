@@ -24,8 +24,6 @@ class AppFixtures extends Fixture
         for ($i = 1; $i <= 10; ++$i) {
             $category = new Category();
             $category->setName('category n° '.$faker->randomDigitNotNull);
-            $category->setCreated(new DateTime());
-            $category->setLastUpdate(new DateTime());
 
             // create 2 tricks, images and video per category
             for ($j = 1; $j <= 2; ++$j) {
@@ -41,8 +39,8 @@ class AppFixtures extends Fixture
                 $image = new Image();
                 $image->setContent($faker->image('public/img/trick/', 860, 580, null, false));
                 $image->setTrick($trick);
+                $image->setFeatured('0');
                 $image->setCreated(new DateTime());
-                $image->setLastUpdate(new DateTime());
                 $manager->persist($image);
 
                 // create video for trick
@@ -50,7 +48,6 @@ class AppFixtures extends Fixture
                 $video->setAddress($faker->youtubeEmbedUri());
                 $video->setTrick($trick);
                 $video->setCreated(new DateTime());
-                $video->setLastUpdate(new DateTime());
                 $manager->persist($video);
             }
             $manager->persist($category);
@@ -74,7 +71,6 @@ class AppFixtures extends Fixture
                 $comment->setUser($user);
                 $comment->setTrick($trick);
                 $comment->setCreated(new DateTime());
-                $comment->setLastUpdate(new DateTime());
                 $manager->persist($comment);
             }
             $manager->persist($user);

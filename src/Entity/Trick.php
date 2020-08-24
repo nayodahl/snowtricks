@@ -60,11 +60,6 @@ class Trick
      */
     private $videos;
 
-    /**
-     * @ORM\ManyToOne(targetEntity=Image::class)
-     */
-    private $featured;
-
     public function __construct()
     {
         $this->comments = new ArrayCollection();
@@ -226,18 +221,6 @@ class Trick
                 $video->setTrick(null);
             }
         }
-
-        return $this;
-    }
-
-    public function getFeatured(): ?Image
-    {
-        return $this->featured;
-    }
-
-    public function setFeatured(?Image $featured): self
-    {
-        $this->featured = $featured;
 
         return $this;
     }

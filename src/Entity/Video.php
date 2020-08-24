@@ -28,11 +28,6 @@ class Video
     private $created;
 
     /**
-     * @ORM\Column(type="datetime")
-     */
-    private $lastUpdate;
-
-    /**
      * @ORM\ManyToOne(targetEntity=Trick::class, inversedBy="videos")
      * @ORM\JoinColumn(nullable=false)
      */
@@ -63,18 +58,6 @@ class Video
     public function setCreated(\DateTimeInterface $created): self
     {
         $this->created = $created;
-
-        return $this;
-    }
-
-    public function getLastUpdate(): ?\DateTimeInterface
-    {
-        return $this->lastUpdate;
-    }
-
-    public function setLastUpdate(\DateTimeInterface $lastUpdate): self
-    {
-        $this->lastUpdate = $lastUpdate;
 
         return $this;
     }

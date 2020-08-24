@@ -36,11 +36,6 @@ class Comment
     private $created;
 
     /**
-     * @ORM\Column(type="datetime")
-     */
-    private $lastUpdate;
-
-    /**
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="comments")
      * @ORM\JoinColumn(nullable=false)
      */
@@ -77,18 +72,6 @@ class Comment
     public function setCreated(\DateTimeInterface $created): self
     {
         $this->created = $created;
-
-        return $this;
-    }
-
-    public function getLastUpdate(): ?\DateTimeInterface
-    {
-        return $this->lastUpdate;
-    }
-
-    public function setLastUpdate(\DateTimeInterface $lastUpdate): self
-    {
-        $this->lastUpdate = $lastUpdate;
 
         return $this;
     }

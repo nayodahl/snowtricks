@@ -29,7 +29,7 @@ class TrickRepository extends ServiceEntityRepository
         $query = $entityManager->createQueryBuilder()
             ->select('t.id', 't.title', 't.lastUpdate', 'i.content')
             ->from('App\Entity\Trick', 't')
-            ->leftJoin('t.images', 'i', 'WITH', 't.featured = i.id')
+            ->leftJoin('t.images', 'i', 'WITH', 'i.featured = true')
             ->orderBy('t.lastUpdate', 'DESC')
         ;
 
@@ -43,7 +43,7 @@ class TrickRepository extends ServiceEntityRepository
             'SELECT t.id, t.title, t.description, t.created, t.lastUpdate, c.name AS category, i.content AS featured
             FROM App\Entity\Trick t
             LEFT JOIN App\Entity\Image i
-            WITH t.featured = i.id
+            WITH i.featured = true
             JOIN App\Entity\Category c
             WHERE t.id = :id
             AND t.category = c.id'

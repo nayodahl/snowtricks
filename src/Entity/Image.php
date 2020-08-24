@@ -28,15 +28,15 @@ class Image
     private $created;
 
     /**
-     * @ORM\Column(type="datetime")
-     */
-    private $lastUpdate;
-
-    /**
      * @ORM\ManyToOne(targetEntity=Trick::class, inversedBy="images")
      * @ORM\JoinColumn(nullable=false)
      */
     private $trick;
+
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $featured;
 
     public function getId(): ?int
     {
@@ -67,18 +67,6 @@ class Image
         return $this;
     }
 
-    public function getLastUpdate(): ?\DateTimeInterface
-    {
-        return $this->lastUpdate;
-    }
-
-    public function setLastUpdate(\DateTimeInterface $lastUpdate): self
-    {
-        $this->lastUpdate = $lastUpdate;
-
-        return $this;
-    }
-
     public function getTrick(): ?Trick
     {
         return $this->trick;
@@ -87,6 +75,18 @@ class Image
     public function setTrick(?Trick $trick): self
     {
         $this->trick = $trick;
+
+        return $this;
+    }
+
+    public function getFeatured(): ?bool
+    {
+        return $this->featured;
+    }
+
+    public function setFeatured(bool $featured): self
+    {
+        $this->featured = $featured;
 
         return $this;
     }
