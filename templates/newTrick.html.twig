@@ -1,0 +1,48 @@
+{% extends 'layout.html.twig' %}
+
+{% block content %}
+
+        <!-- Header -->
+        <header class="masthead" style="background-image: url('{{ asset('build/images/bg/gradient1.jpg') }}')"> 
+        
+            <div class="container">
+                <div class="row">       
+                    <div class="intro-text vertical-center smoothie col overlay">
+                        <div class="intro-heading wow fadeIn heading-font" data-wow-delay="0.2s"><h2>Nouveau Trick</h2></div>                                   
+                    </div>
+                </div>
+            </div> 
+        </header>
+
+        <section>
+            <div class="container section-inner">
+                <div class="row">
+                    <div class="col-lg-10 mx-auto">
+                        {{ form_start(trickForm, {
+                            'attr': {'class': 'comment-form'}
+                        }) }}
+                            {{ form_row(trickForm.title, {
+                                label: 'titre',
+                                help: null,
+                                'attr': {'class': 'form-control'}
+                            }) }}
+                            {{ form_row(trickForm.description, {
+                                label: 'description',
+                                help: null,
+                                'attr': {'class': 'form-control'}
+                            }) }}
+                            {{ form_row(trickForm.category, {
+                                label: 'catégorie',
+                                help: null,
+                                'attr': {'class': 'form-control'}
+                            }) }}
+
+                            <button type="submit" class="btn btn-primary pull-right">Enregistrer</button>
+                        {{ form_end(trickForm) }}
+                    </div>            
+                </div>
+            </div>
+        </section>
+    
+
+{% endblock %}

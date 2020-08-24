@@ -5,12 +5,11 @@ namespace App\Controller;
 use App\Entity\Comment;
 use App\Entity\Trick;
 use App\Entity\User;
-use App\Form\Type\CommentFormType;
-use App\Form\Type\TrickFormType;
+use App\Form\CommentFormType;
+use App\Form\TrickFormType;
 use App\Repository\CommentRepository;
 use App\Repository\ImageRepository;
 use App\Repository\TrickRepository;
-use App\Repository\UserRepository;
 use App\Repository\VideoRepository;
 use DateTime;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -53,7 +52,7 @@ class TricksController extends AbstractController
         // handling comment form POST request if any
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            $comment = $form->getData();  
+            $comment = $form->getData();
             $comment->setCreated(new DateTime());
             $comment->setLastUpdate(new DateTime());
             $comment->setUser($this->getDoctrine()->getRepository(User::class)->find(201));   // temporary arbitrary user, waiting for authentication
@@ -77,8 +76,7 @@ class TricksController extends AbstractController
     }
 
     /**
-     * @Route("/edit/{id}", defaults={"_format"="html"}, name="edit_trick", requirements={"id"="\d+"})
-     *
+     * @Route("/edit/{id}", defaults={"_format"="html"}, name="app_edit_trick", requirements={"id"="\d+"})
      */
     public function editTrick(Request $request, int $id, TrickRepository $trickRepo, ImageRepository $imageRepo, VideoRepository $videoRepo): Response
     {
@@ -88,13 +86,12 @@ class TricksController extends AbstractController
         $videos = $videoRepo->getVideosFromTrick($id);
 
         // trick form generation
-        $form = $this->createForm(TrickFormType::class);
+        $form = $this->createForm(TrickFormType::class, $trickRepo->find($id));
 
         // handling comment form POST request if any
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            $trick = $form->getData();  
-            $trick->setCreated(new DateTime());
+            $trick = $form->getData();
             $trick->setLastUpdate(new DateTime());
 
             $em = $this->getDoctrine()->getManager();
@@ -109,39 +106,45 @@ class TricksController extends AbstractController
             'trick' => $trick,
             'images' => $images,
             'videos' => $videos,
-            'commentForm' => $form->createView(),
+            'trickForm' => $form->createView(),
         ]);
     }
 
     /**
-     * @Route("/login", name="app_login")
+     * @Route("/new", defaults={"_format"="html"}, name="app_new_trick")
      */
-    public function showLogin(): Response
+    public function newTrick(Request $request): Response
     {
-        return $this->render('login.html.twig');
+        // trick form generation
+        $form = $this->createForm(TrickFormType::class);
+
+        // handling comment form POST request if any
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $trick = $form->getData();
+            $trick->setCreated(new DateTime());
+            $trick->setLastUpdate(new DateTime());
+
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($trick);
+            $em->flush();
+            $this->addFlash('success', 'Votre trick a été ajouté !');
+
+            return $this->redirectToRoute('app_home');
+        }
+
+        return $this->render('newTrick.html.twig', [
+            'trickForm' => $form->createView(),
+        ]);
     }
 
     /**
-     * @Route("/signin", name="app_signin")
+     * @Route("/delete/{id}", defaults={"_format"="html"}, name="app_delete_trick", requirements={"id"="\d+"})
      */
-    public function showSignin(): Response
+    public function deleteTrick(Request $request, int $id): Response
     {
-        return $this->render('signin.html.twig');
-    }
+        // to do
 
-    /**
-     * @Route("/forgot", name="app_forgot")
-     */
-    public function showForgotPassword(): Response
-    {
-        return $this->render('forgot.html.twig');
-    }
-
-    /**
-     * @Route("/reset", name="app_reset")
-     */
-    public function showResetPassword(): Response
-    {
-        return $this->render('reset.html.twig');
+        return $this->redirectToRoute('app_home');
     }
 }

@@ -1,9 +1,12 @@
 <?php
 
-namespace App\Form\Type;
+namespace App\Form;
 
+use App\Entity\Category;
 use App\Entity\Trick;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -16,8 +19,16 @@ class TrickFormType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('content', TextType::class, [
-                'help' => 'ajouter votre commentaire'
+            ->add('title', TextType::class, [
+                'help' => 'ajoutez votre titre',
+            ])
+            ->add('description', TextareaType::class, [
+                'help' => 'ajoutez la description de la figure',
+            ])
+            ->add('category', EntityType::class, [
+                'class' => Category::class,
+                'choice_label' => 'name',
+                'placeholder' => 'Choisissez une catégorie',
             ])
         ;
     }

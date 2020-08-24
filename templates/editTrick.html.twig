@@ -17,7 +17,6 @@
             </div> 
         </header>
 
-        <!-- Carousel -->
         <section>
             <div class="container">
                 <div class="row">
@@ -52,6 +51,7 @@
                 </div>    
             </div>
         </section>
+
         <section>
             <div class="container section-inner">
                 <div class="row">
@@ -61,9 +61,7 @@
                                 <h3>Aucun media</h3>
                             </div>
                         {% endif %}                       
-                        <p>
-                            {{ trick.description }}
-                        </p>
+
                         <div class="item-metas text-muted mb30">
                             <span class="meta-item"><i class="pe-icon pe-7s-folder"></i> ajouté le <span>{{ trick.created|date("d/m/Y \\à\\ H\\hi") }}</span></span>
                             <span class="meta-item"><i class="pe-icon pe-7s-ticket"></i> catégorie <span>{{ trick.category }}</span></span>
@@ -72,6 +70,36 @@
                     </div>                 
                 </div>
             </div>            
+        </section>
+
+        <section>
+            <div class="container section-inner">
+                <div class="row">
+                    <div class="col-lg-10 mx-auto">
+                        {{ form_start(trickForm, {
+                            'attr': {'class': 'comment-form'}
+                        }) }}
+                            {{ form_row(trickForm.title, {
+                                label: 'titre',
+                                help: null,
+                                'attr': {'class': 'form-control'}
+                            }) }}
+                            {{ form_row(trickForm.description, {
+                                label: 'description',
+                                help: null,
+                                'attr': {'class': 'form-control'}
+                            }) }}
+                            {{ form_row(trickForm.category, {
+                                label: 'catégorie',
+                                help: null,
+                                'attr': {'class': 'form-control'}
+                            }) }}
+                            <a class="btn btn-primary" href="/delete/{{ trick.id }}">Supprimer le trick</a>
+                            <button type="submit" class="btn btn-primary pull-right">Enregistrer les modifications</button>
+                        {{ form_end(trickForm) }}
+                    </div>            
+                </div>
+            </div>
         </section>
     
 

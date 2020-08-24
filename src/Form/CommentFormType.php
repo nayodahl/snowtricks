@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Form\Type;
+namespace App\Form;
 
 use App\Entity\Comment;
 use Symfony\Component\Form\AbstractType;
@@ -17,7 +17,7 @@ class CommentFormType extends AbstractType
     {
         $builder
             ->add('content', TextType::class, [
-                'help' => 'ajouter votre commentaire'
+                'help' => 'ajouter votre commentaire',
             ])
         ;
     }

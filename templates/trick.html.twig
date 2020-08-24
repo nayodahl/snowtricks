@@ -126,10 +126,13 @@
                             <div class="col-lg-6 mx-auto">
                                 <div id="comment_message"></div>
 
-                                {{ form_start(commentForm) }}
+                                {{ form_start(commentForm, {
+                                    'attr': {'class': 'comment-form'}
+                                }) }}
                                     {{ form_row(commentForm.content, {
                                         label: 'votre commentaire ',
-                                        help: null
+                                        help: null,
+                                        'attr': {'class': 'form-control'}
                                     }) }}
                                     <button type="submit" class="btn btn-primary pull-right">Ajouter un commentaire</button>
                                 {{ form_end(commentForm) }}
