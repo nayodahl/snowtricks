@@ -62,7 +62,6 @@
                 </div>
                 
                 <!-- <div class="row paging justify-content-center"><a class="btn btn-primary" id="load-more" href="{{ tricks.nextPage }}"><i class="fa fa-plus-circle fa-3x" aria-hidden="true"></i></a></div> -->
-
                  <!-- Pagination -->
                 {% if tricks.hasToPaginate %}
                 <div class="row">
@@ -83,7 +82,8 @@
                     </div>
                 </div>
                 {% endif %}
-                
+                <div class="row paging justify-content-center"><a class="btn btn-primary" href="{{ path('app_new_trick') }}">Ajouter un trick</a></div>
+
             </div>            
         </section>
 

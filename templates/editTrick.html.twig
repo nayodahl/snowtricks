@@ -10,8 +10,19 @@
         {% endif %}
             <div class="container">
                 <div class="row">       
-                    <div class="intro-text vertical-center smoothie col overlay">
-                        <div class="intro-heading wow fadeIn heading-font" data-wow-delay="0.2s"><h2>{{ trick.title }}</h2></div>                                   
+                    <div class="col overlay">
+                        <div class="row">
+                            <div class="col edit-pencil">
+                                <a href="#" class="pull-right"><span class="fa fa-pencil fa-3x" aria-hidden="true"></span></a>
+                            </div>
+                        </div>
+                        <div class="row"> 
+                            <div class="col intro-text vertical-center smoothie">
+                                <div class="intro-heading wow fadeIn heading-font" data-wow-delay="0.2s">
+                                    <h2>{{ trick.title }}</h2>
+                                </div>                                 
+                            </div>                           
+                        </div>
                     </div>
                 </div>
             </div> 
@@ -122,19 +133,7 @@
                                 {% endfor %}                                
                                 <a href="#" class="js-trick-video-add"><span class="fa fa-plus-circle"></span> Ajouter une vidéo</a>
                             </div>                   
-                            
-                            {#}
-                            {{ form_row(trickForm.images, {
-                                label: 'images',
-                                help: null,
-                                'attr': {'class': 'form-control'}
-                            }) }}
-                            {{ form_row(trickForm.videos, {
-                                label: 'vidéos',
-                                help: null,
-                                'attr': {'class': 'form-control'}
-                            }) }}
-                            #}
+
                             <a class="btn btn-primary" href="/delete/{{ trick.id }}">Supprimer le trick</a>
                             <button type="submit" class="btn btn-primary pull-right">Enregistrer les modifications</button>
                         {{ form_end(trickForm) }}
@@ -143,5 +142,9 @@
             </div>
         </section>
     
+{% endblock %}
 
+{% block javascripts %}
+    {{ parent() }}
+    {{ encore_entry_script_tags('trick') }}
 {% endblock %}

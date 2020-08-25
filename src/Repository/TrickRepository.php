@@ -44,6 +44,7 @@ class TrickRepository extends ServiceEntityRepository
             FROM App\Entity\Trick t
             LEFT JOIN App\Entity\Image i
             WITH i.featured = true
+            AND i.trick = :id
             JOIN App\Entity\Category c
             WHERE t.id = :id
             AND t.category = c.id'
