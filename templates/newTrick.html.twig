@@ -1,0 +1,84 @@
+{% extends 'layout.html.twig' %}
+
+{% block content %}
+
+        <!-- Header -->
+        <header class="masthead" style="background-image: url('{{ asset('build/images/bg/gradient1.jpg') }}')">        
+            <div class="container">
+                <div class="row">       
+                    <div class="intro-text vertical-center smoothie col overlay">
+                        <div class="intro-heading wow fadeIn heading-font" data-wow-delay="0.2s">
+                            <h2>Nouveau Trick</h2>
+                        </div>                                   
+                    </div>
+                </div>
+            </div> 
+        </header>
+
+        <section>
+            <div class="container section-inner">
+                <div class="row">
+                    <div class="col-lg-10 mx-auto">
+                        {{ form_start(trickForm, {
+                            'attr': {'class': 'comment-form'}
+                        }) }}
+                            {{ form_row(trickForm.title, {
+                                label: 'titre',
+                                help: null,
+                                'attr': {'class': 'form-control'}
+                            }) }}
+                            {{ form_row(trickForm.description, {
+                                label: 'description',
+                                help: null,
+                                'attr': {'class': 'form-control'}
+                            }) }}
+                            {{ form_row(trickForm.category, {
+                                label: 'catégorie',
+                                help: null,
+                                'attr': {'class': 'form-control'}
+                            }) }}
+
+                            <div class="js-trick-image-wrapper" data-prototype="{{ form_widget(trickForm.images.vars.prototype)|e('html_attr') }}" data-index="{{ trickForm.images|length }}">
+                                <h5>Images</h5>
+                                <hr>                                
+                                {% for image in trickForm.images %}
+                                    <div class="col-xs-4 js-trick-image-item">
+                                        
+                                            <a href="#" class="js-remove-image pull-right"><span class="fa fa-close"></span></a>
+                                            {{ form_row(image.content) }}
+                                        
+                                    </div>
+                                {% endfor %}                                
+                                <a href="#" class="js-trick-image-add"><span class="fa fa-plus-circle"></span> Ajouter une photo</a>
+                            </div>  
+
+                            <div class="js-trick-video-wrapper" data-prototype="{{ form_widget(trickForm.videos.vars.prototype)|e('html_attr') }}" data-index="{{ trickForm.videos|length }}">
+                                <h5>Vidéos</h5>
+                                <hr>                                
+                                {% for video in trickForm.videos %}
+                                    <div class="col-xs-4 js-trick-video-item">
+                                        
+                                            <a href="#" class="js-remove-video pull-right"><span class="fa fa-close"></span></a>
+                                            {{ form_row(video.address) }}
+                                        
+                                    </div>
+                                {% endfor %}                                
+                                <a href="#" class="js-trick-video-add"><span class="fa fa-plus-circle"></span> Ajouter une vidéo</a>
+                            </div>   
+  
+                            <a class="btn btn-primary" href="{{ path('app_home', {'_fragment': 'tricks'}) }}">Annuler</a>
+                            <button type="submit" class="btn btn-primary pull-right">Enregistrer</button>
+                        {{ form_end(trickForm) }}
+                    </div>            
+                </div>
+            </div>
+        </section>    
+
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    {{ encore_entry_script_tags('trick') }}
+{% endblock %}
+
+

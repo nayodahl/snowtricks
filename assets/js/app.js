@@ -13,4 +13,4 @@ import '../css/animate.css';
 import $ from 'jquery';
 import 'bootstrap'; // adds functions to jQuery
 
-console.log("hello jquery");
+console.log("hello main js page");

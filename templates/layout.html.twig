@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <!--[if IE]><meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'><![endif]-->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="Anthony Fachaux">
+    <link rel="shortcut icon" href="{{ asset('build/images/ico/favicon.ico') }}">
+
+    <title>Snowtricks, la référence des figures de Snowboard</title>
+
+    <!--  CSS -->
+    {% block stylesheets %}
+        {{ encore_entry_link_tags('app') }}
+    {% endblock %}
+
+</head>
+
+<body id="page-top" class="index">
+
+    <div class="master-wrapper">
+
+        <!-- Navigation -->
+        <nav class="navbar navbar-expand-lg fixed-top fadeInDown" data-wow-delay="0.5s">
+            <div class="container">
+                <!-- Brand and toggle get grouped for better mobile display -->
+                <button type="button" class="navbar-toggler navbar-toggler-right" data-toggle="collapse" data-target="#main-navigation">
+                    Menu
+                    <i class="fas fa-bars"></i>
+                </button>
+                <a class="navbar-brand smoothie logo logo-light" href="/"><img src="{{ asset('build/images/logo/logo.png') }}" alt="logo"></a>
+
+                <!-- Collect the nav links, forms, and other content for toggling -->
+                <div class="collapse navbar-collapse" id="main-navigation">
+                    <ul class="nav navbar-nav ml-auto">
+                        <li class="nav-item">
+                            <a href="{{ path('app_home') }}" class="nav-link">Accueil <span class="pe-7s-angle-down"></span></a>
+                        </li>
+                        <li class="nav-item" >
+                            <a href="{{ path('app_home', {'_fragment': 'tricks'}) }}" class="nav-link">Tricks <span class="pe-7s-angle-down"></span></a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ path('app_login') }}" class="nav-link">Se Connecter <span class="pe-7s-angle-down"></span></a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ path('app_signin') }}" class="nav-link">Inscription <span class="pe-7s-angle-down"></span></a>
+                        </li>
+                    </ul>
+                </div>
+                <!-- /.navbar-collapse -->
+            </div>
+        </nav>
+
+        {% block content %}
+        {% endblock %}
+
+        <div id="footer-wrapper">
+            <footer class="white-wrapper">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-6 text-right">
+                            <span class="copyright">Copyright 2020. Anthony Fachaux</span>
+                        </div>
+                    </div>
+                </div>
+            </footer>
+        </div>
+
+    </div>
+    
+    {% block javascripts %}
+            {{ encore_entry_script_tags('app') }}
+    {% endblock %}
+
+</body>
+
+</html>

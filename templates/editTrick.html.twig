@@ -1,0 +1,150 @@
+{% extends 'layout.html.twig' %}
+
+{% block content %}
+
+        <!-- Header -->
+        {% if trick.featured %}
+        <header class="masthead" style="background-image: url('/img/trick/{{ trick.featured }}')">
+        {% else %}
+        <header class="masthead" style="background-image: url('{{ asset('build/images/bg/gradient1.jpg') }}')"> 
+        {% endif %}
+            <div class="container">
+                <div class="row">       
+                    <div class="col overlay">
+                        <div class="row">
+                            <div class="col edit-pencil">
+                                <a href="#" class="pull-right"><span class="fa fa-pencil fa-3x" aria-hidden="true"></span></a>
+                            </div>
+                        </div>
+                        <div class="row"> 
+                            <div class="col intro-text vertical-center smoothie">
+                                <div class="intro-heading wow fadeIn heading-font" data-wow-delay="0.2s">
+                                    <h2>{{ trick.title }}</h2>
+                                </div>                                 
+                            </div>                           
+                        </div>
+                    </div>
+                </div>
+            </div> 
+        </header>
+
+        <section>
+            <div class="container">
+                <div class="row">
+                    <div class="card-columns" >
+            
+                        {% if images is not empty %}
+                            {% if images|length + videos|length == 1 %}  
+                                    <div class="card blog-item mb100 wow match-height">
+                                        <img class="card-img-top" src="/img/trick/{{ images[0].content }}" alt="Card image cap">
+                                    </div>
+                            {% else %}                    
+                      
+                                {% for image in images %}                                  
+                                                                             
+                                    <div class="card  blog-item mb100 wow match-height">
+                                        <img class="card-img-top" src="/img/trick/{{ image.content }}" alt="Photo de la figure">
+                                    </div>                                    
+                                    
+                                {% endfor %}
+                                {% for video in videos %}                                    
+                                                                         
+                                    <div class="card blog-item mb100 wow match-height">
+                                        <iframe height="227" class="card-img-top" src="{{ video.address }}"></iframe>
+                                    </div>                                    
+                                    
+                                {% endfor %}                                       
+
+                            {% endif %}
+                        {% endif %}
+
+                    </div>
+                </div>    
+            </div>
+        </section>
+
+        <section>
+            <div class="container section-inner">
+                <div class="row">
+                    <div class="col-lg-10 mx-auto">
+                        {% if images is empty %}
+                            <div class="mt60 mb50 single-section-title">
+                                <h3>Aucun media</h3>
+                            </div>
+                        {% endif %}                       
+
+                        <div class="item-metas text-muted mb30">
+                            <span class="meta-item"><i class="pe-icon pe-7s-folder"></i> ajouté le <span>{{ trick.created|date("d/m/Y \\à\\ H\\hi") }}</span></span>
+                            <span class="meta-item"><i class="pe-icon pe-7s-ticket"></i> catégorie <span>{{ trick.category }}</span></span>
+                            <span class="meta-item"><i class="pe-icon pe-7s-comment"></i> modifié le <span>{{ trick.lastUpdate|date("d/m/Y \\à\\ H\\hi") }}</span></span>
+                        </div>
+                    </div>                 
+                </div>
+            </div>            
+        </section>
+
+        <section>
+            <div class="container section-inner">
+                <div class="row">
+                    <div class="col-lg-10 mx-auto">
+                        {{ form_start(trickForm, {
+                            'attr': {'class': 'comment-form'}
+                        }) }}
+                            {{ form_row(trickForm.title, {
+                                label: 'titre',
+                                help: null,
+                                'attr': {'class': 'form-control'}
+                            }) }}
+                            {{ form_row(trickForm.description, {
+                                label: 'description',
+                                help: null,
+                                'attr': {'class': 'form-control'}
+                            }) }}
+                            {{ form_row(trickForm.category, {
+                                label: 'catégorie',
+                                help: null,
+                                'attr': {'class': 'form-control'}
+                            }) }}
+
+                            <div class="js-trick-image-wrapper" data-prototype="{{ form_widget(trickForm.images.vars.prototype)|e('html_attr') }}" data-index="{{ trickForm.images|length }}">
+                                <h5>Images</h5>
+                                <hr>                                
+                                {% for image in trickForm.images %}
+                                    <div class="col-xs-4 js-trick-image-item">
+                                        
+                                            <a href="#" class="js-remove-image pull-right"><span class="fa fa-close"></span></a>
+                                            {{ form_row(image.content) }}
+                                        
+                                    </div>
+                                {% endfor %}                                
+                                <a href="#" class="js-trick-image-add"><span class="fa fa-plus-circle"></span> Ajouter une photo</a>
+                            </div>  
+
+                            <div class="js-trick-video-wrapper" data-prototype="{{ form_widget(trickForm.videos.vars.prototype)|e('html_attr') }}" data-index="{{ trickForm.videos|length }}">
+                                <h5>Vidéos</h5>
+                                <hr>                                
+                                {% for video in trickForm.videos %}
+                                    <div class="col-xs-4 js-trick-video-item">
+                                        
+                                            <a href="#" class="js-remove-video pull-right"><span class="fa fa-close"></span></a>
+                                            {{ form_row(video.address) }}
+                                        
+                                    </div>
+                                {% endfor %}                                
+                                <a href="#" class="js-trick-video-add"><span class="fa fa-plus-circle"></span> Ajouter une vidéo</a>
+                            </div>                   
+
+                            <a class="btn btn-primary" href="/delete/{{ trick.id }}">Supprimer le trick</a>
+                            <button type="submit" class="btn btn-primary pull-right">Enregistrer les modifications</button>
+                        {{ form_end(trickForm) }}
+                    </div>            
+                </div>
+            </div>
+        </section>
+    
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    {{ encore_entry_script_tags('trick') }}
+{% endblock %}

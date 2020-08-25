@@ -1,0 +1,241 @@
+{% extends 'layout.html.twig' %}
+
+{% block content %}
+
+        <!-- Header -->
+        {% if trick.featured %}
+        <header class="masthead" style="background-image: url('/img/trick/{{ trick.featured }}')">
+        {% else %}
+        <header class="masthead" style="background-image: url('{{ asset('build/images/bg/gradient1.jpg') }}')"> 
+        {% endif %}
+            <div class="container">
+                <div class="row">       
+                    <div class="col overlay">
+                        <div class="row">
+                            <div class="col edit-pencil">
+                                <a href="{{ path('app_edit_trick', {id: trick.id}) }}" class="pull-right"><span class="fa fa-pencil fa-3x" aria-hidden="true"></span></a>
+                            </div>
+                        </div>
+                        <div class="row"> 
+                            <div class="col intro-text vertical-center smoothie">
+                                <div class="intro-heading wow fadeIn heading-font" data-wow-delay="0.2s">
+                                    <h2>{{ trick.title }}</h2>
+                                </div>                                 
+                            </div>                           
+                        </div>
+                    </div>
+                </div>
+            </div> 
+        </header>
+
+        <!-- Carousel -->
+        <section>
+            <div class="container">
+                <div class="row">
+                    <div class="col col-carousel">
+                        {% for message in app.flashes('success') %}
+                            <div class="alert alert-success alert-dismissible" role="alert">
+                                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                                {{ message }}
+                            </div>    
+                        {% endfor %}
+                        {% for message in app.flashes('error') %}
+                            <div class="alert alert-danger alert-dismissible" role="alert">
+                                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                                {{ message }}
+                            </div>    
+                        {% endfor %}
+            
+                        {% if images is not empty %}
+                            {% if images|length + videos|length == 1 %}  
+                                <div class="col-md-4 mx-auto">
+                                    <div class="card mb-2">
+                                        <img class="card-img-top" src="/img/trick/{{ images[0].content }}" alt="Card image cap">
+                                    </div>
+                                </div>
+                            {% else %}                        
+                        
+                                <!--Carousel Wrapper-->
+                                <div id="multi-item-example" class="carousel slide carousel-multi-item" data-ride="carousel">
+                                    
+                                    <!--Controls-->
+                                    <div class="controls-top">
+                                        <a class="carousel-control-prev" href="#multi-item-example" role="button" data-slide="prev">
+                                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                            <span class="sr-only">Previous</span>
+                                        </a>
+                                        <a class="carousel-control-next" href="#multi-item-example" role="button" data-slide="next">
+                                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                            <span class="sr-only">Next</span>
+                                        </a>
+                                    </div>
+                                    <!--/.Controls-->
+
+                                    <!--Indicators-->
+                                    <ol class="carousel-indicators">
+                                        <li data-target="#multi-item-example" data-slide-to="0" class="active"></li>
+                                        <li data-target="#multi-item-example" data-slide-to="1"></li>                                
+                                    </ol>
+                                    <!--/.Indicators-->
+
+                                    <!--Slides-->
+                                    <div class="carousel-inner" role="listbox">
+
+                                        {% for image in images %}
+                                            
+                                            <div class="carousel-item {% if loop.first %}active{% endif %}">                                         
+                                                <div class="col-md-4 mx-auto">
+                                                    <div class="card mb-2">
+                                                        <img class="card-img-top" src="/img/trick/{{ image.content }}" alt="Photo de la figure">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            
+                                        {% endfor %}
+                                        {% for video in videos %}
+                                            
+                                            <div class="carousel-item">                                      
+                                                <div class="col-md-4 mx-auto">
+                                                    <div class="card mb-2">
+                                                        <iframe height="227" class="card-img-top" src="{{ video.address }}"></iframe>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            
+                                        {% endfor %}                                       
+                                    
+                                    </div>
+                                    <!--/.Slides-->
+
+                                </div>
+                                <!--/.Carousel Wrapper-->
+
+                            {% endif %}
+                        {% endif %}
+
+                    </div>
+                </div>    
+            </div>
+        </section>
+        <section>
+            <div class="container section-inner">
+                <div class="row">
+                    <div class="col-lg-10 mx-auto">
+                        {% if images is empty %}
+                            <div class="mt60 mb50 single-section-title">
+                                <h3>Aucun media</h3>
+                            </div>
+                        {% endif %}                       
+                        <p>
+                            {{ trick.description }}
+                        </p>
+                        <div class="item-metas text-muted mb30">
+                            <span class="meta-item"><i class="pe-icon pe-7s-folder"></i> ajouté le <span>{{ trick.created|date("d/m/Y \\à\\ H\\hi") }}</span></span>
+                            <span class="meta-item"><i class="pe-icon pe-7s-ticket"></i> catégorie <span>{{ trick.category }}</span></span>
+                            <span class="meta-item"><i class="pe-icon pe-7s-comment"></i> modifié le <span>{{ trick.lastUpdate|date("d/m/Y \\à\\ H\\hi") }}</span></span>
+                        </div>
+                    </div>                 
+                </div>
+            </div>            
+        </section>
+        <hr>
+        <section>
+            <div class="container section-inner">
+                <div class="row">
+                    <div id="comments-list" class="col-lg-10 gap wow mx-auto">
+                        
+                        <!-- Comment form -->
+                        <div id="comments-form" class="row wow">
+                            <div class="col-lg-6 mx-auto">
+                                <div id="comment_message"></div>
+
+                                {{ form_start(commentForm, {
+                                    'attr': {'class': 'comment-form'}
+                                }) }}
+                                    {{ form_row(commentForm.content, {
+                                        label: 'votre commentaire ',
+                                        help: null,
+                                        'attr': {'class': 'form-control'}
+                                    }) }}
+                                    <button type="submit" class="btn btn-primary pull-right">Ajouter un commentaire</button>
+                                {{ form_end(commentForm) }}
+
+                                {#
+                                <form method="post" id="commentform" class="comment-form" role="form">
+                                    <textarea name="comments1" class="form-control" id="comments1" placeholder="Votre commentaire *" required data-validation-required-message="Please enter a message."></textarea>
+                                    <a class="btn btn-primary pull-right" href="#">Ajouter un commentaire</a>
+                                </form>
+                                #}
+                            </div>
+                        </div>
+                        <hr>
+                        <!--/.Comment form-->
+
+                        {% for message in app.flashes('success') %}
+                            <div class="alert alert-success alert-dismissible" role="alert">
+                                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                                {{ message }}
+                            </div>    
+                        {% endfor %}
+                        {% for message in app.flashes('error') %}
+                            <div class="alert alert-danger alert-dismissible" role="alert">
+                                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                                {{ message }}
+                            </div>    
+                        {% endfor %} 
+                        
+                        {% if comments.getNumResults == 0 %}
+                            <div class="mt60 mb50 single-section-title" id="comments">
+                                <h3>Aucun Commentaire</h3>
+                            </div>
+                        {% else %}
+                            <div class="mt60 mb50 single-section-title" id="comments">
+                                <h3>{{ comments.getNumResults }} Commentaire{% if comments.getNumResults > 1 %}s{% endif %}</h3>
+                            </div>
+
+                            {% for comment in comments.results %}
+                                <div class="media">
+                                    <div class="pull-left">
+                                        <img class="avatar comment-avatar" src="/img/avatar/{{ comment.photo }}" alt="">  
+                                    </div>
+                                    <div class="media-body">
+                                        <div class="well">
+                                            <div class="media-heading meta-item">
+                                                <span class="heading-font">{{ comment.login }}</span>&nbsp; <small> le {{ comment.created|date("d/m/Y \\à\\ H\\hi") }}</small>
+                                            </div>
+                                            <p>{{ comment.content }}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        {% endif %}
+
+                        <!--<div class="row paging justify-content-center"><a class="btn btn-primary" href="#"><i class="fa fa-plus-circle fa-3x" aria-hidden="true"></i></a></div>-->
+
+                        <!-- Pagination -->
+                        {% if comments.hasToPaginate %}
+                        <div class="row">
+                            <div class="col-md-4 col-sm-2 mx-auto navigation text-center">
+                                <ul class="pagination row justify-content-center">
+                                    {% if comments.hasPreviousPage %}
+                                        <li class="prev"><a class="btn btn-primary" href="{{ path('app_trick_paginated', {id: trick.id, page: comments.previousPage}) }}#comments" rel="previous"><i class="fa fw fa-arrow-left"></i> Précédent </a></li>
+                                    {% else %}
+                                        <li class="btn btn-primary prev"><span><i class="fa fw fa-arrow-left"></i> Précédent</span></li>
+                                    {% endif %}
+
+                                    {% if comments.hasNextPage %}
+                                        <li class="next"><a class="btn btn-primary" href="{{ path('app_trick_paginated', {id: trick.id, page: comments.nextPage}) }}#comments" rel="next"> Suivant <i class="fa fw fa-arrow-right"></i></a></li>
+                                    {% else %}
+                                        <li class="btn btn-primary next"><span>Suivant <i class="fa fw fa-arrow-right"></i></span></li>
+                                    {% endif %}
+                                </ul>
+                            </div>
+                        </div>
+                        {% endif %}
+
+                    </div>              
+                </div>
+            </div>
+        </section>
+
+{% endblock %}
