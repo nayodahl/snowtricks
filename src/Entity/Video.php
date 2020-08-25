@@ -4,9 +4,15 @@ namespace App\Entity;
 
 use App\Repository\VideoRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=VideoRepository::class)
+ * @UniqueEntity(
+ *      fields={"address","trick"},
+ *     message="Cette vidéo est déjà présente dans ce trick",
+ *     errorPath="address")
  */
 class Video
 {
@@ -19,6 +25,7 @@ class Video
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank(message="Entrez une image valide")
      */
     private $address;
 

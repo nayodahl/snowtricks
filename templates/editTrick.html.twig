@@ -1,4 +1,19 @@
 {% extends 'layout.html.twig' %}
+{% import _self as formMacros %}
+
+{% macro printTrickImageRow(image) %}
+    <div class="col js-trick-image-item">                                        
+        <a href="#" class="js-remove-image pull-right"><span class="fa fa-close"></span></a>
+        {{ form_row(image.content) }}                                        
+    </div>
+{% endmacro %}
+
+{% macro printTrickVideoRow(video) %}
+    <div class="col js-trick-video-item">                                        
+        <a href="#" class="js-remove-video pull-right"><span class="fa fa-close"></span></a>
+        {{ form_row(video.address) }}                                        
+    </div>
+{% endmacro %}
 
 {% block content %}
 
@@ -13,6 +28,7 @@
                     <div class="col overlay">
                         <div class="row">
                             <div class="col edit-pencil">
+                                <a href="#" class="pull-right"><span class="fa fa-trash fa-3x" aria-hidden="true"></span></a>
                                 <a href="#" class="pull-right"><span class="fa fa-pencil fa-3x" aria-hidden="true"></span></a>
                             </div>
                         </div>
@@ -31,28 +47,31 @@
         <section>
             <div class="container">
                 <div class="row">
-                    <div class="card-columns" >
+                    <div class="card-group">
             
                         {% if images is not empty %}
                             {% if images|length + videos|length == 1 %}  
-                                    <div class="card blog-item mb100 wow match-height">
-                                        <img class="card-img-top" src="/img/trick/{{ images[0].content }}" alt="Card image cap">
+                                    <div class="col-lg-4">
+                                        <div class="card blog-item mb100 wow match-height">
+                                            <img class="card-img-top" src="/img/trick/{{ images[0].content }}" alt="Card image cap">
+                                       </div>
                                     </div>
+
                             {% else %}                    
                       
                                 {% for image in images %}                                  
-                                                                             
-                                    <div class="card  blog-item mb100 wow match-height">
-                                        <img class="card-img-top" src="/img/trick/{{ image.content }}" alt="Photo de la figure">
-                                    </div>                                    
-                                    
+                                    <div class="col-lg-4">                                       
+                                        <div class="card blog-item mb100 wow match-height">
+                                            <img class="card-img-top" src="/img/trick/{{ image.content }}" alt="Photo de la figure">
+                                        </div>                                    
+                                    </div>
                                 {% endfor %}
                                 {% for video in videos %}                                    
-                                                                         
-                                    <div class="card blog-item mb100 wow match-height">
-                                        <iframe height="227" class="card-img-top" src="{{ video.address }}"></iframe>
-                                    </div>                                    
-                                    
+                                    <div class="col-lg-4">                                   
+                                        <div class="card blog-item mb100 wow match-height">
+                                            <iframe height="227" class="card-img-top" src="{{ video.address }}"></iframe>
+                                        </div>    
+                                    </div>                           
                                 {% endfor %}                                       
 
                             {% endif %}
@@ -90,50 +109,46 @@
                         {{ form_start(trickForm, {
                             'attr': {'class': 'comment-form'}
                         }) }}
+                            <h5>Titre</h5>
+                            <hr>
                             {{ form_row(trickForm.title, {
-                                label: 'titre',
+                                label: false,
                                 help: null,
                                 'attr': {'class': 'form-control'}
                             }) }}
+                            <h5>Description</h5>
+                            <hr>
                             {{ form_row(trickForm.description, {
-                                label: 'description',
+                                label: false,
                                 help: null,
                                 'attr': {'class': 'form-control'}
                             }) }}
+                            <h5>Catégorie</h5>
+                            <hr>
                             {{ form_row(trickForm.category, {
-                                label: 'catégorie',
+                                label: false,
                                 help: null,
                                 'attr': {'class': 'form-control'}
                             }) }}
 
-                            <div class="js-trick-image-wrapper" data-prototype="{{ form_widget(trickForm.images.vars.prototype)|e('html_attr') }}" data-index="{{ trickForm.images|length }}">
+                            <div class="js-trick-image-wrapper" data-prototype="{{ formMacros.printTrickImageRow(trickForm.images.vars.prototype)|e('html_attr') }}" data-index="{{ trickForm.images|length }}">
                                 <h5>Images</h5>
                                 <hr>                                
                                 {% for image in trickForm.images %}
-                                    <div class="col-xs-4 js-trick-image-item">
-                                        
-                                            <a href="#" class="js-remove-image pull-right"><span class="fa fa-close"></span></a>
-                                            {{ form_row(image.content) }}
-                                        
-                                    </div>
-                                {% endfor %}                                
-                                <a href="#" class="js-trick-image-add"><span class="fa fa-plus-circle"></span> Ajouter une photo</a>
+                                    {{ formMacros.printTrickImageRow(image) }}
+                                {% endfor %}      
+                                <a href="#" class="js-trick-image-add"><span class="fa fa-plus-circle"></span> Ajouter une photo</a>                                                                  
                             </div>  
-
-                            <div class="js-trick-video-wrapper" data-prototype="{{ form_widget(trickForm.videos.vars.prototype)|e('html_attr') }}" data-index="{{ trickForm.videos|length }}">
+                            <hr>
+                            <div class="js-trick-video-wrapper" data-prototype="{{ formMacros.printTrickVideoRow(trickForm.videos.vars.prototype)|e('html_attr') }}" data-index="{{ trickForm.videos|length }}">
                                 <h5>Vidéos</h5>
                                 <hr>                                
                                 {% for video in trickForm.videos %}
-                                    <div class="col-xs-4 js-trick-video-item">
-                                        
-                                            <a href="#" class="js-remove-video pull-right"><span class="fa fa-close"></span></a>
-                                            {{ form_row(video.address) }}
-                                        
-                                    </div>
-                                {% endfor %}                                
-                                <a href="#" class="js-trick-video-add"><span class="fa fa-plus-circle"></span> Ajouter une vidéo</a>
+                                    {{ formMacros.printTrickVideoRow(video) }}
+                                {% endfor %}
+                                <a href="#" class="js-trick-video-add"><span class="fa fa-plus-circle"></span> Ajouter une vidéo</a>                                                                                                                        
                             </div>                   
-
+                            <hr>
                             <a class="btn btn-primary" href="/delete/{{ trick.id }}">Supprimer le trick</a>
                             <button type="submit" class="btn btn-primary pull-right">Enregistrer les modifications</button>
                         {{ form_end(trickForm) }}

@@ -6,6 +6,7 @@ use App\Repository\TrickRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=TrickRepository::class)
@@ -52,11 +53,13 @@ class Trick
 
     /**
      * @ORM\OneToMany(targetEntity=Image::class, mappedBy="trick",  cascade={"persist"}, orphanRemoval=true)
+     * @Assert\Valid()
      */
     private $images;
 
     /**
      * @ORM\OneToMany(targetEntity=Video::class, mappedBy="trick", cascade={"persist"}, orphanRemoval=true)
+     * @Assert\Valid()
      */
     private $videos;
 

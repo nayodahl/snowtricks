@@ -16,7 +16,7 @@ class VideoFormType extends AbstractType
     {
         $builder
             ->add('address', null, [
-                'label' => false
+                'label' => false,
             ])
         ;
     }

@@ -421,8 +421,16 @@ fieldset[disabled] .btn-primary.active {
 
 }
 
-.edit-pencil > a{
+.edit-pencil a {
     color : #f3f3f3;
+}
+
+.edit-pencil a:hover {
+    color : #888;
+}
+
+.edit-pencil .fa-trash {
+    margin-left: 15px;
 }
 
 /*-----------------------------------------------------------------------------------*/
@@ -1417,7 +1425,8 @@ footer.white-wrapper .social-links li a {
     border-bottom: 3px solid #222;
     border-radius: 0;
     -webkit-box-shadow: none;
-    box-shadow: none
+    box-shadow: none;
+    margin-bottom: 15px;
 }
 
 .form-control:focus,
