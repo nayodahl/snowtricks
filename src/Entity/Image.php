@@ -38,6 +38,13 @@ class Image
      */
     private $featured;
 
+    // default values automatically added
+    public function __construct()
+    {
+        $this->setCreated(new \DateTime());
+        $this->setFeatured(0);
+    }
+
     public function getId(): ?int
     {
         return $this->id;

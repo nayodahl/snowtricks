@@ -33,6 +33,12 @@ class Video
      */
     private $trick;
 
+    // default values automatically added
+    public function __construct()
+    {
+        $this->setCreated(new \DateTime());
+    }
+
     public function getId(): ?int
     {
         return $this->id;

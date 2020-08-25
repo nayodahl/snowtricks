@@ -51,12 +51,12 @@ class Trick
     private $comments;
 
     /**
-     * @ORM\OneToMany(targetEntity=Image::class, mappedBy="trick")
+     * @ORM\OneToMany(targetEntity=Image::class, mappedBy="trick",  cascade={"persist"}, orphanRemoval=true)
      */
     private $images;
 
     /**
-     * @ORM\OneToMany(targetEntity=Video::class, mappedBy="trick")
+     * @ORM\OneToMany(targetEntity=Video::class, mappedBy="trick", cascade={"persist"}, orphanRemoval=true)
      */
     private $videos;
 
@@ -186,9 +186,9 @@ class Trick
         if ($this->images->contains($image)) {
             $this->images->removeElement($image);
             // set the owning side to null (unless already changed)
-            if ($image->getTrick() === $this) {
-                $image->setTrick(null);
-            }
+            //if ($image->getTrick() === $this) {
+            //    $image->setTrick(null);
+            //}
         }
 
         return $this;
@@ -217,9 +217,9 @@ class Trick
         if ($this->videos->contains($video)) {
             $this->videos->removeElement($video);
             // set the owning side to null (unless already changed)
-            if ($video->getTrick() === $this) {
-                $video->setTrick(null);
-            }
+            //if ($video->getTrick() === $this) {
+            //    $video->setTrick(null);
+            //}
         }
 
         return $this;
