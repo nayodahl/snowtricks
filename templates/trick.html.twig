@@ -4,7 +4,7 @@
 
         <!-- Header -->
         {% if trick.featured %}
-        <header class="masthead" style="background-image: url('/img/trick/{{ trick.featured }}')">
+        <header class="masthead" style="background-image: url('{{ asset(uploaded_asset(trick.featured.content)) }}')">
         {% else %}
         <header class="masthead" style="background-image: url('{{ asset('build/images/bg/gradient1.jpg') }}')"> 
         {% endif %}
@@ -50,7 +50,7 @@
                             {% if images|length + videos|length == 1 %}  
                                 <div class="col-md-4 mx-auto">
                                     <div class="card mb-2">
-                                        <img class="card-img-top" src="/img/trick/{{ images[0].content }}" alt="Card image cap">
+                                        <img class="card-img-top" src="{{ asset(uploaded_asset(images[0].content)) }}" alt="Card image cap">
                                     </div>
                                 </div>
                             {% else %}                        
@@ -86,7 +86,7 @@
                                             <div class="carousel-item {% if loop.first %}active{% endif %}">                                         
                                                 <div class="col-md-4 mx-auto">
                                                     <div class="card mb-2">
-                                                        <img class="card-img-top" src="/img/trick/{{ image.content }}" alt="Photo de la figure">
+                                                        <img class="card-img-top" src="{{ asset(uploaded_asset(image.content)) }}" alt="Photo de la figure">
                                                     </div>
                                                 </div>
                                             </div>

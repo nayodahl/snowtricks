@@ -41,10 +41,10 @@
                         <div class="row">
                             <div class="col-xs-12">
                                 <div class="hover-item mb30">
-                                    {% if trick.content is null %}
+                                    {% if trick.featured is null %}
                                         <img src="{{ asset('build/images/bg/gradient1.jpg') }}" class="img-responsive smoothie" alt="photo de la figure">
                                     {% else %}
-                                        <img src="img/trick/{{ trick.content }}" class="img-responsive smoothie" alt="photo de la figure">                                        
+                                        <img src="{{ asset(uploaded_asset(trick.featured.content)) }}" class="img-responsive smoothie" alt="photo de la figure">                                        
                                     {% endif %}                                    
                                     
                                     <div class="overlay-item-caption smoothie"></div>
@@ -60,9 +60,11 @@
                     {% endfor %}                  
                     
                 </div>
+                {#
+                <div class="row paging justify-content-center"><a class="btn btn-primary" id="load-more" href="{{ tricks.nextPage }}"><i class="fa fa-plus-circle fa-3x" aria-hidden="true"></i></a></div>
+                #}
                 
-                <!-- <div class="row paging justify-content-center"><a class="btn btn-primary" id="load-more" href="{{ tricks.nextPage }}"><i class="fa fa-plus-circle fa-3x" aria-hidden="true"></i></a></div> -->
-                 <!-- Pagination -->
+                 <!-- Pagination -->                 
                 {% if tricks.hasToPaginate %}
                 <div class="row">
                     <div class="col-4 mx-auto navigation text-center">
@@ -82,6 +84,7 @@
                     </div>
                 </div>
                 {% endif %}
+                
                 <div class="row paging justify-content-center"><a class="btn btn-primary" href="{{ path('app_new_trick') }}">Ajouter un trick</a></div>
 
             </div>            

@@ -7,10 +7,12 @@ use App\Entity\Trick;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\Image;
 
 /**
  * Defines the custom form field type to add a new comment.
@@ -22,6 +24,7 @@ class TrickFormType extends AbstractType
         $builder
             ->add('title', TextType::class, [
                 'help' => 'ajoutez votre titre',
+                'attr' => ['autofocus' => true],
             ])
             ->add('description', TextareaType::class, [
                 'help' => 'ajoutez la description de la figure',
@@ -37,6 +40,15 @@ class TrickFormType extends AbstractType
                 'allow_add' => true,
                 'allow_delete' => true,
                 'by_reference' => false,
+            ])
+            ->add('imageFile', FileType::class, [
+                'mapped' => false,
+                'required' => false,
+                'constraints' => [
+                    new Image([
+                        'maxSize' => '5M',
+                    ]),
+                ],
             ])
             ->add('videos', CollectionType::class, [
                 'entry_type' => VideoFormType::class,

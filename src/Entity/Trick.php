@@ -227,4 +227,19 @@ class Trick
 
         return $this;
     }
+
+    public function getFeatured(): ?Image
+    {
+        $images = $this->getImages()->filter(
+            function (Image $image) {
+                return true === $image->getFeatured();
+            }
+        );
+
+        if ($images->count() > 0) {
+            return $images->first();
+        }
+
+        return null;
+    }
 }

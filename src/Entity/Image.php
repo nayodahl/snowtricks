@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\ImageRepository;
+use App\Service\UploaderHelper;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -60,7 +61,7 @@ class Image
 
     public function getContent()
     {
-        return $this->content;
+        return UploaderHelper::TRICK_IMAGE.'/'.$this->content;
     }
 
     public function setContent($content): self

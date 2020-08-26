@@ -13,8 +13,6 @@ import '../css/animate.css';
 import $ from 'jquery';
 import 'bootstrap'; // adds functions to jQuery
 
-console.log("hello page trick");
-
 jQuery(document).ready(function() {
     // Get the div that holds the collection of tags
     var $wrapper = $('.js-trick-image-wrapper');
