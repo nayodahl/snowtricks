@@ -4,13 +4,13 @@
 {% macro printTrickImageRow(image) %}
     <div class="col js-trick-image-item">                                        
         <img src="{{ uploaded_asset(image.content.vars.value)|imagine_filter('squared_thumbnail_small') }}">
-        <a href="#" class="js-remove-image"><span class="fa fa-close"></span></a>
+        <a href="#" class="js-remove-image pull-right"><span class="fa fa-close"></span></a>
         {{ form_row(image.content) }}                                        
     </div>
 {% endmacro %}
 
 {% macro printTrickVideoRow(video) %}
-    <div class="col js-trick-video-item">                                        
+    <div class="col js-trick-video-item">  
         <a href="#" class="js-remove-video pull-right"><span class="fa fa-close"></span></a>
         {{ form_row(video.address) }}                                        
     </div>
@@ -108,7 +108,7 @@
                 <div class="row">
                     <div class="col-lg-10 mx-auto">
                         {{ form_start(trickForm, {
-                            'attr': {'class': 'comment-form'}
+                            'attr': {'class': 'trick-form'}
                         }) }}
                             <h5>Titre</h5>
                             <hr>
@@ -134,7 +134,9 @@
 
                             <div class="js-trick-image-wrapper">
                                 <h5>Images</h5>
-                                <hr>                                
+                                {% if images is not empty %}
+                                <hr>                        
+                                {% endif %}        
                                 {% for image in trickForm.images %}
                                     {{ formMacros.printTrickImageRow(image) }}
                                 {% endfor %}                                                                  
@@ -151,16 +153,45 @@
                             <hr>
                             <div class="js-trick-video-wrapper" data-prototype="{{ formMacros.printTrickVideoRow(trickForm.videos.vars.prototype)|e('html_attr') }}" data-index="{{ trickForm.videos|length }}">
                                 <h5>Vidéos</h5>
-                                <hr>                                
-                                {% for video in trickForm.videos %}
-                                    {{ formMacros.printTrickVideoRow(video) }}
+                                {% if videos is not empty %}
+                                <hr>                        
+                                {% endif %}                                
+                                {% for video in trickForm.videos %}                                     
+                                    <div class="col">
+                                        <iframe height="102" width="205" src="{{ video.address.vars.value }}"></iframe>
+                                    </div> 
+                                    {{ formMacros.printTrickVideoRow(video) }}                                    
                                 {% endfor %}
                                 <hr>
-                                <a href="#" class="js-trick-video-add form-control"><span class="fa fa-plus-circle"></span> Ajouter une vidéo</a>                                                                                                                        
-                            </div>                   
-                            <a class="btn btn-primary" href="/delete/{{ trick.id }}">Supprimer le trick</a>
+                                <a href="#" class="js-trick-video-add form-control"><span class="fa fa-plus-circle"></span> Ajouter une vidéo (url youtube format embed, exemple : https://www.youtube.com/embed/ZlTmeL3XdM4)</a>                                                                                                                        
+                            </div>
+                            <!-- trigger modal -->                   
+                            <a class="btn btn-primary" href="#" data-toggle="modal" data-target="#DeleteTrickModal">Supprimer ce trick</a>
+                            <!-- trigger modal -->
                             <button type="submit" class="btn btn-primary pull-right">Enregistrer les modifications</button>
                         {{ form_end(trickForm) }}
+
+                        <!-- Modal for delete trick -->
+                        <div class="modal fade" id="DeleteTrickModal" tabindex="-1" role="dialog" aria-labelledby="ModalCenterTitle" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered" role="document">
+                            <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="ModalLongTitle">Suppression du Trick</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                Etes vous certain de vouloir supprimer ce trick ?<br>
+                                Celà entrainera la suppression de tout son contenu : photos, vidéos, commentaires etc...
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-primary" data-dismiss="modal">Annuler</button>
+                                <a href="/delete/{{ trick.id }}" class="btn btn-primary">Confirmer la suppression</a>
+                            </div>
+                            </div>
+                        </div>
+                        </div>
                     </div>            
                 </div>
             </div>

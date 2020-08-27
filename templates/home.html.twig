@@ -19,7 +19,7 @@
             </a>  
         </header>
 
-        <section>
+        <section id="tricks">
             <div class="container section-inner">
                 {% for message in app.flashes('success') %}
                     <div class="alert alert-success alert-dismissible" role="alert">
@@ -33,7 +33,7 @@
                         {{ message }}
                     </div>    
                 {% endfor %}
-                <div class="row" id="tricks">
+                <div class="row">
 
                     {% for trick in tricks.results %}
 

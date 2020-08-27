@@ -12,7 +12,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @ORM\Entity(repositoryClass=ImageRepository::class)
  * @UniqueEntity(
  *      fields={"content","trick"},
- *      message="Cette image est déjà présente dans ce trick",
+ *      message="Cette image est déjà présente dans ce trick !",
  *      errorPath="content"
  * )
  */

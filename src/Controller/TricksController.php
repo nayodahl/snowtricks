@@ -152,10 +152,14 @@ class TricksController extends AbstractController
     /**
      * @Route("/delete/{id}", defaults={"_format"="html"}, name="app_delete_trick", requirements={"id"="\d+"})
      */
-    public function deleteTrick(int $id): Response
+    public function deleteTrick(int $id, TrickRepository $trickRepo): Response
     {
-        $id = $id++; // TO DO
+        $trick = $trickRepo->find($id);
+        $em = $this->getDoctrine()->getManager();
+        $em->remove($trick);
+        $em->flush();
+        $this->addFlash('success', 'Le trick a été supprimé définitivement !');
 
-        return $this->redirectToRoute('app_home');
+        return $this->redirectToRoute('app_home', ['_fragment' => 'tricks']);
     }
 }
