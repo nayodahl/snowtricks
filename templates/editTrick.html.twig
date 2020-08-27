@@ -3,7 +3,8 @@
 
 {% macro printTrickImageRow(image) %}
     <div class="col js-trick-image-item">                                        
-        <a href="#" class="js-remove-image pull-right"><span class="fa fa-close"></span></a>
+        <img src="{{ uploaded_asset(image.content.vars.value)|imagine_filter('squared_thumbnail_small') }}">
+        <a href="#" class="js-remove-image"><span class="fa fa-close"></span></a>
         {{ form_row(image.content) }}                                        
     </div>
 {% endmacro %}
@@ -131,18 +132,20 @@
                                 'attr': {'class': 'form-control'}
                             }) }}
 
-                            <div class="js-trick-image-wrapper" data-prototype="{{ formMacros.printTrickImageRow(trickForm.images.vars.prototype)|e('html_attr') }}" data-index="{{ trickForm.images|length }}">
+                            <div class="js-trick-image-wrapper">
                                 <h5>Images</h5>
                                 <hr>                                
                                 {% for image in trickForm.images %}
                                     {{ formMacros.printTrickImageRow(image) }}
-                                {% endfor %}      
-                                <a href="#" class="js-trick-image-add"><span class="fa fa-plus-circle"></span> Ajouter une photo</a>
-                                
+                                {% endfor %}                                                                  
+                                <hr>
+                                <div id="add-photo">
+                                    <span class="fa fa-plus-circle"></span> Ajouter une photo
+                                </div>
                                 {{ form_row(trickForm.imageFile, {
                                     label: false,
                                     help: null,
-                                    'attr': {'class': 'form-control', 'placeholder': 'Select an article image'}
+                                    'attr': {'class': 'form-control'}
                                 }) }}                                                                  
                             </div>  
                             <hr>
@@ -152,9 +155,9 @@
                                 {% for video in trickForm.videos %}
                                     {{ formMacros.printTrickVideoRow(video) }}
                                 {% endfor %}
-                                <a href="#" class="js-trick-video-add"><span class="fa fa-plus-circle"></span> Ajouter une vidéo</a>                                                                                                                        
+                                <hr>
+                                <a href="#" class="js-trick-video-add form-control"><span class="fa fa-plus-circle"></span> Ajouter une vidéo</a>                                                                                                                        
                             </div>                   
-                            <hr>
                             <a class="btn btn-primary" href="/delete/{{ trick.id }}">Supprimer le trick</a>
                             <button type="submit" class="btn btn-primary pull-right">Enregistrer les modifications</button>
                         {{ form_end(trickForm) }}

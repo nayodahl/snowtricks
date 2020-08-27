@@ -32,7 +32,6 @@ class TrickRepository extends ServiceEntityRepository
             ->leftJoin('t.images', 'i', 'WITH', 'i.featured = 1')
             ->orderBy('t.lastUpdate', 'DESC')
         ;
-        $test = $query->getDQL();
 
         return (new Paginator($query))->paginate($currentPage);
         //return $query->getQuery()->getResult();
