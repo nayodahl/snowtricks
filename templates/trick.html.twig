@@ -86,7 +86,7 @@
                                             <div class="carousel-item {% if loop.first %}active{% endif %}">                                         
                                                 <div class="col-md-4 mx-auto">
                                                     <div class="card mb-2">
-                                                        <img class="card-img-top" src="{{ asset(uploaded_asset(image.content)) }}" alt="Photo de la figure">
+                                                        <img class="card-img-top" src="{{ asset(uploaded_asset(image.content))|imagine_filter('trick_thumbnail_medium') }}" alt="Photo de la figure">
                                                     </div>
                                                 </div>
                                             </div>

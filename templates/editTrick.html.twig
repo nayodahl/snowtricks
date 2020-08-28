@@ -29,8 +29,7 @@
                     <div class="col overlay">
                         <div class="row">
                             <div class="col edit-pencil">
-                                <a href="#" class="pull-right"><span class="fa fa-trash fa-3x" aria-hidden="true"></span></a>
-                                <a href="#" class="pull-right"><span class="fa fa-pencil fa-3x" aria-hidden="true"></span></a>
+                                <a href="/unfeatured/{{ trick.id }}" class="pull-right"><span class="fa fa-trash fa-3x" aria-hidden="true"></span></a>
                             </div>
                         </div>
                         <div class="row"> 
@@ -62,8 +61,11 @@
                       
                                 {% for image in images %}                                  
                                     <div class="col-lg-4">                                       
-                                        <div class="card blog-item mb100 wow match-height">
-                                            <img class="card-img-top" src="{{ asset(uploaded_asset(image.content)) }}" alt="Photo de la figure">
+                                        <div class="card blog-item mb100 wow match-height">                                          
+                                            <img class="card-img-top" src="{{ asset(uploaded_asset(image.content))|imagine_filter('squared_thumbnail_medium') }}" alt="Photo de la figure">                                           
+                                            <div class="card-footer bg-transparent">
+                                                <a title="Choisir comme Image à la Une" href="/featured/{{ trick.id }}/{{ image.id }}" class="pull-right"><span class="fa fa-star" aria-hidden="true"></span></a>
+                                            </div>
                                         </div>                                    
                                     </div>
                                 {% endfor %}
@@ -92,12 +94,6 @@
                                 <h3>Aucun media</h3>
                             </div>
                         {% endif %}                       
-
-                        <div class="item-metas text-muted mb30">
-                            <span class="meta-item"><i class="pe-icon pe-7s-folder"></i> ajouté le <span>{{ trick.created|date("d/m/Y \\à\\ H\\hi") }}</span></span>
-                            <span class="meta-item"><i class="pe-icon pe-7s-ticket"></i> catégorie <span>{{ trick.category }}</span></span>
-                            <span class="meta-item"><i class="pe-icon pe-7s-comment"></i> modifié le <span>{{ trick.lastUpdate|date("d/m/Y \\à\\ H\\hi") }}</span></span>
-                        </div>
                     </div>                 
                 </div>
             </div>            
@@ -169,6 +165,14 @@
                             <a class="btn btn-primary" href="#" data-toggle="modal" data-target="#DeleteTrickModal">Supprimer ce trick</a>
                             <!-- trigger modal -->
                             <button type="submit" class="btn btn-primary pull-right">Enregistrer les modifications</button>
+
+                            {# prevents weird label from showing up in new #}
+                            {% if images is empty %}
+                                {{ form_widget(trickForm.images) }}
+                            {% endif %}   
+                            {% if videos is empty %}
+                                {{ form_widget(trickForm.videos) }}                        
+                            {% endif %}
                         {{ form_end(trickForm) }}
 
                         <!-- Modal for delete trick -->

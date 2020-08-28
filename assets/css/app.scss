@@ -991,15 +991,10 @@ header.masthead .overlay {
     opacity: 0.4;
 }
 
-.col-carousel{
-    padding-top: 40px;
-}
-
 form .btn-primary{
     padding: 20px;
     margin: 10px;
 }
-
 
 /*-----------------------------------------------------------------------------------*/
 
@@ -1343,6 +1338,16 @@ footer.white-wrapper .social-links li a {
 }
 
 
+.col-carousel{
+    padding-top: 40px;
+}
+
+.carousel-control-next,
+.carousel-control-prev {
+    filter: invert(100%);
+}
+
+
 /*  16 - FORM CONTROL
 /*-----------------------------------------------------------------------------------*/
 
@@ -1603,41 +1608,6 @@ footer.white-wrapper .social-links li a {
         min-height: 100vh;
     }
 }
-
-
-/*-----------------------------------------------------------------------------------*/
-
-
-/*  18 - COUNTDOWN
-/*-----------------------------------------------------------------------------------*/
-
-#countdown span {
-    width: 12%;
-    display: inline-block;
-    margin-bottom: 20px;
-    text-transform: uppercase;
-    font-size: 70px;
-    font-weight: 700;
-    letter-spacing: 6px;
-    line-height: 70px;
-    padding-bottom: 20px;
-}
-
-#countdown small {
-    font-weight: 300;
-    font-size: 18px;
-    display: block;
-    clear: both;
-    text-transform: uppercase;
-    letter-spacing: 2px;
-}
-
-#countdown {
-    overflow: hidden;
-    padding-bottom: 20px;
-    text-align: left;
-}
-
 
 /*-----------------------------------------------------------------------------------*/
 

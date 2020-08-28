@@ -162,4 +162,55 @@ class TricksController extends AbstractController
 
         return $this->redirectToRoute('app_home', ['_fragment' => 'tricks']);
     }
+
+    /**
+     * @Route("/featured/{trickId}/{imageId}", defaults={"_format"="html"}, name="app_edit_featured", requirements={"trickId"="\d+", "imageId"="\d+"})
+     */
+    public function editFeatured(int $trickId, int $imageId, TrickRepository $trickRepo): Response
+    {
+        $trick = $trickRepo->find($trickId);
+        $trick->setLastUpdate(new DateTime());
+        $em = $this->getDoctrine()->getManager();
+        $em->persist($trick);
+
+        $images = $trickRepo->find($trickId)->getImages();
+        foreach ($images as $image) {
+            if (true === $image->getFeatured()) {
+                $image->setFeatured(false);
+            }
+            if ($image->getId() === $imageId) {
+                $image->setFeatured(true);
+            }
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($image);
+        }
+        $em->flush();
+        $this->addFlash('success', 'L\'image à la Une a été modifiée !');
+
+        return $this->redirectToRoute('app_edit_trick', ['id' => $trickId]);
+    }
+
+    /**
+     * @Route("/unfeatured/{trickId}", defaults={"_format"="html"}, name="app_remove_featured", requirements={"trickId"="\d+"})
+     */
+    public function removeFeatured(int $trickId, TrickRepository $trickRepo): Response
+    {
+        $trick = $trickRepo->find($trickId);
+        $trick->setLastUpdate(new DateTime());
+        $em = $this->getDoctrine()->getManager();
+        $em->persist($trick);
+
+        $images = $trickRepo->find($trickId)->getImages();
+        foreach ($images as $image) {
+            if (true === $image->getFeatured()) {
+                $image->setFeatured(false);
+            }
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($image);
+        }
+        $em->flush();
+        $this->addFlash('success', 'L\'image à la Une a été retirée !');
+
+        return $this->redirectToRoute('app_edit_trick', ['id' => $trickId]);
+    }
 }
