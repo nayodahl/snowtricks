@@ -16,7 +16,7 @@ class ImageFormType extends AbstractType
     {
         $builder
             ->add('content', null, [
-                'label' => false
+                'label' => false,
             ])
         ;
     }

@@ -26,21 +26,22 @@ class TrickRepository extends ServiceEntityRepository
     public function findAllWithFeatured(int $currentPage = 1): Paginator
     {
         $entityManager = $this->getEntityManager();
-        $query = $entityManager->createQueryBuilder()
-            ->select('t.id', 't.title', 't.lastUpdate', 'i.content')
+        $query = $entityManager->createQueryBuilder('t')
+            ->select('t, i')
             ->from('App\Entity\Trick', 't')
-            ->leftJoin('t.images', 'i', 'WITH', 'i.featured = true')
+            ->leftJoin('t.images', 'i', 'WITH', 'i.featured = 1')
             ->orderBy('t.lastUpdate', 'DESC')
         ;
 
         return (new Paginator($query))->paginate($currentPage);
+        //return $query->getQuery()->getResult();
     }
 
     public function findOneByIdWithCategoryAndFeatured(int $id): array
     {
         $entityManager = $this->getEntityManager();
         $query = $entityManager->createQuery(
-            'SELECT t.id, t.title, t.description, t.created, t.lastUpdate, c.name AS category, i.content AS featured
+            'SELECT t.id, t.title, t.description, t.created, t.lastUpdate, c.name AS category, i AS featured
             FROM App\Entity\Trick t
             LEFT JOIN App\Entity\Image i
             WITH i.featured = true

@@ -1,10 +1,26 @@
 {% extends 'layout.html.twig' %}
+{% import _self as formMacros %}
+
+{% macro printTrickImageRow(image) %}
+    <div class="col js-trick-image-item">                                        
+        <img src="{{ uploaded_asset(image.content.vars.value)|imagine_filter('squared_thumbnail_small') }}">
+        <a href="#" class="js-remove-image pull-right"><span class="fa fa-close"></span></a>
+        {{ form_row(image.content) }}                                        
+    </div>
+{% endmacro %}
+
+{% macro printTrickVideoRow(video) %}
+    <div class="col js-trick-video-item">  
+        <a href="#" class="js-remove-video pull-right"><span class="fa fa-close"></span></a>
+        {{ form_row(video.address) }}                                        
+    </div>
+{% endmacro %}
 
 {% block content %}
 
         <!-- Header -->
         {% if trick.featured %}
-        <header class="masthead" style="background-image: url('/img/trick/{{ trick.featured }}')">
+        <header class="masthead" style="background-image: url('{{ asset(uploaded_asset(trick.featured.content)) }}')">
         {% else %}
         <header class="masthead" style="background-image: url('{{ asset('build/images/bg/gradient1.jpg') }}')"> 
         {% endif %}
@@ -13,7 +29,7 @@
                     <div class="col overlay">
                         <div class="row">
                             <div class="col edit-pencil">
-                                <a href="#" class="pull-right"><span class="fa fa-pencil fa-3x" aria-hidden="true"></span></a>
+                                <a href="/unfeatured/{{ trick.id }}" class="pull-right"><span class="fa fa-trash fa-3x" aria-hidden="true"></span></a>
                             </div>
                         </div>
                         <div class="row"> 
@@ -31,28 +47,34 @@
         <section>
             <div class="container">
                 <div class="row">
-                    <div class="card-columns" >
+                    <div class="card-group">
             
                         {% if images is not empty %}
                             {% if images|length + videos|length == 1 %}  
-                                    <div class="card blog-item mb100 wow match-height">
-                                        <img class="card-img-top" src="/img/trick/{{ images[0].content }}" alt="Card image cap">
+                                    <div class="col-lg-4">
+                                        <div class="card blog-item mb100 wow match-height">
+                                            <img class="card-img-top" src="{{ asset(uploaded_asset(images[0].content)) }}" alt="Card image cap">
+                                       </div>
                                     </div>
+
                             {% else %}                    
                       
                                 {% for image in images %}                                  
-                                                                             
-                                    <div class="card  blog-item mb100 wow match-height">
-                                        <img class="card-img-top" src="/img/trick/{{ image.content }}" alt="Photo de la figure">
-                                    </div>                                    
-                                    
+                                    <div class="col-lg-4">                                       
+                                        <div class="card blog-item mb100 wow match-height">                                          
+                                            <img class="card-img-top" src="{{ asset(uploaded_asset(image.content))|imagine_filter('squared_thumbnail_medium') }}" alt="Photo de la figure">                                           
+                                            <div class="card-footer bg-transparent">
+                                                <a title="Choisir comme Image à la Une" href="/featured/{{ trick.id }}/{{ image.id }}" class="pull-right"><span class="fa fa-star" aria-hidden="true"></span></a>
+                                            </div>
+                                        </div>                                    
+                                    </div>
                                 {% endfor %}
                                 {% for video in videos %}                                    
-                                                                         
-                                    <div class="card blog-item mb100 wow match-height">
-                                        <iframe height="227" class="card-img-top" src="{{ video.address }}"></iframe>
-                                    </div>                                    
-                                    
+                                    <div class="col-lg-4">                                   
+                                        <div class="card blog-item mb100 wow match-height">
+                                            <iframe height="227" class="card-img-top" src="{{ video.address }}"></iframe>
+                                        </div>    
+                                    </div>                           
                                 {% endfor %}                                       
 
                             {% endif %}
@@ -72,12 +94,6 @@
                                 <h3>Aucun media</h3>
                             </div>
                         {% endif %}                       
-
-                        <div class="item-metas text-muted mb30">
-                            <span class="meta-item"><i class="pe-icon pe-7s-folder"></i> ajouté le <span>{{ trick.created|date("d/m/Y \\à\\ H\\hi") }}</span></span>
-                            <span class="meta-item"><i class="pe-icon pe-7s-ticket"></i> catégorie <span>{{ trick.category }}</span></span>
-                            <span class="meta-item"><i class="pe-icon pe-7s-comment"></i> modifié le <span>{{ trick.lastUpdate|date("d/m/Y \\à\\ H\\hi") }}</span></span>
-                        </div>
                     </div>                 
                 </div>
             </div>            
@@ -88,55 +104,98 @@
                 <div class="row">
                     <div class="col-lg-10 mx-auto">
                         {{ form_start(trickForm, {
-                            'attr': {'class': 'comment-form'}
+                            'attr': {'class': 'trick-form'}
                         }) }}
+                            <h5>Titre</h5>
+                            <hr>
                             {{ form_row(trickForm.title, {
-                                label: 'titre',
+                                label: false,
                                 help: null,
                                 'attr': {'class': 'form-control'}
                             }) }}
+                            <h5>Description</h5>
+                            <hr>
                             {{ form_row(trickForm.description, {
-                                label: 'description',
+                                label: false,
                                 help: null,
                                 'attr': {'class': 'form-control'}
                             }) }}
+                            <h5>Catégorie</h5>
+                            <hr>
                             {{ form_row(trickForm.category, {
-                                label: 'catégorie',
+                                label: false,
                                 help: null,
                                 'attr': {'class': 'form-control'}
                             }) }}
 
-                            <div class="js-trick-image-wrapper" data-prototype="{{ form_widget(trickForm.images.vars.prototype)|e('html_attr') }}" data-index="{{ trickForm.images|length }}">
+                            <div class="js-trick-image-wrapper">
                                 <h5>Images</h5>
-                                <hr>                                
+                                {% if images is not empty %}
+                                <hr>                        
+                                {% endif %}        
                                 {% for image in trickForm.images %}
-                                    <div class="col-xs-4 js-trick-image-item">
-                                        
-                                            <a href="#" class="js-remove-image pull-right"><span class="fa fa-close"></span></a>
-                                            {{ form_row(image.content) }}
-                                        
-                                    </div>
-                                {% endfor %}                                
-                                <a href="#" class="js-trick-image-add"><span class="fa fa-plus-circle"></span> Ajouter une photo</a>
+                                    {{ formMacros.printTrickImageRow(image) }}
+                                {% endfor %}                                                                  
+                                <hr>
+                                <div id="add-photo">
+                                    <span class="fa fa-plus-circle"></span> Ajouter une photo
+                                </div>
+                                {{ form_row(trickForm.imageFile, {
+                                    label: false,
+                                    help: null,
+                                    'attr': {'class': 'form-control'}
+                                }) }}                                                                  
                             </div>  
-
-                            <div class="js-trick-video-wrapper" data-prototype="{{ form_widget(trickForm.videos.vars.prototype)|e('html_attr') }}" data-index="{{ trickForm.videos|length }}">
+                            <hr>
+                            <div class="js-trick-video-wrapper" data-prototype="{{ formMacros.printTrickVideoRow(trickForm.videos.vars.prototype)|e('html_attr') }}" data-index="{{ trickForm.videos|length }}">
                                 <h5>Vidéos</h5>
-                                <hr>                                
-                                {% for video in trickForm.videos %}
-                                    <div class="col-xs-4 js-trick-video-item">
-                                        
-                                            <a href="#" class="js-remove-video pull-right"><span class="fa fa-close"></span></a>
-                                            {{ form_row(video.address) }}
-                                        
-                                    </div>
-                                {% endfor %}                                
-                                <a href="#" class="js-trick-video-add"><span class="fa fa-plus-circle"></span> Ajouter une vidéo</a>
-                            </div>                   
-
-                            <a class="btn btn-primary" href="/delete/{{ trick.id }}">Supprimer le trick</a>
+                                {% if videos is not empty %}
+                                <hr>                        
+                                {% endif %}                                
+                                {% for video in trickForm.videos %}                                     
+                                    <div class="col">
+                                        <iframe height="102" width="205" src="{{ video.address.vars.value }}"></iframe>
+                                    </div> 
+                                    {{ formMacros.printTrickVideoRow(video) }}                                    
+                                {% endfor %}
+                                <hr>
+                                <a href="#" class="js-trick-video-add form-control"><span class="fa fa-plus-circle"></span> Ajouter une vidéo (url youtube format embed, exemple : https://www.youtube.com/embed/ZlTmeL3XdM4)</a>                                                                                                                        
+                            </div>
+                            <!-- trigger modal -->                   
+                            <a class="btn btn-primary" href="#" data-toggle="modal" data-target="#DeleteTrickModal">Supprimer ce trick</a>
+                            <!-- trigger modal -->
                             <button type="submit" class="btn btn-primary pull-right">Enregistrer les modifications</button>
+
+                            {# prevents weird label from showing up in new #}
+                            {% if images is empty %}
+                                {{ form_widget(trickForm.images) }}
+                            {% endif %}   
+                            {% if videos is empty %}
+                                {{ form_widget(trickForm.videos) }}                        
+                            {% endif %}
                         {{ form_end(trickForm) }}
+
+                        <!-- Modal for delete trick -->
+                        <div class="modal fade" id="DeleteTrickModal" tabindex="-1" role="dialog" aria-labelledby="ModalCenterTitle" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered" role="document">
+                            <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="ModalLongTitle">Suppression du Trick</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                Etes vous certain de vouloir supprimer ce trick ?<br>
+                                Celà entrainera la suppression de tout son contenu : photos, vidéos, commentaires etc...
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-primary" data-dismiss="modal">Annuler</button>
+                                <a href="/delete/{{ trick.id }}" class="btn btn-primary">Confirmer la suppression</a>
+                            </div>
+                            </div>
+                        </div>
+                        </div>
                     </div>            
                 </div>
             </div>
@@ -146,5 +205,5 @@
 
 {% block javascripts %}
     {{ parent() }}
-    {{ encore_entry_script_tags('trick') }}
+    {{ encore_entry_script_tags('trickForm') }}
 {% endblock %}

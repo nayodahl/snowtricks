@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Image;
 use App\Form\CommentFormType;
 use App\Form\TrickFormType;
 use App\Repository\CommentRepository;
@@ -9,6 +10,7 @@ use App\Repository\ImageRepository;
 use App\Repository\TrickRepository;
 use App\Repository\UserRepository;
 use App\Repository\VideoRepository;
+use App\Service\UploaderHelper;
 use DateTime;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -75,7 +77,7 @@ class TricksController extends AbstractController
     /**
      * @Route("/edit/{id}", defaults={"_format"="html"}, name="app_edit_trick", requirements={"id"="\d+"})
      */
-    public function editTrick(Request $request, int $id, TrickRepository $trickRepo, ImageRepository $imageRepo, VideoRepository $videoRepo): Response
+    public function editTrick(Request $request, int $id, UploaderHelper $uploaderHelper, TrickRepository $trickRepo, ImageRepository $imageRepo, VideoRepository $videoRepo): Response
     {
         // getting data
         $trick = $trickRepo->findOneByIdWithCategoryAndFeatured($id);
@@ -90,6 +92,12 @@ class TricksController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $trick = $form->getData();
             $trick->setLastUpdate(new DateTime());
+
+            $uploadedFile = $form['imageFile']->getData();
+            if ($uploadedFile) {
+                $newFilename = $uploaderHelper->uploadTrickImage($uploadedFile);
+                $trick->addImage((new Image())->setContent($newFilename));
+            }
 
             $em = $this->getDoctrine()->getManager();
             $em->persist($trick);
@@ -110,7 +118,7 @@ class TricksController extends AbstractController
     /**
      * @Route("/new", defaults={"_format"="html"}, name="app_new_trick")
      */
-    public function newTrick(Request $request): Response
+    public function newTrick(Request $request, UploaderHelper $uploaderHelper): Response
     {
         // trick form generation
         $form = $this->createForm(TrickFormType::class);
@@ -121,6 +129,12 @@ class TricksController extends AbstractController
             $trick = $form->getData();
             $trick->setCreated(new DateTime());
             $trick->setLastUpdate(new DateTime());
+
+            $uploadedFile = $form['imageFile']->getData();
+            if ($uploadedFile) {
+                $newFilename = $uploaderHelper->uploadTrickImage($uploadedFile);
+                $trick->addImage((new Image())->setContent($newFilename));
+            }
 
             $em = $this->getDoctrine()->getManager();
             $em->persist($trick);
@@ -138,10 +152,65 @@ class TricksController extends AbstractController
     /**
      * @Route("/delete/{id}", defaults={"_format"="html"}, name="app_delete_trick", requirements={"id"="\d+"})
      */
-    public function deleteTrick(int $id): Response
+    public function deleteTrick(int $id, TrickRepository $trickRepo): Response
     {
-        $id = $id++; // TO DO
+        $trick = $trickRepo->find($id);
+        $em = $this->getDoctrine()->getManager();
+        $em->remove($trick);
+        $em->flush();
+        $this->addFlash('success', 'Le trick a été supprimé définitivement !');
 
-        return $this->redirectToRoute('app_home');
+        return $this->redirectToRoute('app_home', ['_fragment' => 'tricks']);
+    }
+
+    /**
+     * @Route("/featured/{trickId}/{imageId}", defaults={"_format"="html"}, name="app_edit_featured", requirements={"trickId"="\d+", "imageId"="\d+"})
+     */
+    public function editFeatured(int $trickId, int $imageId, TrickRepository $trickRepo): Response
+    {
+        $trick = $trickRepo->find($trickId);
+        $trick->setLastUpdate(new DateTime());
+        $em = $this->getDoctrine()->getManager();
+        $em->persist($trick);
+
+        $images = $trickRepo->find($trickId)->getImages();
+        foreach ($images as $image) {
+            if (true === $image->getFeatured()) {
+                $image->setFeatured(false);
+            }
+            if ($image->getId() === $imageId) {
+                $image->setFeatured(true);
+            }
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($image);
+        }
+        $em->flush();
+        $this->addFlash('success', 'L\'image à la Une a été modifiée !');
+
+        return $this->redirectToRoute('app_edit_trick', ['id' => $trickId]);
+    }
+
+    /**
+     * @Route("/unfeatured/{trickId}", defaults={"_format"="html"}, name="app_remove_featured", requirements={"trickId"="\d+"})
+     */
+    public function removeFeatured(int $trickId, TrickRepository $trickRepo): Response
+    {
+        $trick = $trickRepo->find($trickId);
+        $trick->setLastUpdate(new DateTime());
+        $em = $this->getDoctrine()->getManager();
+        $em->persist($trick);
+
+        $images = $trickRepo->find($trickId)->getImages();
+        foreach ($images as $image) {
+            if (true === $image->getFeatured()) {
+                $image->setFeatured(false);
+            }
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($image);
+        }
+        $em->flush();
+        $this->addFlash('success', 'L\'image à la Une a été retirée !');
+
+        return $this->redirectToRoute('app_edit_trick', ['id' => $trickId]);
     }
 }

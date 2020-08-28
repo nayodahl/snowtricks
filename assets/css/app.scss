@@ -421,8 +421,20 @@ fieldset[disabled] .btn-primary.active {
 
 }
 
-.edit-pencil > a{
+.edit-pencil a {
     color : #f3f3f3;
+}
+
+.edit-pencil a:hover {
+    color : #888;
+}
+
+.edit-pencil .fa-trash {
+    margin-left: 15px;
+}
+
+#add-photo span{
+    padding: 10px 0px 10px 30px;
 }
 
 /*-----------------------------------------------------------------------------------*/
@@ -979,15 +991,10 @@ header.masthead .overlay {
     opacity: 0.4;
 }
 
-.col-carousel{
-    padding-top: 40px;
-}
-
 form .btn-primary{
     padding: 20px;
     margin: 10px;
 }
-
 
 /*-----------------------------------------------------------------------------------*/
 
@@ -1331,74 +1338,15 @@ footer.white-wrapper .social-links li a {
 }
 
 
-/*-----------------------------------------------------------------------------------*/
-
-
-/*  13 - SEARCH
-/*-----------------------------------------------------------------------------------*/
-
-#search-wrapper {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.95);
-    -webkit-transition: all .5s ease-in-out;
-    -moz-transition: all .5s ease-in-out;
-    -o-transition: all .5s ease-in-out;
-    -ms-transition: all .5s ease-in-out;
-    transition: all .5s ease-in-out;
-    -webkit-transform: translate(0px, -100%) scale(1, 0);
-    -moz-transform: translate(0px, -100%) scale(1, 0);
-    -o-transform: translate(0px, -100%) scale(1, 0);
-    -ms-transform: translate(0px, -100%) scale(1, 0);
-    transform: translate(0px, -100%) scale(1, 0);
-    opacity: 0;
-    z-index: 9999999
+.col-carousel{
+    padding-top: 40px;
 }
 
-#search-wrapper.open {
-    -webkit-transform: translate(0px, 0px) scale(1, 1);
-    -moz-transform: translate(0px, 0px) scale(1, 1);
-    -o-transform: translate(0px, 0px) scale(1, 1);
-    -ms-transform: translate(0px, 0px) scale(1, 1);
-    transform: translate(0px, 0px) scale(1, 1);
-    opacity: 1
+.carousel-control-next,
+.carousel-control-prev {
+    filter: invert(100%);
 }
 
-#search-wrapper input[type="search"] {
-    color: #fff;
-    background: rgba(0, 0, 0, 0);
-    font-size: 14px;
-    font-weight: 700;
-    text-align: left;
-    border: 0;
-    margin: 0 auto;
-    padding-left: 0;
-    padding-bottom: 13px;
-    outline: none;
-    border-bottom: 3px solid #fff;
-    display: inline;
-    text-transform: uppercase;
-}
-
-#search-wrapper .btn {
-    display: inline-block;
-}
-
-#search-wrapper .close {
-    position: fixed;
-    top: 15px;
-    right: 15px;
-    color: #fff;
-    background-color: transparent;
-    border: none;
-    opacity: 1;
-    padding: 10px 17px;
-    font-size: 27px;
-    outline: none;
-}
 
 /*  16 - FORM CONTROL
 /*-----------------------------------------------------------------------------------*/
@@ -1417,7 +1365,8 @@ footer.white-wrapper .social-links li a {
     border-bottom: 3px solid #222;
     border-radius: 0;
     -webkit-box-shadow: none;
-    box-shadow: none
+    box-shadow: none;
+    margin-bottom: 15px;
 }
 
 .form-control:focus,
@@ -1659,41 +1608,6 @@ footer.white-wrapper .social-links li a {
         min-height: 100vh;
     }
 }
-
-
-/*-----------------------------------------------------------------------------------*/
-
-
-/*  18 - COUNTDOWN
-/*-----------------------------------------------------------------------------------*/
-
-#countdown span {
-    width: 12%;
-    display: inline-block;
-    margin-bottom: 20px;
-    text-transform: uppercase;
-    font-size: 70px;
-    font-weight: 700;
-    letter-spacing: 6px;
-    line-height: 70px;
-    padding-bottom: 20px;
-}
-
-#countdown small {
-    font-weight: 300;
-    font-size: 18px;
-    display: block;
-    clear: both;
-    text-transform: uppercase;
-    letter-spacing: 2px;
-}
-
-#countdown {
-    overflow: hidden;
-    padding-bottom: 20px;
-    text-align: left;
-}
-
 
 /*-----------------------------------------------------------------------------------*/
 

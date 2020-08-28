@@ -3,10 +3,17 @@
 namespace App\Entity;
 
 use App\Repository\VideoRepository;
+use App\Validator as VideoAssert;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=VideoRepository::class)
+ * @UniqueEntity(
+ *     fields={"address","trick"},
+ *     message="Cette vidéo est déjà présente dans ce trick !",
+ *     errorPath="address")
  */
 class Video
 {
@@ -18,7 +25,11 @@ class Video
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * exemple of value :  https://www.youtube.com/embed/WTHr-Gn9mpq.
+     *
+     * @ORM\Column(type="string", length=41)
+     * @Assert\NotBlank(message="Entrez une vidéo valide, avec url youtube au format embed")
+     * @VideoAssert\IsYoutubeUrl
      */
     private $address;
 

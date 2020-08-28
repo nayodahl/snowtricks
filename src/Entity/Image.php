@@ -3,10 +3,18 @@
 namespace App\Entity;
 
 use App\Repository\ImageRepository;
+use App\Service\UploaderHelper;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=ImageRepository::class)
+ * @UniqueEntity(
+ *      fields={"content","trick"},
+ *      message="Cette image est déjà présente dans ce trick !",
+ *      errorPath="content"
+ * )
  */
 class Image
 {
@@ -19,6 +27,7 @@ class Image
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank(message="Entrez une image valide")
      */
     private $content;
 
@@ -52,7 +61,7 @@ class Image
 
     public function getContent()
     {
-        return $this->content;
+        return UploaderHelper::TRICK_IMAGE.'/'.$this->content;
     }
 
     public function setContent($content): self

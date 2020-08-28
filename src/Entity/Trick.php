@@ -6,6 +6,7 @@ use App\Repository\TrickRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=TrickRepository::class)
@@ -46,17 +47,19 @@ class Trick
     private $category;
 
     /**
-     * @ORM\OneToMany(targetEntity=Comment::class, mappedBy="trick")
+     * @ORM\OneToMany(targetEntity=Comment::class, mappedBy="trick", cascade={"remove"})
      */
     private $comments;
 
     /**
-     * @ORM\OneToMany(targetEntity=Image::class, mappedBy="trick",  cascade={"persist"}, orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity=Image::class, mappedBy="trick",  cascade={"persist", "remove"}, orphanRemoval=true)
+     * @Assert\Valid()
      */
     private $images;
 
     /**
-     * @ORM\OneToMany(targetEntity=Video::class, mappedBy="trick", cascade={"persist"}, orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity=Video::class, mappedBy="trick", cascade={"persist", "remove"}, orphanRemoval=true)
+     * @Assert\Valid()
      */
     private $videos;
 
@@ -223,5 +226,20 @@ class Trick
         }
 
         return $this;
+    }
+
+    public function getFeatured(): ?Image
+    {
+        $images = $this->getImages()->filter(
+            function (Image $image) {
+                return true === $image->getFeatured();
+            }
+        );
+
+        if ($images->count() > 0) {
+            return $images->first();
+        }
+
+        return null;
     }
 }
