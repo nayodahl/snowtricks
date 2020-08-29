@@ -36,7 +36,7 @@
                 <div class="row">
 
                     {% for trick in tricks.results %}
-
+                    
                     <div class="card col-sm-4 blog-item mb100 wow match-height">
                         <div class="row">
                             <div class="col-xs-12">
@@ -49,13 +49,13 @@
                                     
                                     <div class="overlay-item-caption smoothie"></div>
                                     <div class="hover-item-caption smoothie">
-                                        <h3 class="vertical-center smoothie"><a href="/trick/{{ trick.id }}" class="smoothie btn btn-primary page-scroll" title="view article">Voir</a></h3>
+                                        <h3 class="vertical-center smoothie"><a href="/trick/{{ trick.id }}" class="smoothie btn btn-primary stretched-link" title="voir le trick">Voir</a></h3>
                                     </div>
                                 </div>
                                 <h2 class="post-title">{{ trick.title }}</h2>
                             </div>
                         </div>
-                    </div>
+                    </div>                    
 
                     {% endfor %}                  
                     
