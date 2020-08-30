@@ -35,8 +35,10 @@ class Paginator
 
     public function paginate(int $page = 1): self
     {
+        $this->pageSize = $this->pageSize * $page;
+
         $this->currentPage = max(1, $page);
-        $firstResult = ($this->currentPage - 1) * $this->pageSize;
+        $firstResult = 0;
 
         $query = $this->queryBuilder
             ->setFirstResult($firstResult)

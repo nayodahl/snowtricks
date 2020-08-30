@@ -21,6 +21,7 @@
 
         <section id="tricks">
             <div class="container section-inner">
+              
                 {% for message in app.flashes('success') %}
                     <div class="alert alert-success alert-dismissible" role="alert">
                         <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
@@ -33,10 +34,11 @@
                         {{ message }}
                     </div>    
                 {% endfor %}
+
                 <div class="row">
 
                     {% for trick in tricks.results %}
-
+                    
                     <div class="card col-sm-4 blog-item mb100 wow match-height">
                         <div class="row">
                             <div class="col-xs-12">
@@ -49,40 +51,21 @@
                                     
                                     <div class="overlay-item-caption smoothie"></div>
                                     <div class="hover-item-caption smoothie">
-                                        <h3 class="vertical-center smoothie"><a href="/trick/{{ trick.id }}" class="smoothie btn btn-primary page-scroll" title="view article">Voir</a></h3>
+                                        <h3 class="vertical-center smoothie"><a href="/trick/{{ trick.slug }}" class="smoothie btn btn-primary stretched-link" title="voir le trick">Voir</a></h3>
                                     </div>
                                 </div>
                                 <h2 class="post-title">{{ trick.title }}</h2>
                             </div>
                         </div>
-                    </div>
+                    </div>                    
 
                     {% endfor %}                  
                     
                 </div>
-                {#
-                <div class="row paging justify-content-center"><a class="btn btn-primary" id="load-more" href="{{ tricks.nextPage }}"><i class="fa fa-plus-circle fa-3x" aria-hidden="true"></i></a></div>
-                #}
                 
-                 <!-- Pagination -->                 
+                 <!-- Pagination Load more button-->                 
                 {% if tricks.hasToPaginate %}
-                <div class="row">
-                    <div class="col-4 mx-auto navigation text-center">
-                        <ul class="pagination row justify-content-center">
-                            {% if tricks.hasPreviousPage %}
-                                <li class="prev"><a class="btn btn-primary" href="{{ path('app_home_paginated', {page: tricks.previousPage}) }}#tricks" rel="previous"><i class="fa fw fa-arrow-left"></i> Précédent </a></li>
-                            {% else %}
-                                <li class="btn btn-primary prev"><span><i class="fa fw fa-arrow-left"></i> Précédent</span></li>
-                            {% endif %}
-
-                            {% if tricks.hasNextPage %}
-                                <li class="next"><a class="btn btn-primary" href="{{ path('app_home_paginated', {page: tricks.nextPage}) }}#tricks" rel="next"> Suivant <i class="fa fw fa-arrow-right"></i></a></li>
-                            {% else %}
-                                <li class="btn btn-primary next"><span>Suivant <i class="fa fw fa-arrow-right"></i></span></li>
-                            {% endif %}
-                        </ul>
-                    </div>
-                </div>
+                    <div class="row paging justify-content-center"><a class="btn btn-primary" id="load-more" href="{{ path('app_home_paginated', {page: tricks.nextPage}) }}#tricks"><i class="fa fa-plus-circle fa-3x" aria-hidden="true"></i></a></div>
                 {% endif %}
                 
                 <div class="row paging justify-content-center"><a class="btn btn-primary" href="{{ path('app_new_trick') }}">Ajouter un trick</a></div>

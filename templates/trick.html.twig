@@ -13,7 +13,7 @@
                     <div class="col overlay">
                         <div class="row">
                             <div class="col edit-pencil">
-                                <a href="{{ path('app_edit_trick', {id: trick.id}) }}" class="pull-right"><span class="fa fa-pencil fa-3x" aria-hidden="true"></span></a>
+                                <a href="{{ path('app_edit_trick', {slug: trick.slug}) }}" class="pull-right"><span class="fa fa-pencil fa-3x" aria-hidden="true"></span></a>
                             </div>
                         </div>
                         <div class="row"> 
@@ -70,13 +70,6 @@
                                         </a>
                                     </div>
                                     <!--/.Controls-->
-
-                                    <!--Indicators-->
-                                    <ol class="carousel-indicators">
-                                        <li data-target="#multi-item-example" data-slide-to="0" class="active"></li>
-                                        <li data-target="#multi-item-example" data-slide-to="1"></li>                                
-                                    </ol>
-                                    <!--/.Indicators-->
 
                                     <!--Slides-->
                                     <div class="carousel-inner" role="listbox">
@@ -212,25 +205,10 @@
 
                         <!--<div class="row paging justify-content-center"><a class="btn btn-primary" href="#"><i class="fa fa-plus-circle fa-3x" aria-hidden="true"></i></a></div>-->
 
-                        <!-- Pagination -->
-                        {% if comments.hasToPaginate %}
-                        <div class="row">
-                            <div class="col-md-4 col-sm-2 mx-auto navigation text-center">
-                                <ul class="pagination row justify-content-center">
-                                    {% if comments.hasPreviousPage %}
-                                        <li class="prev"><a class="btn btn-primary" href="{{ path('app_trick_paginated', {id: trick.id, page: comments.previousPage}) }}#comments" rel="previous"><i class="fa fw fa-arrow-left"></i> Précédent </a></li>
-                                    {% else %}
-                                        <li class="btn btn-primary prev"><span><i class="fa fw fa-arrow-left"></i> Précédent</span></li>
-                                    {% endif %}
+                        <!-- Pagination Load More button-->
 
-                                    {% if comments.hasNextPage %}
-                                        <li class="next"><a class="btn btn-primary" href="{{ path('app_trick_paginated', {id: trick.id, page: comments.nextPage}) }}#comments" rel="next"> Suivant <i class="fa fw fa-arrow-right"></i></a></li>
-                                    {% else %}
-                                        <li class="btn btn-primary next"><span>Suivant <i class="fa fw fa-arrow-right"></i></span></li>
-                                    {% endif %}
-                                </ul>
-                            </div>
-                        </div>
+                        {% if comments.hasToPaginate %}
+                        <div class="row paging justify-content-center"><a class="btn btn-primary" id="load-more" href="{{ path('app_trick_paginated', {slug: trick.slug, page: comments.nextPage}) }}#comments"><i class="fa fa-plus-circle fa-3x" aria-hidden="true"></i></a></div>
                         {% endif %}
 
                     </div>              

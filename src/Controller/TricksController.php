@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Image;
+use App\Entity\Trick;
 use App\Form\CommentFormType;
 use App\Form\TrickFormType;
 use App\Repository\CommentRepository;
@@ -34,14 +35,15 @@ class TricksController extends AbstractController
     }
 
     /**
-     * @Route("/trick/{id}", defaults={"page": "1", "_format"="html"}, name="app_trick", requirements={"id"="\d+"})
+     * @Route("/trick/{slug}", defaults={"page": "1", "_format"="html"}, name="app_trick")
      *
-     * @Route("/trick/{id}/{page<[1-9]\d*>}", defaults={"_format"="html"}, name="app_trick_paginated", requirements={"id"="\d+"})
+     * @Route("/trick/{slug}/{page<[1-9]\d*>}", defaults={"_format"="html"}, name="app_trick_paginated")
      */
-    public function showTrick(Request $request, int $id, int $page = 1, TrickRepository $trickRepo, CommentRepository $commentRepo, ImageRepository $imageRepo, VideoRepository $videoRepo, UserRepository $userRepository): Response
+    public function showTrick(Request $request, Trick $trick, int $page = 1, TrickRepository $trickRepo, CommentRepository $commentRepo, ImageRepository $imageRepo, VideoRepository $videoRepo, UserRepository $userRepository): Response
     {
         // getting data
-        $trick = $trickRepo->findOneByIdWithCategoryAndFeatured($id);
+        $id = $trick->getId();
+        $trickArray = $trickRepo->findOneByIdWithCategoryAndFeatured($id);
         $latestComments = $commentRepo->findAllCommentsFromTrick($id, $page);
         $images = $imageRepo->getImagesFromTrick($id);
         $videos = $videoRepo->getVideosFromTrick($id);
@@ -54,19 +56,19 @@ class TricksController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $comment = $form->getData();
             $comment->setCreated(new DateTime());
-            $comment->setUser($userRepository->find(201));   // temporary arbitrary user, waiting for authentication
-            $comment->setTrick($trickRepo->find($id));
+            $comment->setUser($userRepository->find('219'));   // temporary arbitrary user, waiting for authentication
+            $comment->setTrick($trick);
 
             $em = $this->getDoctrine()->getManager();
             $em->persist($comment);
             $em->flush();
             $this->addFlash('success', 'Votre commentaire a été ajouté !');
 
-            return $this->redirectToRoute('app_trick', ['id' => $id, '_fragment' => 'comments']);
+            return $this->redirectToRoute('app_trick', ['slug' => $trick->getSlug(), '_fragment' => 'comments']);
         }
 
         return $this->render('trick.html.twig', [
-            'trick' => $trick,
+            'trick' => $trickArray,
             'comments' => $latestComments,
             'images' => $images,
             'videos' => $videos,
@@ -75,11 +77,12 @@ class TricksController extends AbstractController
     }
 
     /**
-     * @Route("/edit/{id}", defaults={"_format"="html"}, name="app_edit_trick", requirements={"id"="\d+"})
+     * @Route("/edit/{slug}", defaults={"_format"="html"}, name="app_edit_trick")
      */
-    public function editTrick(Request $request, int $id, UploaderHelper $uploaderHelper, TrickRepository $trickRepo, ImageRepository $imageRepo, VideoRepository $videoRepo): Response
+    public function editTrick(Request $request, Trick $trick, UploaderHelper $uploaderHelper, TrickRepository $trickRepo, ImageRepository $imageRepo, VideoRepository $videoRepo): Response
     {
         // getting data
+        $id = $trick->getId();
         $trick = $trickRepo->findOneByIdWithCategoryAndFeatured($id);
         $images = $imageRepo->getImagesFromTrick($id);
         $videos = $videoRepo->getVideosFromTrick($id);
@@ -150,11 +153,10 @@ class TricksController extends AbstractController
     }
 
     /**
-     * @Route("/delete/{id}", defaults={"_format"="html"}, name="app_delete_trick", requirements={"id"="\d+"})
+     * @Route("/delete/{slug}", defaults={"_format"="html"}, name="app_delete_trick")
      */
-    public function deleteTrick(int $id, TrickRepository $trickRepo): Response
+    public function deleteTrick(Trick $trick): Response
     {
-        $trick = $trickRepo->find($id);
         $em = $this->getDoctrine()->getManager();
         $em->remove($trick);
         $em->flush();
@@ -187,7 +189,7 @@ class TricksController extends AbstractController
         $em->flush();
         $this->addFlash('success', 'L\'image à la Une a été modifiée !');
 
-        return $this->redirectToRoute('app_edit_trick', ['id' => $trickId]);
+        return $this->redirectToRoute('app_edit_trick', ['slug' => $trick->getSlug()]);
     }
 
     /**
@@ -211,6 +213,6 @@ class TricksController extends AbstractController
         $em->flush();
         $this->addFlash('success', 'L\'image à la Une a été retirée !');
 
-        return $this->redirectToRoute('app_edit_trick', ['id' => $trickId]);
+        return $this->redirectToRoute('app_edit_trick', ['slug' => $trick->getSlug()]);
     }
 }

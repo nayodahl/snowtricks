@@ -23,7 +23,7 @@ class Comment
      * @Assert\NotBlank(message="Entrez un commentaire valide")
      * @Assert\Length(
      *     min=5,
-     *     minMessage="Votre commentaire est trop court",
+     *     minMessage="Votre commentaire est trop court (minimum 5 caractères)",
      *     max=10000,
      *     maxMessage="Votre commentaire est trop long"
      * )

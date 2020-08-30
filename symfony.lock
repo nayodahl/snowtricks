@@ -1,7 +1,4 @@
 {
-    "aalaap/faker-youtube": {
-        "version": "1.2.1"
-    },
     "behat/transliterator": {
         "version": "v1.3.0"
     },
@@ -20,7 +17,7 @@
             "repo": "github.com/symfony/recipes",
             "branch": "master",
             "version": "3.0",
-            "ref": "fc52d86631a6dfd9fdf3381d0b7e3df2069e51b3"
+            "ref": "e5b542d4ef47d8a003c91beb35650c76907f7e53"
         },
         "files": [
             "src/DataFixtures/AppFixtures.php"
@@ -37,9 +34,6 @@
         "files": [
             ".php_cs.dist"
         ]
-    },
-    "fzaninotto/faker": {
-        "version": "v1.9.1"
     },
     "gedmo/doctrine-extensions": {
         "version": "v2.4.42"
