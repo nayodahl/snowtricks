@@ -4,14 +4,14 @@
 {% macro printTrickImageRow(image) %}
     <div class="col js-trick-image-item">                                        
         <img src="{{ uploaded_asset(image.content.vars.value)|imagine_filter('squared_thumbnail_small') }}">
-        <a href="#" class="js-remove-image pull-right"><span class="fa fa-close"></span></a>
+        <a href="#" class="js-remove-image pull-right" title="Supprimer l'image"><span class="fa fa-close"></span></a>
         {{ form_row(image.content) }}                                        
     </div>
 {% endmacro %}
 
 {% macro printTrickVideoRow(video) %}
     <div class="col js-trick-video-item">  
-        <a href="#" class="js-remove-video pull-right"><span class="fa fa-close"></span></a>
+        <a href="#" class="js-remove-video pull-right" title="Supprimer la vidéo"><span class="fa fa-close"></span></a>
         {{ form_row(video.address) }}                                        
     </div>
 {% endmacro %}
@@ -47,6 +47,20 @@
         <section>
             <div class="container">
                 <div class="row">
+                    <div class="col">
+                    {% for message in app.flashes('success') %}
+                        <div class="alert alert-success alert-dismissible" role="alert">
+                            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                            {{ message }}
+                        </div>    
+                    {% endfor %}
+                    {% for message in app.flashes('error') %}
+                        <div class="alert alert-danger alert-dismissible" role="alert">
+                            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                            {{ message }}
+                        </div>    
+                    {% endfor %}
+                    </div>
                     <div class="card-group">
             
                         {% if images is not empty %}
@@ -54,6 +68,9 @@
                                     <div class="col-lg-4">
                                         <div class="card blog-item mb100 wow match-height">
                                             <img class="card-img-top" src="{{ asset(uploaded_asset(images[0].content)) }}" alt="Card image cap">
+                                            <div class="card-footer bg-transparent">
+                                                <a title="Choisir comme Image à la Une" href="/featured/{{ trick.id }}/{{ images[0].id }}" class="pull-right"><span class="fa fa-star" aria-hidden="true"></span></a>
+                                            </div>
                                        </div>
                                     </div>
 
