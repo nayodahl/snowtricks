@@ -155,7 +155,7 @@ class TricksController extends AbstractController
     /**
      * @Route("/delete/{slug}", defaults={"_format"="html"}, name="app_delete_trick")
      */
-    public function deleteTrick(Trick $trick, TrickRepository $trickRepo): Response
+    public function deleteTrick(Trick $trick): Response
     {
         $em = $this->getDoctrine()->getManager();
         $em->remove($trick);
