@@ -36,7 +36,7 @@ class Paginator
     public function paginate(int $page = 1): self
     {
         $this->pageSize = $this->pageSize * $page;
-        
+
         $this->currentPage = max(1, $page);
         $firstResult = 0;
 

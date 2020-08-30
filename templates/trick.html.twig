@@ -13,7 +13,7 @@
                     <div class="col overlay">
                         <div class="row">
                             <div class="col edit-pencil">
-                                <a href="{{ path('app_edit_trick', {id: trick.id}) }}" class="pull-right"><span class="fa fa-pencil fa-3x" aria-hidden="true"></span></a>
+                                <a href="{{ path('app_edit_trick', {slug: trick.slug}) }}" class="pull-right"><span class="fa fa-pencil fa-3x" aria-hidden="true"></span></a>
                             </div>
                         </div>
                         <div class="row"> 
@@ -208,7 +208,7 @@
                         <!-- Pagination Load More button-->
 
                         {% if comments.hasToPaginate %}
-                        <div class="row paging justify-content-center"><a class="btn btn-primary" id="load-more" href="{{ path('app_trick_paginated', {id: trick.id, page: comments.nextPage}) }}#comments"><i class="fa fa-plus-circle fa-3x" aria-hidden="true"></i></a></div>
+                        <div class="row paging justify-content-center"><a class="btn btn-primary" id="load-more" href="{{ path('app_trick_paginated', {slug: trick.slug, page: comments.nextPage}) }}#comments"><i class="fa fa-plus-circle fa-3x" aria-hidden="true"></i></a></div>
                         {% endif %}
 
                     </div>              
