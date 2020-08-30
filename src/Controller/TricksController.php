@@ -54,7 +54,7 @@ class TricksController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $comment = $form->getData();
             $comment->setCreated(new DateTime());
-            $comment->setUser($userRepository->find(201));   // temporary arbitrary user, waiting for authentication
+            $comment->setUser($userRepository->find('217'));   // temporary arbitrary user, waiting for authentication
             $comment->setTrick($trickRepo->find($id));
 
             $em = $this->getDoctrine()->getManager();
