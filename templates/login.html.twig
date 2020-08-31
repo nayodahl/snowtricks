@@ -6,11 +6,19 @@
                 <div class="row">
                     <div class="col-lg-6 col-md-4 mx-auto">            
                         <h2 class="section-heading" id="logintitle">Connexion</h2>
-                        <form method="post" action="/account/login" name="sentLogin" id="loginform" class="needs-validation login-form" novalidate>
+
+                        {% if error %}
+                            <div class="alert alert-danger alert-dismissible" role="alert">
+                            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                            {{ error.messageKey|trans(error.messageData, 'security')  }}
+                            </div>   
+                        {% endif %}
+
+                        <form method="post" name="sentLogin" id="loginform" class="needs-validation login-form" novalidate>
                             <div class="control-group">
                                 <div class="form-group floating-label-form-group controls">
-                                <label for="login">Login</label>
-                                <input name="login" type="text" class="form-control" id="login" required data-validation-required-message="Entrez votre identifiant de connexion (login).">
+                                <label for="login">Utilisateur</label>
+                                <input name="username" type="text" class="form-control" id="username" value="{{ last_username }}" required data-validation-required-message="Entrez votre identifiant de connexion.">
                                 <div class="invalid-feedback">Entrez votre identifiant de connexion (login).</div>
                                 <p class="help-block text-danger"></p>
                                 </div>
@@ -33,7 +41,8 @@
                         </form>
 
                         <hr>
-
+                        
+                        {#}
                         <script>
                             // starter JavaScript for disabling form submissions if there are invalid fields, from bootstrap4 doc
                             (function() {
@@ -54,6 +63,7 @@
                             }, false);
                             })();
                         </script>
+                        #}
 
                         <div class="col-md-6 mx-auto">
                             <a href="/signin">Pas encore de compte ?</a>

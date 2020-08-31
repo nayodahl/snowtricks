@@ -24,7 +24,7 @@ class CommentRepository extends ServiceEntityRepository
     {
         $entityManager = $this->getEntityManager();
         $query = $entityManager->createQueryBuilder()
-            ->select('c.content', 'c.created', 'u.photo', 'u.login')
+            ->select('c.content', 'c.created', 'u.photo', 'u.username')
             ->from('App\Entity\Comment', 'c')
             ->join('c.user', 'u')
             ->where('c.user = u.id')

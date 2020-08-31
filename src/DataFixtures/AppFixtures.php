@@ -10,9 +10,17 @@ use App\Entity\Video;
 use DateTime;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 class AppFixtures extends Fixture
 {
+    private $passwordEncoder;
+
+    public function __construct(UserPasswordEncoderInterface $passwordEncoder)
+    {
+        $this->passwordEncoder = $passwordEncoder;
+    }
+
     public function load(ObjectManager $manager)
     {
         // create categories
@@ -286,9 +294,9 @@ class AppFixtures extends Fixture
         $manager->persist($tailGrab);
 
         // create user Jimmy
-        $user = (new User())
-            ->setLogin('jimmy')
-            ->setPassword('jimmy')
+        $user = (new User());
+        $user->setUsername('jimmy')
+            ->setPassword($this->passwordEncoder->encodePassword($user, 'jimmy'))
             ->setEmail('jimmy@snowtricks.fr')
             ->setPhoto('jimmy-avatar.jpg')
             ->setActivated('1')
