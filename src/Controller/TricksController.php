@@ -107,7 +107,7 @@ class TricksController extends AbstractController
             $em->flush();
             $this->addFlash('success', 'Votre trick a été modifié !');
 
-            return $this->redirectToRoute('app_trick', ['id' => $id]);
+            return $this->redirectToRoute('app_trick', ['slug' => $trick->getSlug()]);
         }
 
         return $this->render('editTrick.html.twig', [

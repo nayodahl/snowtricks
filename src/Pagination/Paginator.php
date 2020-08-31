@@ -1,26 +1,13 @@
 <?php
 
-/*
- * This file is part of the Symfony package.
- *
- * (c) Fabien Potencier <fabien@symfony.com>
- *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
- */
-
 namespace App\Pagination;
 
 use Doctrine\ORM\QueryBuilder as DoctrineQueryBuilder;
-use Doctrine\ORM\Tools\Pagination\CountWalker;
 use Doctrine\ORM\Tools\Pagination\Paginator as DoctrinePaginator;
 
-/**
- * @author Javier Eguiluz <javier.eguiluz@gmail.com>
- */
 class Paginator
 {
-    private const PAGE_SIZE = 9;
+    private const PAGE_SIZE = 3;
     private $queryBuilder;
     private $currentPage;
     private $pageSize;
@@ -36,7 +23,6 @@ class Paginator
     public function paginate(int $page = 1): self
     {
         $this->pageSize = $this->pageSize * $page;
-
         $this->currentPage = max(1, $page);
         $firstResult = 0;
 
@@ -45,15 +31,8 @@ class Paginator
             ->setMaxResults($this->pageSize)
             ->getQuery();
 
-        if (0 === \count($this->queryBuilder->getDQLPart('join'))) {
-            $query->setHint(CountWalker::HINT_DISTINCT, false);
-        }
-
         $paginator = new DoctrinePaginator($query, true);
-
-        $useOutputWalkers = \count($this->queryBuilder->getDQLPart('having') ?: []) > 0;
-        $paginator->setUseOutputWalkers($useOutputWalkers);
-
+        $paginator->setUseOutputWalkers(false);
         $this->results = $paginator->getIterator();
         $this->numResults = $paginator->count();
 
@@ -75,16 +54,6 @@ class Paginator
         return $this->pageSize;
     }
 
-    public function hasPreviousPage(): bool
-    {
-        return $this->currentPage > 1;
-    }
-
-    public function getPreviousPage(): int
-    {
-        return max(1, $this->currentPage - 1);
-    }
-
     public function hasNextPage(): bool
     {
         return $this->currentPage < $this->getLastPage();
@@ -92,7 +61,7 @@ class Paginator
 
     public function getNextPage(): int
     {
-        return min($this->getLastPage(), $this->currentPage + 1);
+        return $this->currentPage + 1;
     }
 
     public function hasToPaginate(): bool
