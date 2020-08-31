@@ -640,7 +640,14 @@ fieldset[disabled] .btn-primary.active {
 
 }
 
-#chevron {
+#chevrondown {
+    color: #333;
+    position: absolute;
+    right: 1%;
+    bottom: 1%;
+}
+
+#chevronup {
     color: #333;
     position: absolute;
     right: 1%;

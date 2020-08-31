@@ -7,7 +7,7 @@ use Doctrine\ORM\Tools\Pagination\Paginator as DoctrinePaginator;
 
 class Paginator
 {
-    private const PAGE_SIZE = 3;
+    private const PAGE_SIZE = 9;
     private $queryBuilder;
     private $currentPage;
     private $pageSize;

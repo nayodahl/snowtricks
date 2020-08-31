@@ -14,7 +14,7 @@
                     </div>                  
                 </div>
             </div>
-            <a id="chevron" href="#tricks">
+            <a id="chevrondown" href="#tricks">
                 <i class="fa fa-chevron-circle-down fa-5x" aria-hidden="true"></i>
             </a>  
         </header>
@@ -67,8 +67,18 @@
                 {% if tricks.hasToPaginate %}
                     <div class="row paging justify-content-center"><a class="btn btn-primary" id="load-more" href="{{ path('app_home_paginated', {page: tricks.nextPage}) }}#tricks"><i class="fa fa-plus-circle fa-3x" aria-hidden="true"></i></a></div>
                 {% endif %}
+                {% if tricks.currentPage > 1 %}
+                    <div class="row">
+                        <div class="col">
+                            <a id="chevronup" href="{{ path('app_home', {'_fragment': 'tricks'}) }}" class="pull-right">
+                                <i class="fa fa-chevron-circle-up fa-3x" aria-hidden="true"></i>
+                            </a> 
+                        </div>
+                    </div>
+                {% endif %}
                 
-            </div>            
+            </div>  
+       
         </section>
 
 {% endblock %}
