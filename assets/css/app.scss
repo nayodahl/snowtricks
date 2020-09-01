@@ -427,6 +427,7 @@ fieldset[disabled] .btn-primary.active {
 
 .edit-pencil a:hover {
     color : #888;
+    transition: all .5s ease-in-out;
 }
 
 .edit-pencil .fa-trash {
@@ -546,7 +547,7 @@ fieldset[disabled] .btn-primary.active {
 
 .navbar .nav li a:hover,
 .navbar .nav li a:focus {
-    color: #333 !important;
+    color: #888 !important;
 }
 
 .navbar .nav li.dropdown.open > a,

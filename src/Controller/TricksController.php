@@ -17,6 +17,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 
 class TricksController extends AbstractController
 {
@@ -78,6 +79,8 @@ class TricksController extends AbstractController
 
     /**
      * @Route("/edit/{slug}", defaults={"_format"="html"}, name="app_edit_trick")
+     *
+     * @IsGranted("ROLE_USER")
      */
     public function editTrick(Request $request, Trick $trick, UploaderHelper $uploaderHelper, TrickRepository $trickRepo, ImageRepository $imageRepo, VideoRepository $videoRepo): Response
     {
@@ -120,6 +123,8 @@ class TricksController extends AbstractController
 
     /**
      * @Route("/new", defaults={"_format"="html"}, name="app_new_trick")
+     * 
+     * @IsGranted("ROLE_USER")
      */
     public function newTrick(Request $request, UploaderHelper $uploaderHelper): Response
     {
@@ -154,6 +159,8 @@ class TricksController extends AbstractController
 
     /**
      * @Route("/delete/{slug}", defaults={"_format"="html"}, name="app_delete_trick")
+     * 
+     * @IsGranted("ROLE_USER")
      */
     public function deleteTrick(Trick $trick): Response
     {
@@ -167,6 +174,8 @@ class TricksController extends AbstractController
 
     /**
      * @Route("/featured/{trickId}/{imageId}", defaults={"_format"="html"}, name="app_edit_featured", requirements={"trickId"="\d+", "imageId"="\d+"})
+     * 
+     * @IsGranted("ROLE_USER")
      */
     public function editFeatured(int $trickId, int $imageId, TrickRepository $trickRepo): Response
     {
@@ -194,6 +203,8 @@ class TricksController extends AbstractController
 
     /**
      * @Route("/unfeatured/{trickId}", defaults={"_format"="html"}, name="app_remove_featured", requirements={"trickId"="\d+"})
+     * 
+     * @IsGranted("ROLE_USER")
      */
     public function removeFeatured(int $trickId, TrickRepository $trickRepo): Response
     {

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 
 <head>
 
@@ -43,14 +43,26 @@
                             <a href="{{ path('app_home', {'_fragment': 'tricks'}) }}" class="nav-link">Tricks <span class="pe-7s-angle-down"></span></a>
                         </li>
                         <li class="nav-item">
+                            <a href="{{ path('app_new_trick') }}" class="nav-link">Ajouter un trick <span class="pe-7s-angle-down"></span></a>
+                        </li>
+                        {% if is_granted('ROLE_USER') %}
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                              {{ app.user.username }}
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                                <a class="dropdown-item" href="/profile">Profile</a>
+                                <a class="dropdown-item" href="/logout">Logout</a>
+                            </div>
+                        </li>
+                        {% else %}                        
+                        <li class="nav-item">
                             <a href="{{ path('app_login') }}" class="nav-link">Se Connecter <span class="pe-7s-angle-down"></span></a>
                         </li>
                         <li class="nav-item">
                             <a href="{{ path('app_signin') }}" class="nav-link">Inscription <span class="pe-7s-angle-down"></span></a>
                         </li>
-                        <li class="nav-item">
-                            <a href="{{ path('app_new_trick') }}" class="nav-link">Ajouter un trick <span class="pe-7s-angle-down"></span></a>
-                        </li>
+                        {% endif %}
                     </ul>
                 </div>
                 <!-- /.navbar-collapse -->
