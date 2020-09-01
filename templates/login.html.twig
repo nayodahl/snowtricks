@@ -7,6 +7,19 @@
                     <div class="col-lg-6 col-md-4 mx-auto">            
                         <h2 class="section-heading" id="logintitle">Connexion</h2>
 
+                        {% for message in app.flashes('success') %}
+                            <div class="alert alert-success alert-dismissible" role="alert">
+                                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                                {{ message }}
+                            </div>    
+                        {% endfor %}                        
+                        {% for message in app.flashes('error') %}
+                            <div class="alert alert-danger alert-dismissible" role="alert">
+                                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                                {{ message }}
+                            </div>    
+                        {% endfor %}
+
                         {% if error %}
                             <div class="alert alert-danger alert-dismissible" role="alert">
                             <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
@@ -14,35 +27,28 @@
                             </div>   
                         {% endif %}
 
-                        <form method="post" name="sentLogin" id="loginform" class="needs-validation login-form" novalidate>
-                            <div class="control-group">
-                                <div class="form-group floating-label-form-group controls">
-                                <label for="login">Utilisateur</label>
-                                <input name="username" type="text" class="form-control" id="username" value="{{ last_username }}" required data-validation-required-message="Entrez votre identifiant de connexion.">
-                                <div class="invalid-feedback">Entrez votre identifiant de connexion (login).</div>
-                                <p class="help-block text-danger"></p>
-                                </div>
-                            </div>
-                            <div class="control-group">
-                                <div class="form-group floating-label-form-group controls">
-                                <label for="password">Mot de passe</label>
-                                <input name="password" type="password" class="form-control" id="password" required data-validation-required-message="Entrez votre mot de passe.">
-                                <div class="invalid-feedback">Entrez un mot de passe valide.</div>
-                                <p class="help-block text-danger"></p>
-                                </div>
-                            </div>
-                            <br>
+                        {{ form_start(loginForm, {
+                            'attr': {'class': 'comment-form'}
+                        }) }}
+                            {{ form_row(loginForm.username, {
+                                label: 'Identifiant',
+                                'attr': {'class': 'form-control'}
+                            }) }}
+                            {{ form_row(loginForm.password, {
+                                label: 'Mot de passe',
+                                'attr': {'class': 'form-control'}
+                            }) }}
+                            
                             <div id="success"></div>
                             <div class="form-group form-inline justify-content-center">
-                                <a href="/" class="btn btn-primary">Annuler</a>
+                                <a href="{{ path('app_home') }}" class="btn btn-primary">Annuler</a>
                                 <button type="submit" class="btn btn-primary" id="sendLoginButton">Connexion</button>
                             </div>
-                            <input type="hidden" name="token" id="token" value="login"/>
-                        </form>
-
+                        {{ form_end(loginForm) }}
+   
                         <hr>
                         
-                        {#}
+                        {#
                         <script>
                             // starter JavaScript for disabling form submissions if there are invalid fields, from bootstrap4 doc
                             (function() {
@@ -66,10 +72,10 @@
                         #}
 
                         <div class="col-md-6 mx-auto">
-                            <a href="/signin">Pas encore de compte ?</a>
+                            <a href="{{ path('app_signin') }}">Pas encore de compte ?</a>
                         </div>
                         <div class="col-md-6 mx-auto">
-                            <a href="/forgot">Mot de passe oublié ?</a>
+                            <a href="{{ path('app_forgot') }}">Mot de passe oublié ?</a>
                         </div>
                         
                     </div>

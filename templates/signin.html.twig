@@ -6,6 +6,48 @@
                 <div class="row">
                     <div class="col-lg-6 col-md-4 mx-auto">            
                         <h2 class="section-heading" id="logintitle">Inscription</h2>
+
+                        {% for message in app.flashes('success') %}
+                            <div class="alert alert-success alert-dismissible" role="alert">
+                                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                                {{ message }}
+                            </div>    
+                        {% endfor %}                        
+                        {% for message in app.flashes('error') %}
+                            <div class="alert alert-danger alert-dismissible" role="alert">
+                                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                                {{ message }}
+                            </div>    
+                        {% endfor %}
+
+                        {{ form_start(signinForm, {
+                            'attr': {'class': 'comment-form'}
+                        }) }}
+                            {{ form_row(signinForm.username, {
+                                label: 'Identifiant',
+                                'attr': {'class': 'form-control'}
+                            }) }}
+                            {{ form_row(signinForm.plainPassword, {
+                                label: 'Mot de passe',
+                                'attr': {'class': 'form-control'}
+                            }) }}
+                            {{ form_row(signinForm.confirmation, {
+                                label: 'Confirmation',
+                                'attr': {'class': 'form-control'}
+                            }) }}
+                            {{ form_row(signinForm.email, {
+                                label: 'Email',
+                                'attr': {'class': 'form-control'}
+                            }) }}
+                            
+                            <div id="success"></div>
+                            <div class="form-group form-inline justify-content-center">
+                                <a href="{{ path('app_login') }}" class="btn btn-primary">Annuler</a>
+                                <button type="submit" class="btn btn-primary" id="sendLoginButton">Connexion</button>
+                            </div>
+                        {{ form_end(signinForm) }}
+
+                        {#
                         <form method="post" action="/account/signin" name="sentSignin" id="signinForm" class="needs-validation login-form" novalidate>
                             <div class="control-group">
                                 <div class="form-group floating-label-form-group controls">
@@ -47,8 +89,10 @@
                             </div>
                             <input type="hidden" name="token" id="token" value="test"/>
                         </form> 
+                        #}
                         <hr>
-
+                        
+                        {#
                         <script>
                             // starter JavaScript for disabling form submissions if there are invalid fields, from bootstrap4 doc
                             (function() {
@@ -68,7 +112,8 @@
                                 });
                             }, false);
                             })();
-                        </script>                        
+                        </script>  
+                        #}                      
                     </div>
                 </div>    
             </div>

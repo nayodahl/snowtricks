@@ -17,7 +17,7 @@ use Symfony\Component\Security\Http\Util\TargetPathTrait;
 class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
 {
     use TargetPathTrait;
-    
+
     private $userRepository;
     private $passwordEncoder;
 
@@ -38,8 +38,8 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
     public function getCredentials(Request $request)
     {
         $credentials = [
-            'username' => $request->request->get('username'),
-            'password' => $request->request->get('password'),
+            'username' => $request->request->get('login_form')['username'],
+            'password' => $request->request->get('login_form')['password'],
         ];
         $request->getSession()->set(
             Security::LAST_USERNAME,
@@ -64,7 +64,7 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
         if ($targetPath = $this->getTargetPath($request->getSession(), $providerKey)) {
             return new RedirectResponse($targetPath);
         }
-       
+
         return new RedirectResponse($this->router->generate('app_home'));
     }
 
