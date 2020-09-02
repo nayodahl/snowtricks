@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\User;
 use App\Form\ChangePasswordFormType;
 use App\Form\ResetPasswordRequestFormType;
+use DateTime;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -116,13 +117,14 @@ class ResetPasswordController extends AbstractController
                 $form->get('plainPassword')->getData()
             );
 
-            $user->setPassword($encodedPassword);
+            $user->setPassword($encodedPassword)->setLastUpdate(new DateTime());
             $this->getDoctrine()->getManager()->flush();
 
             // The session is cleaned up after the password has been changed.
             $this->cleanSessionAfterReset();
+            $this->addFlash('success', 'Votre mot de passe a été réinitialisé ! Vous pouvez vous connecter');
 
-            return $this->redirectToRoute('app_home');
+            return $this->redirectToRoute('app_home', ['_fragment' => 'tricks']);
         }
 
         return $this->render('reset_password/reset.html.twig', [
