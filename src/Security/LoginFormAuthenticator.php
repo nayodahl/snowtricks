@@ -51,7 +51,16 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
 
     public function getUser($credentials, UserProviderInterface $userProvider)
     {
-        return $this->userRepository->findOneBy(['username' => $credentials['username']]);
+        $user = $this->userRepository->findOneBy(['username' => $credentials['username']]);
+        
+        // check if user is activated
+        if ($user->getActivated() === false){
+            throw new \Symfony\Component\Security\Core\Exception\AuthenticationException('Votre compte n\'est pas activé');
+            
+            return false;
+        }
+        
+        return $user;
     }
 
     public function checkCredentials($credentials, UserInterface $user)

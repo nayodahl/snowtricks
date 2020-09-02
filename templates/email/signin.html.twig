@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="Anthony Fachaux">
+    <title>Validation de votre inscription au site SnowTricks</title>
+  </head>
+  <body>     
+      <div class="container">
+          <div class="row">
+              <div class="col-lg-8 col-md-10 mx-auto">                
+                  <div class="header text-center">
+                        <a href="{{ url('app_home') }}">
+                            <img src="{{ absolute_url(asset('build/images/logo/logo.png')) }}" class="logo" alt="snowtricks Logo">
+                        </a>
+                      <h3>Bonjour à toi et Bienvenue {{ user.username }} ! </h3>
+                      <p>
+                          Clique sur ce <a href="{{ absolute_url(path('app_activate', {token: user.token})) }}">lien</a> pour valider définitivement ton inscription au site SnowTricks !
+                      </p>
+                  </div>                
+              </div>
+          </div>
+      </div>        
+    <hr>
+  </body>
+</html>

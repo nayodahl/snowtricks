@@ -5,10 +5,14 @@ namespace App\Controller;
 use App\Entity\User;
 use App\Form\LoginFormType;
 use App\Form\SigninFormType;
+use App\Repository\UserRepository;
 use DateTime;
+use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Mailer\MailerInterface;
+use Symfony\Component\Mime\Address;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
@@ -47,7 +51,7 @@ class SecurityController extends AbstractController
     /**
      * @Route("/signin", name="app_signin")
      */
-    public function signin(AuthenticationUtils $authenticationUtils, Request $request, UserPasswordEncoderInterface $passwordEncoder): Response
+    public function signin(MailerInterface $mailer, AuthenticationUtils $authenticationUtils, Request $request, UserPasswordEncoderInterface $passwordEncoder): Response
     {
         // get the login error if there is one
         $error = $authenticationUtils->getLastAuthenticationError();
@@ -74,6 +78,20 @@ class SecurityController extends AbstractController
             $em = $this->getDoctrine()->getManager();
             $em->persist($user);
             $em->flush();
+
+            // send mail
+            $email = (new TemplatedEmail())
+                ->from(new Address('contact@snowtricks.nayo.cloud', 'SnowTricks'))
+                ->to(new Address($user->getEmail(), $user->getUsername()))
+                ->context([
+                    'user' => $user,
+                ])
+                ->subject('Confirmation de votre inscription')
+                ->text('Bonjour et bienvenue sur le site Snowtricks')
+                ->htmlTemplate('email/signin.html.twig')
+                ;
+            $mailer->send($email);
+
             $this->addFlash('success', 'Votre inscription a été prise en compte, vous allez recevoir un mail pour confirmer et finaliser votre inscription !');
 
             return $this->redirectToRoute('app_login');
@@ -82,6 +100,33 @@ class SecurityController extends AbstractController
         return $this->render('signin.html.twig', [
             'signinForm' => $form->createView(),
         ]);
+    }
+
+    /**
+     * @Route("/activate/{token}", defaults={"_format"="html"}, methods="GET", name="app_activate")
+     */
+    public function activateUser(string $token = null, UserRepository $userRepository): Response
+    {
+        if (null !== $token) {
+            $user = $userRepository->findOneBy(['token' => $token]);
+            if (null !== $user) {
+                $user->setActivated(true)
+                    ->setToken(null)
+                    ->setLastUpdate(new DateTime());
+
+                $em = $this->getDoctrine()->getManager();
+                $em->persist($user);
+                $em->flush();
+
+                $this->addFlash('success', 'Votre compte est désormais définitivement validé ! Vous pouvez vous désormais vous connecter');
+
+                return $this->redirectToRoute('app_login');
+            }
+        }
+
+        $this->addFlash('error', 'Erreur de token');
+
+        return $this->redirectToRoute('app_signin');
     }
 
     /**
