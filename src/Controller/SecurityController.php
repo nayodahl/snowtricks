@@ -3,7 +3,6 @@
 namespace App\Controller;
 
 use App\Entity\User;
-use App\Form\ForgotFormType;
 use App\Form\LoginFormType;
 use App\Form\SigninFormType;
 use App\Repository\UserRepository;
@@ -96,7 +95,7 @@ class SecurityController extends AbstractController
      */
     public function activateUser(string $token = null, UserRepository $userRepository): Response
     {
-        if ($token !== null) {
+        if (null !== $token) {
             $user = $userRepository->findOneBy(['token' => $token]);
             if (null !== $user) {
                 $user->setActivated(true)
@@ -116,25 +115,5 @@ class SecurityController extends AbstractController
         $this->addFlash('error', 'Erreur de token');
 
         return $this->redirectToRoute('app_signin');
-    }
-
-    /**
-     * @Route("/forgot", name="app_forgot")
-     */
-    public function forgotPassword(): Response
-    {
-        $form = $this->createForm(ForgotFormType::class);
-        
-        return $this->render('forgot.html.twig', [
-            'forgotForm' => $form->createView(),
-        ]);
-    }
-
-    /**
-     * @Route("/reset", name="app_reset")
-     */
-    public function showResetPassword(): Response
-    {
-        return $this->render('reset.html.twig');
     }
 }
