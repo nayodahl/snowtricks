@@ -2,8 +2,10 @@
 
 namespace App\Controller;
 
-use App\Form\Type\ChangePasswordType;
-use App\Form\UserType;
+use App\Form\ChangePasswordFormType;
+use App\Form\UserFormType;
+use App\Service\UploaderHelper;
+use DateTime;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -14,56 +16,62 @@ use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 /**
  * Controller used to manage current user.
  *
- * @Route("/profile")
  * @IsGranted("ROLE_USER")
- *
- * @author Romain Monteil <monteil.romain@gmail.com>
  */
 class UserController extends AbstractController
 {
     /**
-     * @Route("/edit", methods="GET|POST", name="user_edit")
+     * @Route("/profile", methods="GET|POST", name="user_profile")
      */
-    public function edit(Request $request): Response
+    public function editProfile(Request $request, UploaderHelper $uploaderHelper): Response
     {
         $user = $this->getUser();
 
-        $form = $this->createForm(UserType::class, $user);
+        $form = $this->createForm(UserFormType::class, $user);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $user->setLastUpdate(new DateTime());
+
+            $uploadedFile = $form['photo']->getData();
+            if ($uploadedFile) {
+                $newFilename = $uploaderHelper->uploadAvatar($uploadedFile);
+                $user->setPhoto($newFilename);
+            }
+
             $this->getDoctrine()->getManager()->flush();
+            $this->addFlash('success', 'Votre profil a été mis à jour !');
 
-            $this->addFlash('success', 'user.updated_successfully');
-
-            return $this->redirectToRoute('user_edit');
+            return $this->redirectToRoute('user_profile');
         }
 
-        return $this->render('user/edit.html.twig', [
+        return $this->render('profile.html.twig', [
             'user' => $user,
             'form' => $form->createView(),
         ]);
     }
 
     /**
-     * @Route("/change-password", methods="GET|POST", name="user_change_password")
+     * @Route("/profile/change-password", methods="GET|POST", name="user_change_password")
      */
     public function changePassword(Request $request, UserPasswordEncoderInterface $encoder): Response
     {
         $user = $this->getUser();
 
-        $form = $this->createForm(ChangePasswordType::class);
+        $form = $this->createForm(ChangePasswordFormType::class);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $user->setPassword($encoder->encodePassword($user, $form->get('newPassword')->getData()));
-
+            $user->setPassword($encoder->encodePassword($user, $form->get('plainPassword')->getData()));
+            $user->setLastUpdate(new DateTime());
             $this->getDoctrine()->getManager()->flush();
 
-            return $this->redirectToRoute('security_logout');
+            $this->addFlash('success', 'Votre mot de passe a été modifié !');
+
+            return $this->redirectToRoute('user_profile');
         }
 
-        return $this->render('user/change_password.html.twig', [
+        return $this->render('change_password.html.twig', [
             'form' => $form->createView(),
         ]);
     }

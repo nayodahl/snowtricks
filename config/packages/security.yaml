@@ -23,7 +23,6 @@ security:
                     - App\Security\LoginFormAuthenticator            
             logout:
                 path: app_logout
-            pattern: ^/
             user_checker: App\Security\UserChecker
 
             # activate different ways to authenticate

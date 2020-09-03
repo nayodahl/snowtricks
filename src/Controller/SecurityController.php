@@ -110,7 +110,7 @@ class SecurityController extends AbstractController
 
                 $this->addFlash('success', 'Votre compte est désormais définitivement validé ! Vous pouvez vous connecter');
 
-                return $this->redirectToRoute('app_home');
+                return $this->redirectToRoute('app_home', ['_fragment' => 'tricks']);
             }
         }
 

@@ -1,0 +1,75 @@
+{% extends 'layout.html.twig' %}
+
+{% block content %}
+    <section>
+            <div class="container login-section-inner">
+                <div class="row">
+                    <div class="col-lg-6 col-md-4 mx-auto">            
+
+                        {% for message in app.flashes('success') %}
+                            <div class="alert alert-success alert-dismissible" role="alert">
+                                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                                {{ message }}
+                            </div>    
+                        {% endfor %}
+
+                        <div class="row">
+                            <div class="col-6 mx-auto">
+                                <div class="card text-center">
+                                    <div class="card-header">
+                                        <h5>{{ user.username }}</h5>
+                                    </div>                                
+                                    <div class="card-body">                                    
+                                        {% if user.photo is not empty %}
+                                            <img class="card-img-top" src="{{ asset(uploaded_avatar(user.photo))|imagine_filter('user_thumbnail_medium') }}" alt="Card image cap">
+                                        {% else %}
+                                            <img src="{{ asset('build/images/users/placeholder_avatar.jpg') }}" alt="avatar par défaut de l'utilisateur">
+                                        {% endif %}  
+                                        <p class="card-text">{{ user.email }}</p>
+                                        
+                                    </div>
+                                    <div class="card-footer">
+                                        <small class="text-muted">mis à jour le : {{ user.lastUpdate|date("d/m/Y \\à\\ H\\hi") }}</small>
+                                    </div>
+                                </div> 
+                            </div>
+                        </div>  
+                        <hr>                            
+                        <small>Modifiez les champs ci-dessous puis valider pour changer votre profil et vos informations</small>
+                        <hr>
+                        {{ form_start(form) }}
+
+                            {{ form_row(form.username, {
+                                label: 'Changez votre identifiant de connexion (pseudo)',
+                                'attr': {'class': 'form-control'}
+                            }) }}
+                            {{ form_row(form.email, {
+                                label: 'Changez votre email de contact',
+                                'attr': {'class': 'form-control'}
+                            }) }}
+                            {{ form_row(form.photo, {
+                                label: 'Changez votre photo de profil',
+                                'attr': {'class': 'form-control'}
+                            }) }}
+                            
+                            <div id="success"></div>
+                            <div class="form-group form-inline justify-content-center">
+                                <a href="{{ path('app_home') }}" class="btn btn-primary">
+                                    Annuler
+                                </a>
+                                <button type="submit" class="btn btn-primary">
+                                    Sauvegarder
+                                </button>
+                                <a href="{{ path('user_change_password') }}" class="btn btn-primary">
+                                    <i class="fa fa-lock" aria-hidden="true"></i> Changer le mot de passe
+                                </a>
+                            </div>
+                        {{ form_end(form) }}
+                        <hr>
+
+                    </div>
+                </div>    
+            </div>
+        </section>
+
+{% endblock %}

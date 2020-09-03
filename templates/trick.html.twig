@@ -4,7 +4,7 @@
 
         <!-- Header -->
         {% if trick.featured %}
-        <header class="masthead" style="background-image: url('{{ asset(uploaded_asset(trick.featured.content)) }}')">
+        <header class="masthead" style="background-image: url('{{ asset(uploaded_trick(trick.featured.content)) }}')">
         {% else %}
         <header class="masthead" style="background-image: url('{{ asset('build/images/bg/gradient1.jpg') }}')"> 
         {% endif %}
@@ -50,7 +50,7 @@
                             {% if videos is empty %}
                                 <div class="col-lg-4 mx-auto">
                                     <div class="card blog-item mb100 wow match-height">
-                                        <img class="card-img-top" src="{{ asset(uploaded_asset(images[0].content))|imagine_filter('squared_thumbnail_medium') }}" alt="Photo de la figure">
+                                        <img class="card-img-top" src="{{ asset(uploaded_trick(images[0].content))|imagine_filter('squared_thumbnail_medium') }}" alt="Photo de la figure">
                                     </div>
                                 </div>
                             {% else %}
@@ -89,7 +89,7 @@
                                                 <div class="carousel-item {% if loop.first %}active{% endif %}">                                         
                                                     <div class="col-md-4 mx-auto">
                                                         <div class="card mb-2">
-                                                            <img class="card-img-top" src="{{ asset(uploaded_asset(image.content))|imagine_filter('trick_thumbnail_medium') }}" alt="Photo de la figure">
+                                                            <img class="card-img-top" src="{{ asset(uploaded_trick(image.content))|imagine_filter('trick_thumbnail_medium') }}" alt="Photo de la figure">
                                                         </div>
                                                     </div>
                                                 </div>
@@ -145,27 +145,27 @@
         <section>
             <div class="container section-inner">
                 <div class="row">
-                    <div id="comments-list" class="col-lg-10 gap wow mx-auto">
+                    <div id="comments-list" class="col-lg-10 gap wow mx-auto">                        
                         
                         <!-- Comment form -->
-                        <div id="comments-form" class="row wow">
-                            <div class="col-lg-6 mx-auto">
-                                <div id="comment_message"></div>
-
-                                {{ form_start(commentForm, {
-                                    'attr': {'class': 'comment-form'}
-                                }) }}
-                                    {{ form_row(commentForm.content, {
-                                        label: 'votre commentaire ',
-                                        help: null,
-                                        'attr': {'class': 'form-control'}
+                        {% if is_granted('ROLE_USER') %}
+                            <div id="comments-form" class="row wow">
+                                <div class="col-lg-6 mx-auto">
+                                    <div id="comment_message"></div>                                    
+                                    {{ form_start(commentForm, {
+                                        'attr': {'class': 'comment-form'}
                                     }) }}
-                                    <button type="submit" class="btn btn-primary pull-right">Ajouter un commentaire</button>
-                                {{ form_end(commentForm) }}
-
+                                        {{ form_row(commentForm.content, {
+                                            label: 'votre commentaire ',
+                                            help: null,
+                                            'attr': {'class': 'form-control'}
+                                        }) }}
+                                        <button type="submit" class="btn btn-primary pull-right">Ajouter un commentaire</button>
+                                    {{ form_end(commentForm) }}                                    
+                                </div>
                             </div>
-                        </div>
-                        <hr>
+                            <hr>
+                        {% endif %}
                         <!--/.Comment form-->
 
                         {% for message in app.flashes('success') %}
@@ -180,7 +180,9 @@
                                 {{ message }}
                             </div>    
                         {% endfor %} 
-                        
+                        {% if not is_granted('ROLE_USER') %}
+                            <p><small>Pour pouvoir ajouter un commentaire, vous devez vous <a href="{{ path('app_login') }}">connecter</a></small></p>
+                        {% endif %}
                         {% if comments.getNumResults == 0 %}
                             <div class="mt60 mb50 single-section-title" id="comments">
                                 <h3>Aucun Commentaire</h3>
@@ -193,7 +195,11 @@
                             {% for comment in comments.results %}
                                 <div class="media">
                                     <div class="pull-left">
-                                        <img class="avatar comment-avatar" src="/img/avatar/{{ comment.photo }}" alt="">  
+                                        {% if comment.photo is not empty %}
+                                            <img class="avatar comment-avatar" src="{{ asset(uploaded_avatar(comment.photo)) | imagine_filter('user_thumbnail_small') }}" alt="avatar de l'utilisateur">
+                                        {% else %}
+                                            <img class="avatar comment-avatar" src="{{ asset('build/images/users/placeholder_avatar.jpg') }}" alt="avatar par défaut de l'utilisateur">
+                                        {% endif %}                                          
                                     </div>
                                     <div class="media-body">
                                         <div class="well">
