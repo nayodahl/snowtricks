@@ -87,6 +87,8 @@ class SecurityController extends AbstractController
 
         return $this->render('signin.html.twig', [
             'signinForm' => $form->createView(),
+            'last_username' => $lastUsername,
+            'error' => $error,
         ]);
     }
 
