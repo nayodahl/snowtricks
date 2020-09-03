@@ -14,7 +14,7 @@
                     </div>                  
                 </div>
             </div>
-            <a id="chevron" href="#tricks">
+            <a id="chevrondown" href="#tricks">
                 <i class="fa fa-chevron-circle-down fa-5x" aria-hidden="true"></i>
             </a>  
         </header>
@@ -46,7 +46,7 @@
                                     {% if trick.featured is null %}
                                         <img src="{{ asset('build/images/bg/gradient1.jpg')|imagine_filter('home_thumbnail_large') }}" class="img-responsive smoothie" alt="photo de la figure">
                                     {% else %}
-                                        <img src="{{ asset(uploaded_asset(trick.featured.content))|imagine_filter('home_thumbnail_large') }}" class="img-responsive smoothie" alt="photo de la figure">                                        
+                                        <img src="{{ asset(uploaded_trick(trick.featured.content))|imagine_filter('home_thumbnail_large') }}" class="img-responsive smoothie" alt="photo de la figure">                                        
                                     {% endif %}                                    
                                     
                                     <div class="overlay-item-caption smoothie"></div>
@@ -67,10 +67,18 @@
                 {% if tricks.hasToPaginate %}
                     <div class="row paging justify-content-center"><a class="btn btn-primary" id="load-more" href="{{ path('app_home_paginated', {page: tricks.nextPage}) }}#tricks"><i class="fa fa-plus-circle fa-3x" aria-hidden="true"></i></a></div>
                 {% endif %}
+                {% if tricks.currentPage > 1 %}
+                    <div class="row">
+                        <div class="col">
+                            <a id="chevronup" href="{{ path('app_home', {'_fragment': 'tricks'}) }}" class="pull-right">
+                                <i class="fa fa-chevron-circle-up fa-3x" aria-hidden="true"></i>
+                            </a> 
+                        </div>
+                    </div>
+                {% endif %}
                 
-                <div class="row paging justify-content-center"><a class="btn btn-primary" href="{{ path('app_new_trick') }}">Ajouter un trick</a></div>
-
-            </div>            
+            </div>  
+       
         </section>
 
 {% endblock %}

@@ -13,6 +13,7 @@ use App\Repository\UserRepository;
 use App\Repository\VideoRepository;
 use App\Service\UploaderHelper;
 use DateTime;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -56,7 +57,9 @@ class TricksController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $comment = $form->getData();
             $comment->setCreated(new DateTime());
-            $comment->setUser($userRepository->find('219'));   // temporary arbitrary user, waiting for authentication
+            $comment->setUser($this->getUser());
+
+            //$comment->setUser($userRepository->findOneBy(['username' => 'jimmy']));   // temporary arbitrary user, waiting for authentication
             $comment->setTrick($trick);
 
             $em = $this->getDoctrine()->getManager();
@@ -78,6 +81,8 @@ class TricksController extends AbstractController
 
     /**
      * @Route("/edit/{slug}", defaults={"_format"="html"}, name="app_edit_trick")
+     *
+     * @IsGranted("ROLE_USER")
      */
     public function editTrick(Request $request, Trick $trick, UploaderHelper $uploaderHelper, TrickRepository $trickRepo, ImageRepository $imageRepo, VideoRepository $videoRepo): Response
     {
@@ -107,7 +112,7 @@ class TricksController extends AbstractController
             $em->flush();
             $this->addFlash('success', 'Votre trick a été modifié !');
 
-            return $this->redirectToRoute('app_trick', ['id' => $id]);
+            return $this->redirectToRoute('app_trick', ['slug' => $trick->getSlug()]);
         }
 
         return $this->render('editTrick.html.twig', [
@@ -120,6 +125,8 @@ class TricksController extends AbstractController
 
     /**
      * @Route("/new", defaults={"_format"="html"}, name="app_new_trick")
+     *
+     * @IsGranted("ROLE_USER")
      */
     public function newTrick(Request $request, UploaderHelper $uploaderHelper): Response
     {
@@ -154,6 +161,8 @@ class TricksController extends AbstractController
 
     /**
      * @Route("/delete/{slug}", defaults={"_format"="html"}, name="app_delete_trick")
+     *
+     * @IsGranted("ROLE_USER")
      */
     public function deleteTrick(Trick $trick): Response
     {
@@ -167,6 +176,8 @@ class TricksController extends AbstractController
 
     /**
      * @Route("/featured/{trickId}/{imageId}", defaults={"_format"="html"}, name="app_edit_featured", requirements={"trickId"="\d+", "imageId"="\d+"})
+     *
+     * @IsGranted("ROLE_USER")
      */
     public function editFeatured(int $trickId, int $imageId, TrickRepository $trickRepo): Response
     {
@@ -194,6 +205,8 @@ class TricksController extends AbstractController
 
     /**
      * @Route("/unfeatured/{trickId}", defaults={"_format"="html"}, name="app_remove_featured", requirements={"trickId"="\d+"})
+     *
+     * @IsGranted("ROLE_USER")
      */
     public function removeFeatured(int $trickId, TrickRepository $trickRepo): Response
     {

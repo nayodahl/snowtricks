@@ -3,7 +3,7 @@
 
 {% macro printTrickImageRow(image) %}
     <div class="col js-trick-image-item">                                        
-        <img src="{{ uploaded_asset(image.content.vars.value)|imagine_filter('squared_thumbnail_small') }}">
+        <img src="{{ uploaded_trick(image.content.vars.value)|imagine_filter('squared_thumbnail_small') }}">
         <a href="#" class="js-remove-image pull-right" title="Supprimer l'image"><span class="fa fa-close"></span></a>
         {{ form_row(image.content) }}                                        
     </div>
@@ -20,7 +20,7 @@
 
         <!-- Header -->
         {% if trick.featured %}
-        <header class="masthead" style="background-image: url('{{ asset(uploaded_asset(trick.featured.content)) }}')">
+        <header class="masthead" style="background-image: url('{{ asset(uploaded_trick(trick.featured.content)) }}')">
         {% else %}
         <header class="masthead" style="background-image: url('{{ asset('build/images/bg/gradient1.jpg') }}')"> 
         {% endif %}
@@ -46,57 +46,46 @@
 
         <section>
             <div class="container">
-                <div class="row">
-                    <div class="col">
-                    {% for message in app.flashes('success') %}
-                        <div class="alert alert-success alert-dismissible" role="alert">
+
+                {% for message in app.flashes('success') %}
+                    <div class="row">
+                        <div class="col">
+                            <div class="alert alert-success alert-dismissible" role="alert">
                             <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
                             {{ message }}
-                        </div>    
-                    {% endfor %}
-                    {% for message in app.flashes('error') %}
-                        <div class="alert alert-danger alert-dismissible" role="alert">
-                            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-                            {{ message }}
-                        </div>    
-                    {% endfor %}
+                            </div>  
+                        </div>
                     </div>
-                    <div class="card-group">
-            
-                        {% if images is not empty %}
-                            {% if images|length + videos|length == 1 %}  
-                                    <div class="col-lg-4">
-                                        <div class="card blog-item mb100 wow match-height">
-                                            <img class="card-img-top" src="{{ asset(uploaded_asset(images[0].content)) }}" alt="Card image cap">
-                                            <div class="card-footer bg-transparent">
-                                                <a title="Choisir comme Image à la Une" href="/featured/{{ trick.id }}/{{ images[0].id }}" class="pull-right"><span class="fa fa-star" aria-hidden="true"></span></a>
-                                            </div>
-                                       </div>
-                                    </div>
-
-                            {% else %}                    
-                      
-                                {% for image in images %}                                  
-                                    <div class="col-lg-4">                                       
-                                        <div class="card blog-item mb100 wow match-height">                                          
-                                            <img class="card-img-top" src="{{ asset(uploaded_asset(image.content))|imagine_filter('squared_thumbnail_medium') }}" alt="Photo de la figure">                                           
-                                            <div class="card-footer bg-transparent">
-                                                <a title="Choisir comme Image à la Une" href="/featured/{{ trick.id }}/{{ image.id }}" class="pull-right"><span class="fa fa-star" aria-hidden="true"></span></a>
-                                            </div>
-                                        </div>                                    
-                                    </div>
-                                {% endfor %}
-                                {% for video in videos %}                                    
-                                    <div class="col-lg-4">                                   
-                                        <div class="card blog-item mb100 wow match-height">
-                                            <iframe height="227" class="card-img-top" src="{{ video.address }}"></iframe>
-                                        </div>    
-                                    </div>                           
-                                {% endfor %}                                       
-
-                            {% endif %}
+  
+                {% endfor %}
+                {% for message in app.flashes('error') %}
+                    <div class="alert alert-danger alert-dismissible" role="alert">
+                        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                        {{ message }}
+                    </div>    
+                {% endfor %}                
+                
+                <div class="row">
+                    <div class="card-group col">            
+                        {% if (images is not empty) or (videos is not empty) %}                
+                            {% for image in images %}                                  
+                                <div class="col-lg-4">                                       
+                                    <div class="card blog-item mb100 wow match-height">                                          
+                                        <img class="card-img-top" src="{{ asset(uploaded_trick(image.content))|imagine_filter('squared_thumbnail_medium') }}" alt="Photo de la figure">                                           
+                                        <div class="card-footer bg-transparent">
+                                            <a title="Choisir comme Image à la Une" href="/featured/{{ trick.id }}/{{ image.id }}" class="pull-right"><span class="fa fa-star" aria-hidden="true"></span></a>
+                                        </div>
+                                    </div>                                    
+                                </div>
+                            {% endfor %}
+                            {% for video in videos %}                                    
+                                <div class="col-lg-4">                                   
+                                    <div class="card blog-item mb100 wow match-height">
+                                        <iframe height="227" class="card-img-top" src="{{ video.address }}"></iframe>
+                                    </div>    
+                                </div>                           
+                            {% endfor %}                                
                         {% endif %}
-
                     </div>
                 </div>    
             </div>
@@ -106,7 +95,7 @@
             <div class="container section-inner">
                 <div class="row">
                     <div class="col-lg-10 mx-auto">
-                        {% if images is empty %}
+                        {% if (images is empty) and (videos is empty) %}
                             <div class="mt60 mb50 single-section-title">
                                 <h3>Aucun media</h3>
                             </div>

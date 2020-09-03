@@ -2,41 +2,77 @@
 
 namespace App\Controller;
 
+use App\Form\ChangePasswordFormType;
+use App\Form\UserFormType;
+use App\Service\UploaderHelper;
+use DateTime;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
+/**
+ * Controller used to manage current user.
+ *
+ * @IsGranted("ROLE_USER")
+ */
 class UserController extends AbstractController
 {
     /**
-     * @Route("/login", name="app_login")
+     * @Route("/profile", methods="GET|POST", name="user_profile")
      */
-    public function showLogin(): Response
+    public function editProfile(Request $request, UploaderHelper $uploaderHelper): Response
     {
-        return $this->render('login.html.twig');
+        $user = $this->getUser();
+
+        $form = $this->createForm(UserFormType::class, $user);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $user->setLastUpdate(new DateTime());
+
+            $uploadedFile = $form['photo']->getData();
+            if ($uploadedFile) {
+                $newFilename = $uploaderHelper->uploadAvatar($uploadedFile);
+                $user->setPhoto($newFilename);
+            }
+
+            $this->getDoctrine()->getManager()->flush();
+            $this->addFlash('success', 'Votre profil a été mis à jour !');
+
+            return $this->redirectToRoute('user_profile');
+        }
+
+        return $this->render('profile.html.twig', [
+            'user' => $user,
+            'form' => $form->createView(),
+        ]);
     }
 
     /**
-     * @Route("/signin", name="app_signin")
+     * @Route("/profile/change-password", methods="GET|POST", name="user_change_password")
      */
-    public function showSignin(): Response
+    public function changePassword(Request $request, UserPasswordEncoderInterface $encoder): Response
     {
-        return $this->render('signin.html.twig');
-    }
+        $user = $this->getUser();
 
-    /**
-     * @Route("/forgot", name="app_forgot")
-     */
-    public function showForgotPassword(): Response
-    {
-        return $this->render('forgot.html.twig');
-    }
+        $form = $this->createForm(ChangePasswordFormType::class);
+        $form->handleRequest($request);
 
-    /**
-     * @Route("/reset", name="app_reset")
-     */
-    public function showResetPassword(): Response
-    {
-        return $this->render('reset.html.twig');
+        if ($form->isSubmitted() && $form->isValid()) {
+            $user->setPassword($encoder->encodePassword($user, $form->get('plainPassword')->getData()));
+            $user->setLastUpdate(new DateTime());
+            $this->getDoctrine()->getManager()->flush();
+
+            $this->addFlash('success', 'Votre mot de passe a été modifié !');
+
+            return $this->redirectToRoute('user_profile');
+        }
+
+        return $this->render('change_password.html.twig', [
+            'form' => $form->createView(),
+        ]);
     }
 }

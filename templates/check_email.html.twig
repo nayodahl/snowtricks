@@ -1,0 +1,28 @@
+
+{% extends 'layout.html.twig' %}
+
+{% block title %}Lien de réinitialisation du mot de passe envoyé{% endblock %}
+
+{% block content %}
+
+    <section>
+        <div class="container login-section-inner">
+            <div class="row">
+                <div class="col-lg-6 col-md-4 mx-auto">            
+                    <h2 class="section-heading" id="forgottitle">Mot de passe oublié</h2>
+                    <p> 
+                        Un mail vous a été envoyé et contient un lien sur lequel vous pouvez cliquer pour réinitialiser votre mot de passe.
+                        Ce lien expirera dans {{ tokenLifetime|date('g') }} heures.
+                    </p>
+                    <p>
+                        Si vous ne recevez pas ce mail, merci de vérifier vos spams, ou bien réessayez <a href="{{ path('app_forgot_password_request') }}">ici</a>.
+                    </p>
+
+                    <hr>
+                
+                </div>
+            </div>    
+        </div>
+    </section>
+
+{% endblock %}
