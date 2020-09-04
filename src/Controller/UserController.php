@@ -21,7 +21,7 @@ use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 class UserController extends AbstractController
 {
     /**
-     * @Route("/profile", methods="GET|POST", name="user_profile")
+     * @Route("/profile", methods="GET|POST", name="app_profile")
      */
     public function editProfile(Request $request, UploaderHelper $uploaderHelper): Response
     {
@@ -42,7 +42,7 @@ class UserController extends AbstractController
             $this->getDoctrine()->getManager()->flush();
             $this->addFlash('success', 'Votre profil a été mis à jour !');
 
-            return $this->redirectToRoute('user_profile');
+            return $this->redirectToRoute('app_profile');
         }
 
         return $this->render('profile.html.twig', [
@@ -52,7 +52,7 @@ class UserController extends AbstractController
     }
 
     /**
-     * @Route("/profile/change-password", methods="GET|POST", name="user_change_password")
+     * @Route("/profile/change-password", methods="GET|POST", name="app_change_password")
      */
     public function changePassword(Request $request, UserPasswordEncoderInterface $encoder): Response
     {
@@ -68,7 +68,7 @@ class UserController extends AbstractController
 
             $this->addFlash('success', 'Votre mot de passe a été modifié !');
 
-            return $this->redirectToRoute('user_profile');
+            return $this->redirectToRoute('app_profile');
         }
 
         return $this->render('change_password.html.twig', [
