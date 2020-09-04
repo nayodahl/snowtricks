@@ -21,9 +21,9 @@
                                     </div>                                
                                     <div class="card-body">                                    
                                         {% if user.photo is not empty %}
-                                            <img class="card-img-top" src="{{ asset(uploaded_avatar(user.photo))|imagine_filter('user_thumbnail_medium') }}" alt="Card image cap">
+                                            <img class="card-img-top user-thumbnail-medium" src="{{ asset(uploaded_avatar(user.photo)) }}" alt="Card image cap">
                                         {% else %}
-                                            <img src="{{ asset('build/images/users/placeholder_avatar.jpg') }}" alt="avatar par défaut de l'utilisateur">
+                                            <img class="user-thumbnail-medium" src="{{ asset('build/images/users/placeholder_avatar.jpg') }}" alt="avatar par défaut de l'utilisateur">
                                         {% endif %}  
                                         <p class="card-text">{{ user.email }}</p>
                                         

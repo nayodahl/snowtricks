@@ -44,9 +44,9 @@
                             <div class="col-xs-12">
                                 <div class="hover-item mb30">
                                     {% if trick.featured is null %}
-                                        <img src="{{ asset('build/images/bg/gradient1.jpg')|imagine_filter('home_thumbnail_large') }}" class="img-responsive smoothie" alt="photo de la figure">
+                                        <img src="{{ asset('build/images/bg/gradient1.jpg') }}" class="img-responsive smoothie home-thumbnail-large" alt="photo par défaut de la figure">
                                     {% else %}
-                                        <img src="{{ asset(uploaded_trick(trick.featured.content))|imagine_filter('home_thumbnail_large') }}" class="img-responsive smoothie" alt="photo de la figure">                                        
+                                        <img src="{{ asset(uploaded_trick(trick.featured.content)) }}" class="img-responsive smoothie home-thumbnail-large" alt="photo de la figure">                                        
                                     {% endif %}                                    
                                     
                                     <div class="overlay-item-caption smoothie"></div>

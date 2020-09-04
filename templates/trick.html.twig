@@ -50,7 +50,7 @@
                             {% if videos is empty %}
                                 <div class="col-lg-4 mx-auto">
                                     <div class="card blog-item mb100 wow match-height">
-                                        <img class="card-img-top" src="{{ asset(uploaded_trick(images[0].content))|imagine_filter('squared_thumbnail_medium') }}" alt="Photo de la figure">
+                                        <img class="card-img-top trick-thumbnail-medium" src="{{ asset(uploaded_trick(images[0].content)) }}" alt="Photo de la figure">
                                     </div>
                                 </div>
                             {% else %}
@@ -89,7 +89,7 @@
                                                 <div class="carousel-item {% if loop.first %}active{% endif %}">                                         
                                                     <div class="col-md-4 mx-auto">
                                                         <div class="card mb-2">
-                                                            <img class="card-img-top" src="{{ asset(uploaded_trick(image.content))|imagine_filter('trick_thumbnail_medium') }}" alt="Photo de la figure">
+                                                            <img class="card-img-top carousel-thumbnail-medium" src="{{ asset(uploaded_trick(image.content)) }}" alt="Photo de la figure">
                                                         </div>
                                                     </div>
                                                 </div>
@@ -198,9 +198,9 @@
                                 <div class="media">
                                     <div class="pull-left">
                                         {% if comment.photo is not empty %}
-                                            <img class="avatar comment-avatar" src="{{ asset(uploaded_avatar(comment.photo)) | imagine_filter('user_thumbnail_small') }}" alt="avatar de l'utilisateur">
+                                            <img class="avatar comment-avatar user-thumbnail-small" src="{{ asset(uploaded_avatar(comment.photo)) }}" alt="avatar de l'utilisateur">
                                         {% else %}
-                                            <img class="avatar comment-avatar" src="{{ asset('build/images/users/placeholder_avatar.jpg') }}" alt="avatar par défaut de l'utilisateur">
+                                            <img class="avatar comment-avatar user-thumbnail-small" src="{{ asset('build/images/users/placeholder_avatar.jpg') }}" alt="avatar par défaut de l'utilisateur">
                                         {% endif %}                                          
                                     </div>
                                     <div class="media-body">

@@ -3,7 +3,7 @@
 
 {% macro printTrickImageRow(image) %}
     <div class="col js-trick-image-item">                                        
-        <img src="{{ uploaded_trick(image.content.vars.value)|imagine_filter('squared_thumbnail_small') }}">
+        <img class="trick-thumbnail-small" src="{{ uploaded_trick(image.content.vars.value) }}">
         <a href="#" class="js-remove-image pull-right" title="Supprimer l'image"><span class="fa fa-close"></span></a>
         {{ form_row(image.content) }}                                        
     </div>
@@ -71,7 +71,7 @@
                             {% for image in images %}                                  
                                 <div class="col-lg-4">                                       
                                     <div class="card blog-item mb100 wow match-height">                                          
-                                        <img class="card-img-top" src="{{ asset(uploaded_trick(image.content))|imagine_filter('squared_thumbnail_medium') }}" alt="Photo de la figure">                                           
+                                        <img class="card-img-top trickcard-thumbnail-medium" src="{{ asset(uploaded_trick(image.content)) }}" alt="Photo de la figure">                                           
                                         <div class="card-footer bg-transparent">
                                             <a title="Choisir comme Image à la Une" href="/featured/{{ trick.id }}/{{ image.id }}" class="pull-right"><span class="fa fa-star" aria-hidden="true"></span></a>
                                         </div>

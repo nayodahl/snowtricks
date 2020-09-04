@@ -1616,6 +1616,49 @@ footer.white-wrapper .social-links li a {
         min-height: 100vh;
     }
 }
+/*-----------------------------------------------------------------------------------*/
+
+
+/*  IMAGES RESIZER
+/*-----------------------------------------------------------------------------------*/
+
+.home-thumbnail-large {
+    width: 384px;
+    height: 225px;
+}
+
+.trick-thumbnail-small {
+    width: 205px;
+    height: 100px;
+    object-fit: cover;
+}
+
+.trick-thumbnail-medium {
+    width: 348px;
+    height: 182px;
+    object-fit: cover;
+}
+
+.trickcard-thumbnail-medium {
+    height: 182px;
+    object-fit: cover;
+}
+
+.carousel-thumbnail-medium {
+    width: 400px;
+    height: 240px;
+}
+
+.user-thumbnail-small {
+    width: 80px;
+    height: 80px;
+    object-fit: cover;
+}
+
+.user-thumbnail-medium {
+    height: 246px;
+    object-fit: cover;
+}
 
 /*-----------------------------------------------------------------------------------*/
 
@@ -1819,263 +1862,3 @@ footer.white-wrapper .social-links li a {
         width: 100%;
     }
 }
-
-/*-----------------------------------------------------------------------------------*/
-
-
-/*  20 - SHOP
-/*-----------------------------------------------------------------------------------*/
-
-.item-excerpt .pull-right {
-    margin-top: 0;
-}
-
-.onsale {
-    position: absolute;
-    background-color: #fff;
-    padding: 15px 10px;
-    font-weight: 700;
-    text-transform: uppercase;
-    margin-top: 10px;
-    margin-left: 10px;
-}
-
-.images .thumbnails {
-    margin-top: 25px;
-}
-
-.images .thumbnails a {
-    margin-right: 10px;
-}
-
-.quantity.buttons_added {
-    display: inline-block;
-}
-
-.quantity.buttons_added input {
-    padding: 13px 5px;
-    position: relative;
-    top: 1px;
-    width: 60px;
-    background-color: transparent;
-    border: 1px solid;
-}
-
-.product-rating.mb,
-.summary .price {
-    margin-bottom: 25px;
-}
-
-.summary .price ins {
-    clear: left;
-    display: block;
-    text-decoration: none;
-    font-size: 28px;
-    font-weight: 700;
-}
-
-.product-tabs {
-    margin-top: 25px;
-}
-
-.product-tabs .tab-pane {
-    padding: 25px 0;
-}
-
-.testimonial-owl .hover-item {
-    margin-left: 0;
-    margin-right: 0;
-}
-
-.testimonial-owl .hover-item .col-xs-12 {
-    padding-left: 0;
-    padding-right: 0;
-}
-
-.testimonial-author {
-    margin: 0 auto;
-}
-
-
-/*-----------------------------------------------------------------------------------*/
-
-
-/*  21 - SIDE NAV
-/*-----------------------------------------------------------------------------------*/
-
-.side-nav-active .master-wrapper {
-    padding-left: 280px;
-}
-
-.side-nav-active .navbar-fixed-top {
-    padding-left: 280px;
-}
-
-.side-nav-active #side-wrapper {
-    width: 280px;
-    position: fixed;
-    left: 0;
-    height: 100%;
-    z-index: 11;
-    padding: 10px;
-}
-
-.side-nav-active #side-menu-toggle {
-    position: fixed;
-    left: 15px;
-    top: 15px;
-    z-index: 10;
-    background: #f6f6f6;
-    border: none;
-    font-size: 24px;
-    padding: 6px 8px;
-    line-height: 1;
-}
-
-.side-nav-active #side-menu-toggle.open {
-    margin-left: 220px;
-    z-index: 15;
-}
-
-.side-nav-active .side-menu ul {
-    padding: 0;
-}
-
-.side-nav-active .side-menu ul li ul li {
-    padding: 10px 20px;
-}
-
-.side-nav-active .side-menu ul li ul li a {
-    font-size: 12px;
-    padding: 0 !important;
-}
-
-.side-nav-active .side-menu .nav>li>a:hover,
-.side-nav-active .side-menu .nav>li>a:focus,
-.side-nav-active .navbar.navbar-shrink .nav li.active>a {
-    background-color: transparent;
-    color: #000;
-}
-
-#side-wrapper .navbar-header {
-    clear: both;
-    display: block;
-    width: 100%;
-    margin-bottom: 25px;
-}
-
-#side-wrapper .thin-hr:after {
-    content: '';
-    position: absolute;
-    width: 70px;
-    height: 2px;
-    background-color: #333;
-    left: 17px;
-    margin-left: 0;
-}
-
-#side-wrapper .thin-hr {
-    margin: 20px 0 40px;
-}
-
-#side-wrapper .navbar {
-    background-color: #fcfcfc;
-    padding: 0 !important;
-}
-
-#side-wrapper .navbar .nav li a {
-    padding: 12px 18px;
-}
-
-@media(max-width:768px) {
-    #side-wrapper {
-        display: none;
-        background-color: #fcfcfc;
-    }
-    .side-nav-active .master-wrapper {
-        padding-left: 0;
-    }
-    #side-wrapper .navbar .nav li a {
-        padding: 10px 20px;
-    }
-    .navbar .nav li a {
-        padding: 10px 20px;
-    }
-}
-
-.side-menu .dropdown-menu,
-.side-menu .dropdown-submenu>.dropdown-menu {
-    position: relative;
-    width: 100%;
-    background-color: transparent;
-    left: 0 !important;
-    top: 0 !important;
-    -webkit-box-shadow: none;
-    box-shadow: none;
-    padding: 0 0 20px;
-}
-
-.side-menu .dropdown-submenu >.dropdown-menu {
-    display: none;
-}
-
-.side-menu .dropdown-submenu.open >.dropdown-menu {
-    display: block;
-}
-
-.side-menu .nav .open>a,
-.side-menu .nav .open>a:hover,
-.side-menu .nav .open>a:focus,
-.side-menu .nav>li>a:hover,
-.side-menu .nav>li>a:focus,
-.side-menu .dropdown-menu>li>a:hover,
-.side-menu .dropdown-menu>li>a:focus {
-    background-color: transparent;
-}
-
-.side-menu .nav li a {
-    text-transform: uppercase;
-    font-weight: 700;
-    font-size: 14px;
-    color: #fff;
-    padding: 12px 0px;
-    -webkit-transition: all .5s ease-in-out;
-    -moz-transition: all .5s ease-in-out;
-    -o-transition: all .5s ease-in-out;
-    -ms-transition: all .5s ease-in-out;
-    transition: all .5s ease-in-out;
-    letter-spacing: 1px;
-}
-
-.side-menu .dropdown-menu>li>a {
-    padding: 10px 0px;
-    font-size: 11px;
-    font-weight: 400;
-    white-space: normal;
-    max-width: 280px;
-}
-
-.side-menu .collapse {
-    display: none;
-    height: 0;
-    opacity: 0;
-    -webkit-transition: height 0.65s ease;
-    transition: height 0.65s ease;
-}
-
-.side-menu .collapse.in {
-    display: block;
-    height: 100%;
-    opacity: 1;
-    -webkit-transition: height 0.65s ease;
-    transition: height 0.65s ease;
-}
-
-.promo-inner {
-    overflow: hidden;
-}
-
-.demo-selector .masonry-portfolio-item {
-    margin-bottom: 30px;
-}
-
