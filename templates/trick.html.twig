@@ -133,9 +133,11 @@
                             {{ trick.description }}
                         </p>
                         <div class="item-metas text-muted mb30">
-                            <span class="meta-item"><i class="pe-icon pe-7s-folder"></i> ajouté le <span>{{ trick.created|date("d/m/Y \\à\\ H\\hi") }}</span></span>
                             <span class="meta-item"><i class="pe-icon pe-7s-ticket"></i> catégorie <span>{{ trick.category }}</span></span>
-                            <span class="meta-item"><i class="pe-icon pe-7s-comment"></i> modifié le <span>{{ trick.lastUpdate|date("d/m/Y \\à\\ H\\hi") }}</span></span>
+                            <span class="meta-item"><i class="pe-icon pe-7s-folder"></i> ajouté le <span>{{ trick.created|date("d/m/Y \\à\\ H\\hi") }}</span></span>
+                            {% if trick.lastUpdate > trick.created %}
+                                <span class="meta-item"><i class="pe-icon pe-7s-comment"></i> modifié le <span>{{ trick.lastUpdate|date("d/m/Y \\à\\ H\\hi") }}</span></span>
+                            {% endif %}
                         </div>
                     </div>                 
                 </div>

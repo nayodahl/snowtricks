@@ -6,7 +6,6 @@ use App\Repository\TrickRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use Gedmo\Mapping\Annotation as Gedmo;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -31,7 +30,6 @@ class Trick
 
     /**
      * @ORM\Column(type="string", length=255, unique=true)
-     * @Gedmo\Slug(fields={"title"})
      */
     private $slug;
 
@@ -57,7 +55,7 @@ class Trick
     private $category;
 
     /**
-     * @ORM\OneToMany(targetEntity=Comment::class, mappedBy="trick", cascade={"remove"})
+     * @ORM\OneToMany(targetEntity=Comment::class, mappedBy="trick", cascade={"remove"}, orphanRemoval=true)
      */
     private $comments;
 
