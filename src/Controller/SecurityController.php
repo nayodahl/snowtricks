@@ -22,6 +22,8 @@ class SecurityController extends AbstractController
      */
     public function login(AuthenticationUtils $authenticationUtils): Response
     {
+        $this->denyAccessUnlessGranted('IS_ANONYMOUS');
+
         // get the login error if there is one
         $error = $authenticationUtils->getLastAuthenticationError();
 
@@ -51,6 +53,8 @@ class SecurityController extends AbstractController
      */
     public function signin(Mailer $mailer, AuthenticationUtils $authenticationUtils, Request $request, UserPasswordEncoderInterface $passwordEncoder): Response
     {
+        $this->denyAccessUnlessGranted('IS_ANONYMOUS');
+
         // get the login error if there is one
         $error = $authenticationUtils->getLastAuthenticationError();
 
@@ -97,6 +101,8 @@ class SecurityController extends AbstractController
      */
     public function activateUser(string $token = null, UserRepository $userRepository): Response
     {
+        $this->denyAccessUnlessGranted('IS_ANONYMOUS');
+
         if (null !== $token) {
             $user = $userRepository->findOneBy(['token' => $token]);
             if (null !== $user) {

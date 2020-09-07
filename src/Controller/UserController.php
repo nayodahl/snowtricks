@@ -53,6 +53,8 @@ class UserController extends AbstractController
 
     /**
      * @Route("/profile/change-password", methods="GET|POST", name="app_change_password")
+     *
+     * @IsGranted("ROLE_USER")
      */
     public function changePassword(Request $request, UserPasswordEncoderInterface $encoder): Response
     {

@@ -56,6 +56,8 @@ class TricksController extends AbstractController
         // handling comment form POST request if any
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
+            $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+
             $comment = $form->getData();
             $comment->setCreated(new DateTime());
             $comment->setUser($this->getUser());

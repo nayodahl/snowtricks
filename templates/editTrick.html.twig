@@ -175,12 +175,18 @@
                             <button type="submit" class="btn btn-primary pull-right">Enregistrer les modifications</button>
 
                             {# prevents weird label from showing up in new #}
-                            {% if images is empty %}
+                            {% if trickForm.vars.value is not null %}
+                                {% if trickForm.vars.value.images is empty %}
+                                    {{ form_widget(trickForm.images) }}
+                                {% endif %}
+                                {% if trickForm.vars.value.videos is empty %}
+                                    {{ form_widget(trickForm.videos) }}
+                                {% endif %}
+                            {% else %}
                                 {{ form_widget(trickForm.images) }}
-                            {% endif %}   
-                            {% if videos is empty %}
-                                {{ form_widget(trickForm.videos) }}                        
+                                {{ form_widget(trickForm.videos) }}
                             {% endif %}
+                            
                         {{ form_end(trickForm) }}
 
                         <!-- Modal for delete trick -->
