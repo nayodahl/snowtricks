@@ -5,7 +5,7 @@
 /*-----------------------------------------------------------------------------------*/
 
 
-/*  1 - FONT IMPORT
+/* FONT IMPORT
 /*-----------------------------------------------------------------------------------*/
 
 @import url(https://fonts.googleapis.com/css?family=Raleway:400,100,300,700,900|Montserrat:400,700|Nothing+You+Could+Do);
@@ -14,7 +14,7 @@
 /*-----------------------------------------------------------------------------------*/
 
 
-/*  2 - BASE
+/* BASE
 /*-----------------------------------------------------------------------------------*/
 
 body {
@@ -301,7 +301,7 @@ img::-moz-selection {
 /*-----------------------------------------------------------------------------------*/
 
 
-/*  3 - BUTTONS
+/*  BUTTONS
 /*-----------------------------------------------------------------------------------*/
 
 .btn {
@@ -441,7 +441,7 @@ fieldset[disabled] .btn-primary.active {
 /*-----------------------------------------------------------------------------------*/
 
 
-/*   4 NAV
+/*  NAV
 /*-----------------------------------------------------------------------------------*/
 
 
@@ -628,7 +628,7 @@ fieldset[disabled] .btn-primary.active {
 /*-----------------------------------------------------------------------------------*/
 
 
-/*  5 - HEADER
+/*  HEADER
 /*-----------------------------------------------------------------------------------*/
 
 #headerwrap {
@@ -703,173 +703,15 @@ header.masthead .overlay .intro-heading {
     font-size: 70px;
 }
 
-
-/* HEADER STYLES */
-
-.header-2 {
-    background-color: #fff !important;
-    padding-top: 0 !important;
-    padding-bottom: 0 !important;
-}
-
-.header-2 .top-bar {
-    background-color: #222;
-    height: 45px;
-}
-
-.header-2.navbar-shrink .top-bar {
-    height: 0;
-}
-
-.header-2 .navbar-header a,
-.header-2 .navbar-header *,
-.header-2.navbar .nav li a,
-.header-2.navbar .nav li *,
-.header-3-container .nav li a,
-.header-3-container .navbar-brand,
-.header-5 a,
-.header-5 *,
-.header-6 a,
-.header-6 * {
-    color: #222 !important;
-}
-
-
-/* HEADER 3 */
-
-.header-3 .top-bar {
-    border-bottom: 0;
-}
-
-.header-3-container {
-    background-color: rgba(255, 255, 255, 0.8);
-}
-
-.navbar-shrink .header-3-container {
-    background-color: transparent;
-}
-
-
-/* HEADER 5 */
-
-.header-5 {
-    margin-bottom: 0;
-    padding: 10px 0 0 !important;
-}
-
-.header-5.navbar-shrink .top-bar {
-    height: 53px !important;
-}
-
-
-/* HEADER 6 */
-
-.header-6 {
-    margin-bottom: 0;
-}
-
-.header-6 .navbar-brand {
-    float: none;
-    display: block;
-}
-
-@media all and (min-width: 769px) {
-    .header-6.navbar .navbar-collapse,
-    .header-6 .navbar-nav {
-        width: 100%;
-    }
-    .header-6 .navbar-nav > li {
-        float: none;
-        display: inline-block;
-    }
-}
-
-.header-6 {
-    background-color: #fff !important;
-    padding-top: 0 !important;
-    padding-bottom: 0 !important;
-}
-
-.header-6 .top-bar {
-    background-color: #222;
-    height: 45px;
-}
-
-.header-6.navbar-shrink .top-bar {
-    height: 0;
-}
-
-.header-6 .top-bar *,
-.header-6 .top-bar a {
-    color: #fff !important;
-}
-
-
 /*-----------------------------------------------------------------------------------*/
 
 
-/*  6 - SECTIONS
+/*  SECTIONS
 /*-----------------------------------------------------------------------------------*/
 
 section {
     background-color: #fff;
     clear: both;
-}
-
-.silver-bg {
-    background-color: #DADFE1
-}
-
-.white-bg {
-    background-color: #fff
-}
-
-.dark-wrapper {
-    background-color: #111111
-}
-
-.dark-wrapper.opaqued,
-.dark-opaqued {
-    background-color: rgba(0, 0, 0, 0.7);
-}
-
-.dark-wrapper.dark-grey-wrapper.opaqued,
-.dark-wrapper.dark-grey-opaqued {
-    background-color: rgba(0, 0, 0, 0.8);
-}
-
-#headerwrap.opaqued {
-    background-color: rgba(68, 34, 69, 0.9);
-}
-
-.remove-opacqued-bg .dark-opaqued {
-    background-color: transparent;
-}
-
-.dark-wrapper h1,
-.dark-wrapper h2,
-.dark-wrapper h3,
-.dark-wrapper h4,
-.dark-wrapper h5,
-.dark-wrapper h6,
-.dark-wrapper p,
-.dark-wrapper a,
-.dark-wrapper,
-.dark-wrapper * {
-    color: #f3f3f3
-}
-
-.dark-content h1,
-.dark-content h2,
-.dark-content h3,
-.dark-content h4,
-.dark-content h5,
-.dark-content h6,
-.dark-content p,
-.dark-content a,
-.dark-content,
-.dark-content * {
-    color: #222
 }
 
 .section-inner {
@@ -1007,7 +849,7 @@ form .btn-primary{
 /*-----------------------------------------------------------------------------------*/
 
 
-/*  8 - BLOG
+/*  BLOG
 /*-----------------------------------------------------------------------------------*/
 
 .blog-item .post-title,
@@ -1059,7 +901,7 @@ form .btn-primary{
 /*-----------------------------------------------------------------------------------*/
 
 
-/* 9 - COMMENTS 
+/* COMMENTS 
 /*-----------------------------------------------------------------------------------*/
 
 textarea#comments {
@@ -1096,7 +938,7 @@ textarea#comments {
 /*-----------------------------------------------------------------------------------*/
 
 
-/*  10 - HOVER CAPTIONS 
+/*  HOVER CAPTIONS 
 /*-----------------------------------------------------------------------------------*/
 
 .hover-item {
@@ -1280,7 +1122,7 @@ textarea#comments {
 /*-----------------------------------------------------------------------------------*/
 
 
-/*  11 - FOOTER
+/*  FOOTER
 /*-----------------------------------------------------------------------------------*/
 
 #footer-widgets {
@@ -1332,8 +1174,7 @@ footer.white-wrapper .social-links li a {
 
 /*-----------------------------------------------------------------------------------*/
 
-
-/*  12 - CAROUSEL STYLES
+/*  CAROUSEL STYLES
 /*-----------------------------------------------------------------------------------*/
 
 .fw-carousel .owl-item,
@@ -1355,8 +1196,9 @@ footer.white-wrapper .social-links li a {
     filter: invert(100%);
 }
 
+/*-----------------------------------------------------------------------------------*/
 
-/*  16 - FORM CONTROL
+/*  FORM CONTROL
 /*-----------------------------------------------------------------------------------*/
 
 .form-control {
@@ -1511,100 +1353,6 @@ footer.white-wrapper .social-links li a {
 }
 
 
-/*-----------------------------------------------------------------------------------*/
-
-
-/*  17 -  TABS
-/*-----------------------------------------------------------------------------------*/
-
-.nav.nav-justified > li > a {
-    position: relative;
-}
-
-.icon-tabs li {
-    border-right: 1px solid #111;
-}
-
-.icon-tabs li a {
-    opacity: 0.4;
-}
-
-.map-open .icon-tabs li a {
-    color: #222;
-}
-
-.icon-tabs li.active a {
-    opacity: 1;
-}
-
-.icon-tabs li:last-of-type,
-.dark-wrapper .icon-tabs li:last-of-type {
-    border-right: none;
-}
-
-.dark-wrapper .icon-tabs li {
-    border-right: 1px solid #fefefe;
-}
-
-.icon-tabs li .tabtitle {
-    clear: both;
-    display: block;
-    margin: 15px 0 0;
-    font-size: 22px;
-    text-transform: uppercase;
-    letter-spacing: 6px;
-    font-weight: 700;
-}
-
-.nav.nav-justified > li > a:hover,
-.nav.nav-justified > li > a:focus {
-    background-color: transparent;
-}
-
-.nav.nav-justified > li > a > .quote {
-    position: absolute;
-    left: 0px;
-    top: 0;
-    opacity: 0;
-    width: 30px;
-    height: 30px;
-    padding: 5px;
-    background-color: #13c0ba;
-    border-radius: 15px;
-    color: #fff;
-}
-
-.nav.nav-justified > li.active > a > .quote {
-    opacity: 1;
-}
-
-.nav.nav-justified > li > a > img {
-    box-shadow: 0 0 0 5px #13c0ba;
-}
-
-.nav.nav-justified > li > a > img {
-    max-width: 100%;
-    opacity: .3;
-    -webkit-transform: scale(.8, .8);
-    transform: scale(.8, .8);
-    -webkit-transition: all 0.3s 0s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-    transition: all 0.3s 0s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-}
-
-.nav.nav-justified > li.active > a > img,
-.nav.nav-justified > li:hover > a > img,
-.nav.nav-justified > li:focus > a > img {
-    opacity: 1;
-    -webkit-transform: none;
-    transform: none;
-    -webkit-transition: all 0.3s 0s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-    transition: all 0.3s 0s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-}
-
-.tab-pane .tab-inner {
-    padding: 30px 0 20px;
-}
-
 @media (min-width: 768px) {
     .nav.nav-justified > li > a > .quote {
         left: auto;
@@ -1663,7 +1411,7 @@ footer.white-wrapper .social-links li a {
 /*-----------------------------------------------------------------------------------*/
 
 
-/*  19 - MEDIA QUERIES
+/*  MEDIA QUERIES
 /*-----------------------------------------------------------------------------------*/
 
 @media all and (min-width: 1600px) {

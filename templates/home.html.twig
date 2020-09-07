@@ -44,14 +44,14 @@
                             <div class="col-xs-12">
                                 <div class="hover-item mb30">
                                     {% if trick.featured is null %}
-                                        <img src="{{ asset('build/images/bg/gradient1.jpg') }}" class="img-responsive smoothie home-thumbnail-large" alt="photo par défaut de la figure">
+                                        <img src="{{ asset('build/images/bg/placeholder_trick.jpg') }}" class="img-responsive smoothie home-thumbnail-large" alt="photo par défaut de la figure">
                                     {% else %}
                                         <img src="{{ asset(uploaded_trick(trick.featured.content)) }}" class="img-responsive smoothie home-thumbnail-large" alt="photo de la figure">                                        
                                     {% endif %}                                    
                                     
                                     <div class="overlay-item-caption smoothie"></div>
                                     <div class="hover-item-caption smoothie">
-                                        <h3 class="vertical-center smoothie"><a href="/trick/{{ trick.slug }}" class="smoothie btn btn-primary stretched-link" title="voir le trick">Voir</a></h3>
+                                        <h3 class="vertical-center smoothie"><a href="{{ path('app_trick', {slug: trick.slug}) }}" class="smoothie btn btn-primary" title="voir le trick">Voir</a></h3>
                                     </div>
                                 </div>
                                 <h2 class="post-title">{{ trick.title }}</h2>

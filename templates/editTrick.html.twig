@@ -22,14 +22,16 @@
         {% if trick.featured %}
         <header class="masthead" style="background-image: url('{{ asset(uploaded_trick(trick.featured.content)) }}')">
         {% else %}
-        <header class="masthead" style="background-image: url('{{ asset('build/images/bg/gradient1.jpg') }}')"> 
+        <header class="masthead" style="background-image: url('{{ asset('build/images/bg/placeholder_trick.jpg') }}')"> 
         {% endif %}
             <div class="container">
                 <div class="row">       
-                    <div class="col overlay">
+                    <div class="col overlay">                        
                         <div class="row">
                             <div class="col edit-pencil">
-                                <a href="/unfeatured/{{ trick.id }}" title="Retirer l'image à la Une" class="pull-right"><span class="fa fa-trash fa-3x" aria-hidden="true"></span></a>
+                                {% if trick.featured %}  
+                                    <a href="{{ path('app_remove_featured', {trickId: trick.id}) }}" title="Retirer l'image à la Une" class="pull-right"><span class="fa fa-trash fa-3x" aria-hidden="true"></span></a>
+                                {% endif %}
                             </div>
                         </div>
                         <div class="row"> 
@@ -64,7 +66,7 @@
                         {{ message }}
                     </div>    
                 {% endfor %}                
-                
+            
                 <div class="row">
                     <div class="card-group col">            
                         {% if (images is not empty) or (videos is not empty) %}                
@@ -73,7 +75,7 @@
                                     <div class="card blog-item mb100 wow match-height">                                          
                                         <img class="card-img-top trickcard-thumbnail-medium" src="{{ asset(uploaded_trick(image.content)) }}" alt="Photo de la figure">                                           
                                         <div class="card-footer bg-transparent">
-                                            <a title="Choisir comme Image à la Une" href="/featured/{{ trick.id }}/{{ image.id }}" class="pull-right"><span class="fa fa-star" aria-hidden="true"></span></a>
+                                            <a title="Choisir comme Image à la Une" href="{{ path('app_edit_featured', {trickId: trick.id, imageId: image.id}) }}" class="pull-right"><span class="fa fa-star" aria-hidden="true"></span></a>                                            
                                         </div>
                                     </div>                                    
                                 </div>
@@ -183,24 +185,24 @@
 
                         <!-- Modal for delete trick -->
                         <div class="modal fade" id="DeleteTrickModal" tabindex="-1" role="dialog" aria-labelledby="ModalCenterTitle" aria-hidden="true">
-                        <div class="modal-dialog modal-dialog-centered" role="document">
-                            <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title" id="ModalLongTitle">Suppression du Trick</h5>
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                                </button>
+                            <div class="modal-dialog modal-dialog-centered" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="ModalLongTitle">Suppression du Trick</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        Etes vous certain de vouloir supprimer ce trick ?<br>
+                                        Celà entrainera la suppression de tout son contenu : photos, vidéos, commentaires etc...
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-primary" data-dismiss="modal">Annuler</button>
+                                        <a href="{{ path('app_delete_trick', {slug: trick.slug}) }}" class="btn btn-primary">Confirmer la suppression</a>                                
+                                    </div>
+                                </div>
                             </div>
-                            <div class="modal-body">
-                                Etes vous certain de vouloir supprimer ce trick ?<br>
-                                Celà entrainera la suppression de tout son contenu : photos, vidéos, commentaires etc...
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-primary" data-dismiss="modal">Annuler</button>
-                                <a href="/delete/{{ trick.slug }}" class="btn btn-primary">Confirmer la suppression</a>
-                            </div>
-                            </div>
-                        </div>
                         </div>
                     </div>            
                 </div>
