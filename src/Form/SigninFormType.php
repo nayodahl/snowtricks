@@ -4,6 +4,7 @@ namespace App\Form;
 
 use App\Entity\User;
 use App\Validator\IsValidPassword;
+use App\Validator\IsValidUsername;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
@@ -11,7 +12,6 @@ use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\NotBlank;
 
 /**
@@ -25,12 +25,7 @@ class SigninFormType extends AbstractType
             ->add('username', TextType::class, [
                 'empty_data' => '',
                 'constraints' => [
-                    new Length([
-                        'min' => 4,
-                        'minMessage' => 'Votre identifiant est trop court (minimum {{ limit }} caractères)',
-                        'max' => 30,
-                        'maxMessage' => 'Votre identifiant est trop long (maximum {{ limit }} caractères)',
-                    ]),
+                    new IsValidUsername(),
                 ],
                 'attr' => ['autofocus' => true],
             ])
