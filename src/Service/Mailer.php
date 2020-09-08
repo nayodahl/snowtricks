@@ -25,10 +25,9 @@ class Mailer
         ->context([
             'user' => $user,
         ])
-        ->subject('Confirmation de votre inscription')
+        ->subject('Validation de votre inscription au site SnowTricks')
         ->text('Bonjour et bienvenue sur le site Snowtricks')
-        ->htmlTemplate('email/signin.html.twig')
-        ;
+        ->htmlTemplate('email/signin.html.twig');
 
         $this->mailer->send($email);
     }
@@ -43,8 +42,7 @@ class Mailer
             'resetToken' => $resetToken,
             'tokenLifetime' => $tokenLifetime,
         ])
-        ->htmlTemplate('email/reset.html.twig')
-        ;
+        ->htmlTemplate('email/reset.html.twig');
 
         $this->mailer->send($email);
     }

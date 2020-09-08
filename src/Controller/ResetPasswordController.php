@@ -19,7 +19,6 @@ use SymfonyCasts\Bundle\ResetPassword\ResetPasswordHelperInterface;
 
 /**
  * @Route("/reset-password")
- * 
  */
 class ResetPasswordController extends AbstractController
 {
@@ -83,7 +82,7 @@ class ResetPasswordController extends AbstractController
     public function reset(Request $request, UserPasswordEncoderInterface $passwordEncoder, string $token = null): Response
     {
         $this->denyAccessUnlessGranted('IS_ANONYMOUS');
-        
+
         if ($token) {
             // We store the token in session and remove it from the URL, to avoid the URL being
             // loaded in a browser and potentially leaking the token to 3rd party JavaScript.

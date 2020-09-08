@@ -96,5 +96,11 @@
         "files": [
             "config/packages/reset_password.yaml"
         ]
+    },
+    "tijsverkoyen/css-to-inline-styles": {
+        "version": "2.2.3"
+    },
+    "twig/cssinliner-extra": {
+        "version": "v3.0.5"
     }
 }
