@@ -17,7 +17,7 @@ class Mailer
         $this->mailer = $mailer;
     }
 
-    public function sendSigninMessage(User $user): void
+    public function sendSigninMessage(User $user)
     {
         $email = (new TemplatedEmail())
         ->from(new Address('hello@snowtricks.nayo.cloud', 'SnowTricks'))
@@ -32,7 +32,7 @@ class Mailer
         $this->mailer->send($email);
     }
 
-    public function sendPasswordResetMessage(User $user, ResetPasswordToken $resetToken, int $tokenLifetime): void
+    public function sendPasswordResetMessage(User $user, ResetPasswordToken $resetToken, int $tokenLifetime)
     {
         $email = (new TemplatedEmail())
         ->from(new Address('hello@snowtricks.nayo.cloud', 'SnowTricks'))

@@ -51,18 +51,11 @@ class SecurityController extends AbstractController
     /**
      * @Route("/signin", name="app_signin")
      */
-    public function signin(Mailer $mailer, AuthenticationUtils $authenticationUtils, Request $request, UserPasswordEncoderInterface $passwordEncoder): Response
+    public function signin(Mailer $mailer, Request $request, UserPasswordEncoderInterface $passwordEncoder): Response
     {
         $this->denyAccessUnlessGranted('IS_ANONYMOUS');
 
-        // get the login error if there is one
-        $error = $authenticationUtils->getLastAuthenticationError();
-
-        // last username entered by the user
-        $lastUsername = $authenticationUtils->getLastUsername();
-
-        $user = new User();
-        $form = $this->createForm(SigninFormType::class, $user);
+        $form = $this->createForm(SigninFormType::class);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -72,7 +65,7 @@ class SecurityController extends AbstractController
             $user->setActivated(false);
 
             // encode password from unmapped field 'plainPassword'
-            $user->setPassword($passwordEncoder->encodePassword($user, $request->request->get('signin_form')['plainPassword']));
+            $user->setPassword($passwordEncoder->encodePassword($user, $request->request->get('signin_form')['plainPassword']['first']));
 
             // generate token (length 32) and insert in User
             $user->setToken(bin2hex(random_bytes(16)));
@@ -91,8 +84,6 @@ class SecurityController extends AbstractController
 
         return $this->render('signin.html.twig', [
             'signinForm' => $form->createView(),
-            'last_username' => $lastUsername,
-            'error' => $error,
         ]);
     }
 

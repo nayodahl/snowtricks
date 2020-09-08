@@ -27,11 +27,11 @@
                                 label: 'Identifiant',
                                 'attr': {'class': 'form-control'}
                             }) }}
-                            {{ form_row(signinForm.plainPassword, {
+                            {{ form_row(signinForm.plainPassword.first, {
                                 label: 'Mot de passe',
                                 'attr': {'class': 'form-control'}
                             }) }}
-                            {{ form_row(signinForm.confirmation, {
+                            {{ form_row(signinForm.plainPassword.second, {
                                 label: 'Confirmation',
                                 'attr': {'class': 'form-control'}
                             }) }}
