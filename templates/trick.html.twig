@@ -13,7 +13,10 @@
                     <div class="col overlay">
                         <div class="row">
                             <div class="col edit-pencil">
+                            {% if is_granted('ROLE_USER') %}
+                                <a href="#" class="pull-right" data-toggle="modal" data-target="#DeleteTrickModal"><span class="fa fa-trash fa-3x" aria-hidden="true"></span></a>
                                 <a href="{{ path('app_edit_trick', {slug: trick.slug}) }}" class="pull-right"><span class="fa fa-pencil fa-3x" aria-hidden="true"></span></a>
+                            {% endif %}
                             </div>
                         </div>
                         <div class="row"> 
@@ -25,7 +28,29 @@
                         </div>
                     </div>
                 </div>
-            </div> 
+            </div>
+
+            <!-- Modal for delete trick -->
+            <div class="modal fade" id="DeleteTrickModal" tabindex="-1" role="dialog" aria-labelledby="ModalCenterTitle" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="ModalLongTitle">Suppression du Trick</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            Etes vous certain de vouloir supprimer ce trick ?<br>
+                            Celà entrainera la suppression de tout son contenu : photos, vidéos, commentaires etc...
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-primary" data-dismiss="modal">Annuler</button>
+                            <a href="{{ path('app_delete_trick', {slug: trick.slug}) }}" class="btn btn-primary">Confirmer la suppression</a>                                
+                        </div>
+                    </div>
+                </div>
+            </div>  
         </header>
 
         <!-- Carousel -->
@@ -225,26 +250,5 @@
                 </div>
             </div>
         </section>
-
-                                <script>
-                            // starter JavaScript for disabling form submissions if there are invalid fields, from bootstrap4 doc
-                            (function() {
-                            'use strict';
-                            window.addEventListener('load', function() {
-                                // Fetch all the forms we want to apply custom Bootstrap validation styles to
-                                var forms = document.getElementsByClassName('needs-validation');
-                                // Loop over them and prevent submission
-                                var validation = Array.prototype.filter.call(forms, function(form) {
-                                form.addEventListener('submit', function(event) {
-                                    if (form.checkValidity() === false) {
-                                    event.preventDefault();
-                                    event.stopPropagation();
-                                    }
-                                    form.classList.add('was-validated');
-                                }, false);
-                                });
-                            }, false);
-                            })();
-                        </script>
 
 {% endblock %}
