@@ -107,7 +107,13 @@ class TricksController extends AbstractController
             $uploadedFile = $form['imageFile']->getData();
             if ($uploadedFile) {
                 $newFilename = $uploaderHelper->uploadTrickImage($uploadedFile);
-                $trick->addImage((new Image())->setContent($newFilename));
+                $image = new Image();
+                $image->setContent($newFilename);
+                // if trick has no image, then set this frist new image to featured=true
+                if ($trick->getImages()->isEmpty()) {
+                    $image->setFeatured(true);
+                }
+                $trick->addImage($image);
             }
 
             $em = $this->getDoctrine()->getManager();
@@ -149,7 +155,7 @@ class TricksController extends AbstractController
             $uploadedFile = $form['imageFile']->getData();
             if ($uploadedFile) {
                 $newFilename = $uploaderHelper->uploadTrickImage($uploadedFile);
-                $trick->addImage((new Image())->setContent($newFilename));
+                $trick->addImage((new Image())->setContent($newFilename)->setFeatured(true));
             }
 
             $em = $this->getDoctrine()->getManager();
