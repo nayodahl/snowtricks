@@ -20,7 +20,7 @@ class Comment
 
     /**
      * @ORM\Column(type="text")
-     * @Assert\NotBlank(message="Entrez un commentaire valide")
+     * @Assert\NotBlank(message="Votre commentaire est vide, entrez un commentaire valide")
      * @Assert\Length(
      *     min=5,
      *     minMessage="Votre commentaire est trop court (minimum 5 caractères)",

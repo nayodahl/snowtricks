@@ -3,9 +3,10 @@
 namespace App\Repository;
 
 use App\Entity\Trick;
-use App\Pagination\Paginator;
+use App\Service\Paginator;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 
 /**
  * @method Trick|null find($id, $lockMode = null, $lockVersion = null)
@@ -15,9 +16,12 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class TrickRepository extends ServiceEntityRepository
 {
-    public function __construct(ManagerRegistry $registry)
+    private $params;
+
+    public function __construct(ManagerRegistry $registry, ParameterBagInterface $params)
     {
         parent::__construct($registry, Trick::class);
+        $this->params = $params;
     }
 
     // /**
@@ -33,8 +37,7 @@ class TrickRepository extends ServiceEntityRepository
             ->orderBy('t.lastUpdate', 'DESC')
         ;
 
-        return (new Paginator($query))->paginate($currentPage);
-        //return $query->getQuery()->getResult();
+        return (new Paginator($query, $this->params->get('app.max_trick_number')))->paginate($currentPage);
     }
 
     public function findOneByIdWithCategoryAndFeatured(int $id): array

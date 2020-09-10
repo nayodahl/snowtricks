@@ -3,6 +3,7 @@
 namespace App\Form;
 
 use App\Entity\User;
+use App\Validator\IsValidUsername;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
@@ -20,6 +21,9 @@ class UserFormType extends AbstractType
         $builder
             ->add('username', TextType::class, [
                 'label' => 'label.username',
+                'constraints' => [
+                    new IsValidUsername(),
+                ],
             ])
             ->add('email', EmailType::class, [
                 'label' => 'label.email',

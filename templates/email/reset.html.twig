@@ -1,28 +1,43 @@
+{% apply inline_css(source('@styles/email.css')) %}
+
 <!DOCTYPE html>
 <html lang="fr">
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>Validation de votre inscription au site SnowTricks</title>
+    <title>{{ email.subject }}</title>
   </head>
   <body>     
       <div class="container">
           <div class="row">
               <div class="col-lg-8 col-md-10 mx-auto">                
                   <div class="header text-center">
+                    <a href="{{ url('app_home') }}">
+                      <img src="{{ email.image('@images/bg/bg1-mail.jpg') }}" class="logo" alt="snowtricks Logo">
+                    </a>
+                    <hr>
+                    <br>
                     <h3>Réinitialisation de votre mot de passe ! </h3>
                     <p>
                         Pour réinitialiser votre mot de passe, cliquez sur ce lien : 
-                    </p><br>
+                    </p>
+                    <br>
                     <a href="{{ url('app_reset_password', {token: resetToken.token}) }}">{{ url('app_reset_password', {token: resetToken.token}) }}</a>
                     <p>
                         Ce lien expirera dans {{ tokenLifetime|date('g') }} heures.
                     </p>
-                    <p>A bientôt !</p>
+                    <br>
+                    <hr>
+                    <small>
+                        A bientôt sur le site <a href="{{ url('app_home') }}">SnowTricks</a> !
+                    </small>
+                    <br>
+                    <hr>
                   </div>                
               </div>
           </div>
       </div>        
-    <hr>
   </body>
 </html>
+
+{% endapply %}

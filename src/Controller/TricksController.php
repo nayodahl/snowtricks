@@ -11,6 +11,7 @@ use App\Repository\ImageRepository;
 use App\Repository\TrickRepository;
 use App\Repository\UserRepository;
 use App\Repository\VideoRepository;
+use App\Service\Slugger;
 use App\Service\UploaderHelper;
 use DateTime;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
@@ -55,11 +56,11 @@ class TricksController extends AbstractController
         // handling comment form POST request if any
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
+            $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+
             $comment = $form->getData();
             $comment->setCreated(new DateTime());
             $comment->setUser($this->getUser());
-
-            //$comment->setUser($userRepository->findOneBy(['username' => 'jimmy']));   // temporary arbitrary user, waiting for authentication
             $comment->setTrick($trick);
 
             $em = $this->getDoctrine()->getManager();
@@ -84,7 +85,7 @@ class TricksController extends AbstractController
      *
      * @IsGranted("ROLE_USER")
      */
-    public function editTrick(Request $request, Trick $trick, UploaderHelper $uploaderHelper, TrickRepository $trickRepo, ImageRepository $imageRepo, VideoRepository $videoRepo): Response
+    public function editTrick(Request $request, Trick $trick, UploaderHelper $uploaderHelper, Slugger $slugger, TrickRepository $trickRepo, ImageRepository $imageRepo, VideoRepository $videoRepo): Response
     {
         // getting data
         $id = $trick->getId();
@@ -99,12 +100,20 @@ class TricksController extends AbstractController
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $trick = $form->getData();
+            // generates slug based on title
+            $trick->setSlug($slugger->slugIt($trick->getTitle()));
             $trick->setLastUpdate(new DateTime());
 
             $uploadedFile = $form['imageFile']->getData();
             if ($uploadedFile) {
                 $newFilename = $uploaderHelper->uploadTrickImage($uploadedFile);
-                $trick->addImage((new Image())->setContent($newFilename));
+                $image = new Image();
+                $image->setContent($newFilename);
+                // if trick has no image, then set this frist new image to featured=true
+                if ($trick->getImages()->isEmpty()) {
+                    $image->setFeatured(true);
+                }
+                $trick->addImage($image);
             }
 
             $em = $this->getDoctrine()->getManager();
@@ -128,7 +137,7 @@ class TricksController extends AbstractController
      *
      * @IsGranted("ROLE_USER")
      */
-    public function newTrick(Request $request, UploaderHelper $uploaderHelper): Response
+    public function newTrick(Request $request, UploaderHelper $uploaderHelper, Slugger $slugger): Response
     {
         // trick form generation
         $form = $this->createForm(TrickFormType::class);
@@ -137,13 +146,16 @@ class TricksController extends AbstractController
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $trick = $form->getData();
+
+            // generates slug based on title
+            $trick->setSlug($slugger->slugIt($trick->getTitle()));
             $trick->setCreated(new DateTime());
             $trick->setLastUpdate(new DateTime());
 
             $uploadedFile = $form['imageFile']->getData();
             if ($uploadedFile) {
                 $newFilename = $uploaderHelper->uploadTrickImage($uploadedFile);
-                $trick->addImage((new Image())->setContent($newFilename));
+                $trick->addImage((new Image())->setContent($newFilename)->setFeatured(true));
             }
 
             $em = $this->getDoctrine()->getManager();

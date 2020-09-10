@@ -3,9 +3,10 @@
 namespace App\Repository;
 
 use App\Entity\Comment;
-use App\Pagination\Paginator;
+use App\Service\Paginator;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 
 /**
  * @method Comment|null find($id, $lockMode = null, $lockVersion = null)
@@ -15,9 +16,12 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class CommentRepository extends ServiceEntityRepository
 {
-    public function __construct(ManagerRegistry $registry)
+    private $params;
+
+    public function __construct(ManagerRegistry $registry, ParameterBagInterface $params)
     {
         parent::__construct($registry, Comment::class);
+        $this->params = $params;
     }
 
     public function findAllCommentsFromTrick(int $trickId, int $currentPage = 1): Paginator
@@ -33,6 +37,6 @@ class CommentRepository extends ServiceEntityRepository
             ->setParameter('id', $trickId)
         ;
 
-        return (new Paginator($query))->paginate($currentPage);
+        return (new Paginator($query, $this->params->get('app.max_comment_number')))->paginate($currentPage);
     }
 }

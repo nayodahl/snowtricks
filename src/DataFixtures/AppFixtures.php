@@ -7,6 +7,7 @@ use App\Entity\Image;
 use App\Entity\Trick;
 use App\Entity\User;
 use App\Entity\Video;
+use App\Service\Slugger;
 use DateTime;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
@@ -15,10 +16,12 @@ use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 class AppFixtures extends Fixture
 {
     private $passwordEncoder;
+    private $slugger;
 
-    public function __construct(UserPasswordEncoderInterface $passwordEncoder)
+    public function __construct(UserPasswordEncoderInterface $passwordEncoder, Slugger $slugger)
     {
         $this->passwordEncoder = $passwordEncoder;
+        $this->slugger = $slugger;
     }
 
     public function load(ObjectManager $manager)
@@ -45,6 +48,7 @@ class AppFixtures extends Fixture
             ->setCreated(new DateTime())
             ->setLastUpdate(new DateTime())
             ->setCategory($grab);
+        $methodAir->setSlug($this->slugger->slugIt($methodAir->getTitle()));
         $image = (new Image())
             ->setContent('method-air1.jpg')
             ->setTrick($methodAir)
@@ -75,6 +79,7 @@ class AppFixtures extends Fixture
             ->setCreated(new DateTime())
             ->setLastUpdate(new DateTime())
             ->setCategory($grab);
+        $noseGrab->setSlug($this->slugger->slugIt($noseGrab->getTitle()));
         $image = (new Image())
             ->setContent('nose-grab1.jpg')
             ->setTrick($noseGrab)
@@ -93,6 +98,7 @@ class AppFixtures extends Fixture
         ->setCreated(new DateTime())
         ->setLastUpdate(new DateTime())
         ->setCategory($flip);
+        $doubleBackFlip->setSlug($this->slugger->slugIt($doubleBackFlip->getTitle()));
         $image = (new Image())
             ->setContent('double-back-flip1.jpg')
             ->setTrick($doubleBackFlip)
@@ -123,6 +129,7 @@ class AppFixtures extends Fixture
         ->setCreated(new DateTime())
         ->setLastUpdate(new DateTime())
         ->setCategory($grab);
+        $japanAir->setSlug($this->slugger->slugIt($japanAir->getTitle()));
         $image = (new Image())
             ->setContent('japan-air1.jpg')
             ->setTrick($japanAir)
@@ -147,6 +154,7 @@ class AppFixtures extends Fixture
         ->setCreated(new DateTime())
         ->setLastUpdate(new DateTime())
         ->setCategory($rotation);
+        $frontsite360->setSlug($this->slugger->slugIt($frontsite360->getTitle()));
         $image = (new Image())
             ->setContent('frontsite360-1.jpg')
             ->setTrick($frontsite360)
@@ -176,6 +184,7 @@ class AppFixtures extends Fixture
         ->setCreated(new DateTime())
         ->setLastUpdate(new DateTime())
         ->setCategory($grab);
+        $backsideAir->setSlug($this->slugger->slugIt($backsideAir->getTitle()));
         $image = (new Image())
             ->setContent('backside-air1.jpg')
             ->setTrick($backsideAir)
@@ -201,6 +210,7 @@ class AppFixtures extends Fixture
         ->setCreated(new DateTime())
         ->setLastUpdate(new DateTime())
         ->setCategory($slide);
+        $frontsideBoardslide->setSlug($this->slugger->slugIt($frontsideBoardslide->getTitle()));
         $image = (new Image())
             ->setContent('frontside-boardslide1.jpg')
             ->setTrick($frontsideBoardslide)
@@ -225,6 +235,7 @@ class AppFixtures extends Fixture
         ->setCreated(new DateTime())
         ->setLastUpdate(new DateTime())
         ->setCategory($slide);
+        $fiftyfifty->setSlug($this->slugger->slugIt($fiftyfifty->getTitle()));
         $image = (new Image())
             ->setContent('50-50-1.jpg')
             ->setTrick($fiftyfifty)
@@ -249,6 +260,7 @@ class AppFixtures extends Fixture
         ->setCreated(new DateTime())
         ->setLastUpdate(new DateTime())
         ->setCategory($slide);
+        $bluntslide270->setSlug($this->slugger->slugIt($bluntslide270->getTitle()));
         $image = (new Image())
             ->setContent('front-bluntslide-270-1.jpg')
             ->setTrick($bluntslide270)
@@ -274,6 +286,7 @@ class AppFixtures extends Fixture
         ->setCreated(new DateTime())
         ->setLastUpdate(new DateTime())
         ->setCategory($grab);
+        $tailGrab->setSlug($this->slugger->slugIt($tailGrab->getTitle()));
         $image = (new Image())
             ->setContent('tail-grab-1.jpg')
             ->setTrick($tailGrab)

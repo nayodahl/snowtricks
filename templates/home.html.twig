@@ -35,32 +35,60 @@
                     </div>    
                 {% endfor %}
 
-                <div class="row">
+                <div class="row">                   
 
                     {% for trick in tricks.results %}
-                    
-                    <div class="card col-sm-4 blog-item mb100 wow match-height">
-                        <div class="row">
-                            <div class="col-xs-12">
-                                <div class="hover-item mb30">
+                    <div class="col-lg-4 col-md-6 nopadding">
+                        <div class="card blog-item mb100 wow match-height">                                
+                            <div class="card-body nopadding">
+                                <div class="hover-item">
                                     {% if trick.featured is null %}
-                                        <img src="{{ asset('build/images/bg/gradient1.jpg')|imagine_filter('home_thumbnail_large') }}" class="img-responsive smoothie" alt="photo de la figure">
+                                        <img src="{{ asset('build/images/bg/placeholder_trick.jpg') }}" class="img-responsive smoothie home-thumbnail-large" alt="photo par défaut de la figure">
                                     {% else %}
-                                        <img src="{{ asset(uploaded_trick(trick.featured.content))|imagine_filter('home_thumbnail_large') }}" class="img-responsive smoothie" alt="photo de la figure">                                        
+                                        <img src="{{ asset(uploaded_trick(trick.featured.content)) }}" class="img-responsive smoothie home-thumbnail-large" alt="photo de la figure">                                        
                                     {% endif %}                                    
                                     
                                     <div class="overlay-item-caption smoothie"></div>
                                     <div class="hover-item-caption smoothie">
-                                        <h3 class="vertical-center smoothie"><a href="/trick/{{ trick.slug }}" class="smoothie btn btn-primary stretched-link" title="voir le trick">Voir</a></h3>
+                                        <h3 class="vertical-center smoothie"><a href="{{ path('app_trick', {slug: trick.slug}) }}" class="smoothie btn btn-primary" title="voir le trick">Voir</a></h3>
                                     </div>
                                 </div>
-                                <h2 class="post-title">{{ trick.title }}</h2>
                             </div>
-                        </div>
-                    </div>                    
-
-                    {% endfor %}                  
-                    
+                            <div class="card-footer">
+                                <h2 class="post-title">{{ trick.title }}
+                                {% if is_granted('ROLE_USER') %}
+                                    <a href="#" class="pull-right" data-toggle="modal" data-target="#DeleteTrickModal"><span class="fa fa-trash" aria-hidden="true"></span></a>
+                                    <a href="{{ path('app_edit_trick', {slug: trick.slug}) }}" class="pull-right"><span class="fa fa-pencil" aria-hidden="true"></span></a>
+                                {% endif %}
+                                </h2>
+                            </div>                                
+                        </div>  
+                        
+                        <!-- Modal for delete trick -->
+                        <div class="modal fade" id="DeleteTrickModal" tabindex="-1" role="dialog" aria-labelledby="ModalCenterTitle" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="ModalLongTitle">Suppression du Trick</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        Etes vous certain de vouloir supprimer ce trick ?<br>
+                                        Celà entrainera la suppression de tout son contenu : photos, vidéos, commentaires etc...
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-primary" data-dismiss="modal">Annuler</button>
+                                        <a href="{{ path('app_delete_trick', {slug: trick.slug}) }}" class="btn btn-primary">Confirmer la suppression</a>                                
+                                    </div>
+                                </div>
+                            </div>
+                        </div>  
+                                
+                    </div> 
+                    {% endfor %}                   
+                       
                 </div>
                 
                  <!-- Pagination Load more button-->                 
@@ -77,8 +105,7 @@
                     </div>
                 {% endif %}
                 
-            </div>  
-       
+            </div>         
         </section>
 
 {% endblock %}

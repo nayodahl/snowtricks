@@ -11,7 +11,7 @@
 {% block content %}
 
         <!-- Header -->
-        <header class="masthead" style="background-image: url('{{ asset('build/images/bg/gradient1.jpg') }}')">        
+        <header class="masthead" style="background-image: url('{{ asset('build/images/bg/placeholder_trick.jpg') }}')">        
             <div class="container">
                 <div class="row">       
                     <div class="intro-text vertical-center smoothie col overlay">
@@ -78,8 +78,18 @@
                             <button type="submit" class="btn btn-primary pull-right">Enregistrer</button>
 
                             {# prevents weird label from showing up in new #}
-                            {{ form_widget(trickForm.images) }}
-                            {{ form_widget(trickForm.videos) }}
+                            {% if trickForm.vars.value is not null %}
+                                {% if trickForm.vars.value.images is empty %}
+                                    {{ form_widget(trickForm.images) }}
+                                {% endif %}
+                                {% if trickForm.vars.value.videos is empty %}
+                                    {{ form_widget(trickForm.videos) }}
+                                {% endif %}
+                            {% else %}
+                                {{ form_widget(trickForm.images) }}
+                                {{ form_widget(trickForm.videos) }}
+                            {% endif %}
+                            
                         {{ form_end(trickForm) }}
                     </div>            
                 </div>
@@ -92,5 +102,3 @@
     {{ parent() }}
     {{ encore_entry_script_tags('trickForm') }}
 {% endblock %}
-
-

@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
+use App\Validator as UserAssert;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -35,8 +36,8 @@ class User implements UserInterface
     private $roles = [];
 
     /**
-     * @var string The hashed password
      * @ORM\Column(type="string")
+     * @UserAssert\IsValidPassword
      */
     private $password;
 

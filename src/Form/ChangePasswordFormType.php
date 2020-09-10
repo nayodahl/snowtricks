@@ -2,12 +2,12 @@
 
 namespace App\Form;
 
+use App\Validator\IsValidPassword;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\NotBlank;
 
 class ChangePasswordFormType extends AbstractType
@@ -22,12 +22,7 @@ class ChangePasswordFormType extends AbstractType
                         new NotBlank([
                             'message' => 'Merci d\'entrer un mot de passe',
                         ]),
-                        new Length([
-                            'min' => 6,
-                            'minMessage' => 'Your password should be at least {{ limit }} characters',
-                            // max length allowed by Symfony for security reasons
-                            'max' => 4096,
-                        ]),
+                        new IsValidPassword(),
                     ],
                     'label' => 'Nouveau mot de passe',
                     'attr' => ['autofocus' => true],
