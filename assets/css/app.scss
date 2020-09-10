@@ -624,6 +624,9 @@ fieldset[disabled] .btn-primary.active {
     color: #000;
 }
 
+.navbar-toggler{
+    color: #fff;
+}
 
 /*-----------------------------------------------------------------------------------*/
 
@@ -632,13 +635,13 @@ fieldset[disabled] .btn-primary.active {
 /*-----------------------------------------------------------------------------------*/
 
 #headerwrap {
-    background-color: transparent;
-    overflow: visible ;
+    background-color: #333;
+    overflow: visible;
     background-image: url(../img/bg/bg1.jpg);
-    background-size: 100vw;
+    background-size: cover;
+    background-repeat: no-repeat;
     max-height: 100vh !important;
     height: 100vh !important;
-
 }
 
 #chevrondown {
@@ -849,14 +852,13 @@ form .btn-primary{
 /*-----------------------------------------------------------------------------------*/
 
 
-/*  BLOG
+/*  MAIN
 /*-----------------------------------------------------------------------------------*/
 
 .blog-item .post-title,
 .project-item .post-title {
     margin-top: 0;
     margin-bottom: 20px;
-    padding-left: 30px;
     font-size: 16px;
     letter-spacing: 4px;
 }
@@ -897,6 +899,10 @@ form .btn-primary{
     margin-bottom: 45px;
 }
 
+.nopadding {
+    padding: 0 !important;
+    margin: 0 !important;
+}
 
 /*-----------------------------------------------------------------------------------*/
 
@@ -1196,6 +1202,7 @@ footer.white-wrapper .social-links li a {
     filter: invert(100%);
 }
 
+
 /*-----------------------------------------------------------------------------------*/
 
 /*  FORM CONTROL
@@ -1492,7 +1499,6 @@ footer.white-wrapper .social-links li a {
     .navbar {
         padding: 10px 0;
         border: 0;
-        //background-color: transparent;
         -webkit-transition: all .5s ease-in-out;
         -moz-transition: all .5s ease-in-out;
         -o-transition: all .5s ease-in-out;
@@ -1513,6 +1519,43 @@ footer.white-wrapper .social-links li a {
         -o-transition: all .5s ease-in-out;
         -ms-transition: all .5s ease-in-out;
         transition: all .5s ease-in-out
+    }
+}
+
+@media(max-width:992px) {
+    header .intro-text {
+        padding-top: 320px;
+    }
+
+    header .intro-text .intro-heading {
+        margin-bottom: 140px;
+    }
+
+    .intro-sub-heading {
+        color: #fff
+    }
+}
+
+@media(max-width:1199px) {
+    .form-control-video-mobile {
+        padding-bottom: 100px;
+    }
+}
+
+// Ipad landscape
+@media(max-width:1024px) and (max-height: 768px) {
+    header .intro-text {
+        padding-top: 340px;
+    }
+    header .intro-text .intro-heading {
+        margin-bottom: 180px;
+    }
+    .intro-sub-heading {
+        color: #fff
+    }
+    #chevrondown {
+        color: #fff;
+        opacity: 0.5;
     }
 }
 
@@ -1587,13 +1630,22 @@ footer.white-wrapper .social-links li a {
     #contact-tabs .icon-tabs li a {
         text-align: center;
     }
+    header .intro-text {
+        padding-top: 440px;
+    }
+    header .intro-text .intro-heading {
+        margin-bottom: 220px;
+    }    
+    .navbar {
+        opacity: 0.8;
+    }
+}
 
-    #headerwrap {
-        background-color: transparent;
-        overflow: visible;
-        background-image: url(../img/bg/bg1.jpg);
-        max-height: 50vh !important;
-        height: 50vh !important;
+@media (min-width: 576px) {
+    .collapse.dont-collapse-sm {
+      display: block;
+      height: auto !important;
+      visibility: visible;
     }
 }
 
@@ -1609,5 +1661,32 @@ footer.white-wrapper .social-links li a {
     .portfolio-item,
     .masonry-portfolio-item {
         width: 100%;
+    }
+    #headerwrap {
+        background-image: url(../img/bg/bg1-mobile.jpg);
+        max-height: 100vh !important;
+        height: 100vh !important;
+    }
+    header .intro-text {
+        padding-top: 300px;
+    }
+    header .intro-text .intro-heading {
+        margin-bottom: 220px;
+    }
+    #chevrondown {
+        color: #fff;
+        opacity: 0.5;
+    }
+}
+
+@media(max-width:740px) and (max-height: 400px) {
+    header .intro-text {
+        padding-top: 180px;
+    }
+    header .intro-text .intro-heading {
+        margin-bottom: 40px;
+    }
+    .intro-sub-heading {
+        color: #333
     }
 }

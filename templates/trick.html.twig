@@ -4,9 +4,9 @@
 
         <!-- Header -->
         {% if trick.featured %}
-        <header class="masthead" style="background-image: url('{{ asset(uploaded_trick(trick.featured.content)) }}')">
+            <header class="masthead" style="background-image: url('{{ asset(uploaded_trick(trick.featured.content)) }}')">
         {% else %}
-        <header class="masthead" style="background-image: url('{{ asset('build/images/bg/placeholder_trick.jpg') }}')"> 
+            <header class="masthead" style="background-image: url('{{ asset('build/images/bg/placeholder_trick.jpg') }}')"> 
         {% endif %}
             <div class="container">
                 <div class="row">       
@@ -53,11 +53,20 @@
             </div>  
         </header>
 
+
+
         <!-- Carousel -->
         <section>
             <div class="container">
+                
+                <!-- show media button, only for mobiles -->
+                <div class="row justify-content-center">
+                    <button class="btn btn-primary mb30 d-block d-sm-none" type="button" data-toggle="collapse" data-target="#collapseCarousel" aria-expanded="false" aria-controls="collapseCarousel">Voir Médias</button>
+                </div>
+            
                 <div class="row">
-                    <div class="col col-carousel">
+                    <div class="col col-carousel collapse dont-collapse-sm" id="collapseCarousel">
+
                         {% for message in app.flashes('success') %}
                             <div class="alert alert-success alert-dismissible" role="alert">
                                 <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>

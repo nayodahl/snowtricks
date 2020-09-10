@@ -67,7 +67,12 @@
                     </div>    
                 {% endfor %}                
             
-                <div class="row">
+                <!-- show media button, only for mobiles -->
+                <div class="row justify-content-center">
+                    <button class="btn btn-primary mb30 d-block d-sm-none" type="button" data-toggle="collapse" data-target="#collapseCards" aria-expanded="false" aria-controls="collapseCards">Voir Médias</button>
+                </div>
+            
+                <div class="row collapse dont-collapse-sm" id="collapseCards">
                     <div class="card-group col">            
                         {% if (images is not empty) or (videos is not empty) %}                
                             {% for image in images %}                                  
@@ -167,7 +172,8 @@
                                     {{ formMacros.printTrickVideoRow(video) }}                                    
                                 {% endfor %}
                                 <hr>
-                                <a href="#" class="js-trick-video-add form-control"><span class="fa fa-plus-circle"></span> Ajouter une vidéo (url youtube format embed, exemple : https://www.youtube.com/embed/ZlTmeL3XdM4)</a>                                                                                                                        
+                                <a href="#" class="js-trick-video-add form-control form-control-video-mobile"><span class="fa fa-plus-circle"></span> Ajouter une vidéo (url youtube format embed, exemple : https://www.youtube.com/embed/ZlTmeL3XdM4)</a>   
+                                <hr>                                                                                                                     
                             </div>
                             <!-- trigger modal -->                   
                             <a class="btn btn-primary" href="#" data-toggle="modal" data-target="#DeleteTrickModal">Supprimer ce trick</a>
