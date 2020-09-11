@@ -309,7 +309,7 @@ class AppFixtures extends Fixture
         // create user Jimmy
         $user = (new User());
         $user->setUsername('jimmy')
-            ->setPassword($this->passwordEncoder->encodePassword($user, 'jimmy'))
+            ->setPassword($this->passwordEncoder->encodePassword($user, '@dmIn123'))
             ->setEmail('jimmy@snowtricks.fr')
             ->setPhoto('jimmy-avatar.jpg')
             ->setActivated('1')
