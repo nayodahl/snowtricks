@@ -4,7 +4,7 @@
     <section>
             <div class="container login-section-inner">
                 <div class="row">
-                    <div class="col-lg-6 col-md-4 mx-auto">            
+                    <div class="col-lg-6 mx-auto">            
 
                         {% for message in app.flashes('success') %}
                             <div class="alert alert-success alert-dismissible" role="alert">
@@ -14,7 +14,7 @@
                         {% endfor %}
 
                         <div class="row">
-                            <div class="col-6 mx-auto">
+                            <div class="col-md-6 col-sm-10 mx-auto">
                                 <div class="card text-center">
                                     <div class="card-header">
                                         <h5>{{ user.username }}</h5>

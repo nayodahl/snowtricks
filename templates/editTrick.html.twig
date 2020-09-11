@@ -3,7 +3,7 @@
 
 {% macro printTrickImageRow(image) %}
     <div class="col js-trick-image-item">                                        
-        <img class="trick-thumbnail-small" src="{{ uploaded_trick(image.content.vars.value) }}">
+        <img class="trick-thumbnail-small" src="{{ uploaded_trick(image.content.vars.value) }}" alt="photo de la figure">
         <a href="#" class="js-remove-image pull-right" title="Supprimer l'image"><span class="fa fa-close"></span></a>
         {{ form_row(image.content) }}                                        
     </div>
@@ -78,7 +78,7 @@
                             {% for image in images %}                                  
                                 <div class="col-lg-4">                                       
                                     <div class="card blog-item mb100 wow match-height">                                          
-                                        <img class="card-img-top trickcard-thumbnail-medium" src="{{ asset(uploaded_trick(image.content)) }}" alt="Photo de la figure">                                           
+                                        <img class="card-img-top trickcard-thumbnail-medium" src="{{ asset(uploaded_trick(image.content)) }}" alt="photo de la figure">                                           
                                         <div class="card-footer bg-transparent">
                                             <a title="Choisir comme Image à la Une" href="{{ path('app_edit_featured', {trickId: trick.id, imageId: image.id}) }}" class="pull-right"><span class="fa fa-star" aria-hidden="true"></span></a>                                            
                                         </div>
@@ -122,21 +122,21 @@
                             <h5>Titre</h5>
                             <hr>
                             {{ form_row(trickForm.title, {
-                                label: false,
+                                label: 'Modifiez le titre :',
                                 help: null,
                                 'attr': {'class': 'form-control'}
                             }) }}
                             <h5>Description</h5>
                             <hr>
                             {{ form_row(trickForm.description, {
-                                label: false,
+                                label: 'Modifiez la description :',
                                 help: null,
                                 'attr': {'class': 'form-control'}
                             }) }}
                             <h5>Catégorie</h5>
                             <hr>
                             {{ form_row(trickForm.category, {
-                                label: false,
+                                label: 'Changez la catégorie :',
                                 help: null,
                                 'attr': {'class': 'form-control'}
                             }) }}
@@ -150,11 +150,7 @@
                                     {{ formMacros.printTrickImageRow(image) }}
                                 {% endfor %}                                                                  
                                 <hr>
-                                <div id="add-photo">
-                                    <span class="fa fa-plus-circle"></span> Ajouter une photo
-                                </div>
                                 {{ form_row(trickForm.imageFile, {
-                                    label: false,
                                     help: null,
                                     'attr': {'class': 'form-control'}
                                 }) }}                                                                  
@@ -196,7 +192,7 @@
                         {{ form_end(trickForm) }}
 
                         <!-- Modal for delete trick -->
-                        <div class="modal fade" id="DeleteTrickModal" tabindex="-1" role="dialog" aria-labelledby="ModalCenterTitle" aria-hidden="true">
+                        <div class="modal fade" id="DeleteTrickModal" tabindex="-1" role="dialog" aria-hidden="true">
                             <div class="modal-dialog modal-dialog-centered" role="document">
                                 <div class="modal-content">
                                     <div class="modal-header">

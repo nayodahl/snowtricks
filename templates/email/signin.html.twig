@@ -19,6 +19,9 @@
                       <br>
                       <h3>Bonjour à toi et bienvenue {{ user.username }} ! </h3>
                       <p>
+                        Félicitations, tu t’es bien inscrit·e sur le site SnowTricks. SnowTricks est un site communautaire autour du snowboard dont le but est de recenser toutes les figures (ou tricks) de ce sport.
+                      </p>
+                      <p>
                           Clique sur ce <a href="{{ absolute_url(path('app_activate', {token: user.token})) }}">lien</a> pour valider définitivement ton inscription au site SnowTricks !
                       </p>
                       <br>

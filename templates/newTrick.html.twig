@@ -33,34 +33,24 @@
                             <h5>Titre</h5>
                             <hr>
                             {{ form_row(trickForm.title, {
-                                label: false,
-                                help: null,
                                 'attr': {'class': 'form-control'}
                             }) }}
                             <h5>Description</h5>
                             <hr>
                             {{ form_row(trickForm.description, {
-                                label: false,
-                                help: null,
                                 'attr': {'class': 'form-control'}
                             }) }}
                             <h5>Catégorie</h5>
                             <hr>
                             {{ form_row(trickForm.category, {
-                                label: false,
-                                help: null,
                                 'attr': {'class': 'form-control'}
                             }) }}
 
                             <div class="js-trick-image-wrapper">
                                 <h5>Images</h5>
                                 <hr>                                     
-                                <div id="add-photo">
-                                    <span class="fa fa-plus-circle"></span> Ajouter une photo                                                               
-                                </div>
+
                                 {{ form_row(trickForm.imageFile, {
-                                    label: false,
-                                    help: null,
                                     'attr': {'class': 'form-control'}
                                 }) }} 
                             </div>  

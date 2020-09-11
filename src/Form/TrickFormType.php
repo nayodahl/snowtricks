@@ -23,16 +23,16 @@ class TrickFormType extends AbstractType
     {
         $builder
             ->add('title', TextType::class, [
-                'help' => 'ajoutez votre titre',
+                'label' => 'Ajoutez un titre :',
                 'attr' => ['autofocus' => true],
             ])
             ->add('description', TextareaType::class, [
-                'help' => 'ajoutez la description de la figure',
+                'label' => 'Ajoutez la description de la figure :',
             ])
             ->add('category', EntityType::class, [
                 'class' => Category::class,
                 'choice_label' => 'name',
-                'placeholder' => 'Choisissez une catégorie',
+                'label' => 'Choisissez une catégorie :',
             ])
             ->add('images', CollectionType::class, [
                 'entry_type' => ImageFormType::class,
@@ -44,6 +44,7 @@ class TrickFormType extends AbstractType
             ->add('imageFile', FileType::class, [
                 'mapped' => false,
                 'required' => false,
+                'label' => 'Ajoutez une photo :',
                 'constraints' => [
                     new Image([
                         'maxSize' => '5M',
