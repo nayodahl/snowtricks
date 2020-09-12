@@ -12,7 +12,7 @@
                     <h2 class="section-heading" id="forgottitle">Mot de passe oublié</h2>
                     <p> 
                         Un mail vous a été envoyé et contient un lien sur lequel vous pouvez cliquer pour réinitialiser votre mot de passe.
-                        Ce lien expirera dans {{ tokenLifetime|date('g') }} heures.
+                        Ce lien expirera dans {{ tokenLifetime }} heures.
                     </p>
                     <p>
                         Si vous ne recevez pas ce mail, merci de vérifier vos spams, ou bien réessayez <a href="{{ path('app_forgot_password_request') }}">ici</a>.

@@ -6,7 +6,6 @@ use App\Entity\User;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mime\Address;
-use SymfonyCasts\Bundle\ResetPassword\Model\ResetPasswordToken;
 
 class Mailer
 {
@@ -32,7 +31,7 @@ class Mailer
         $this->mailer->send($email);
     }
 
-    public function sendPasswordResetMessage(User $user, ResetPasswordToken $resetToken, int $tokenLifetime)
+    public function sendPasswordResetMessage(User $user, string $resetToken)
     {
         $email = (new TemplatedEmail())
         ->from(new Address('hello@snowtricks.nayo.cloud', 'SnowTricks'))
@@ -40,7 +39,7 @@ class Mailer
         ->subject('Votre demande de réinitialisation de mot de passe')
         ->context([
             'resetToken' => $resetToken,
-            'tokenLifetime' => $tokenLifetime,
+            'tokenLifetime' => 2,
         ])
         ->htmlTemplate('email/reset.html.twig');
 

@@ -2,7 +2,6 @@
 
 namespace App\Controller;
 
-use App\Entity\User;
 use App\Form\LoginFormType;
 use App\Form\SigninFormType;
 use App\Repository\UserRepository;
