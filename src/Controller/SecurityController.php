@@ -87,7 +87,7 @@ class SecurityController extends AbstractController
     }
 
     /**
-     * @Route("/activate/{token}", defaults={"_format"="html"}, methods="GET", name="app_activate")
+     * @Route("/activate/{token}", defaults={"_format"="html"}, methods="GET", name="app_activate", requirements={"token"="[0-9a-zA-Z]{32}"})
      */
     public function activateUser(string $token = null, UserRepository $userRepository): Response
     {

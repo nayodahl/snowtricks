@@ -58,9 +58,9 @@ class ResetPasswordController extends AbstractController
     /**
      * Validates and process the reset URL that the user clicked in their email.
      *
-     * @Route("/reset/{token}", name="app_reset_password")
+     * @Route("/reset/{token}", name="app_reset_password", requirements={"token"="[0-9a-zA-Z]{32}"} )
      */
-    public function reset(Request $request, UserPasswordEncoderInterface $passwordEncoder, string $token = null): Response
+    public function resetPassword(Request $request, UserPasswordEncoderInterface $passwordEncoder, string $token = null): Response
     {
         $this->denyAccessUnlessGranted('IS_ANONYMOUS');
 
@@ -75,7 +75,7 @@ class ResetPasswordController extends AbstractController
         ]);
 
         if (null === $user) {
-            $this->addFlash('error', 'Il y a eu un problème pour valider votre demande');
+            $this->addFlash('error', 'Il y a eu un problème pour valider votre demande, veuillez vérifier votre lien ou refaire une demande');
 
             return $this->redirectToRoute('app_forgot_password_request');
         }
