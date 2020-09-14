@@ -171,11 +171,7 @@ class User implements UserInterface
 
     public function getPhoto()
     {
-        if (null === $this->photo) {
-            return $this->photo;
-        }
-
-        return '/'.$this->photo;
+        return $this->photo;
     }
 
     public function setPhoto($photo): self

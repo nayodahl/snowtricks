@@ -20,7 +20,7 @@ Here are the rules that needed to be followed :
 This site is online here : https://snowtricks.nayo.cloud and can be tested
 
 
-## Getting started
+## Want to clone and test this app ?
 
 - Clone Repository on your web server
 - Install backend dependancies using Composer with dev depandancies (composer install, https://getcomposer.org/doc/01-basic-usage.md). You may need to remove composer.lock file
@@ -30,10 +30,7 @@ This site is online here : https://snowtricks.nayo.cloud and can be tested
 - Load initial dataset using Datafixtures (php bin/console doctrine:fixtures:load)
 - Configure your mail setup on your web server editing .env file, as this site sends mails for registration. I used a https://mailtrap.io/ inbox during the development - 
 - Install frontend dependancies using Yarn (yarn install).
-- Generates front assets using yarn (yarn run encore production).
-- Now that you are done, you can switch to production environnement editing .env file (change line with APP_ENV=prod)
-- Remove backend dev dependancies using Composer (composer install --no-dev --optimize-autoloader)
-- Clear your symfony cache (php bin/console cache:clear)
+- Generates front assets using yarn (yarn encore dev).
 
 ## Let's go
 
