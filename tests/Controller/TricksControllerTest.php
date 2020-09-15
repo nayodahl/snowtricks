@@ -2,62 +2,87 @@
 
 namespace App\Tests\Controller;
 
-use App\Entity\Comment;
-use App\Entity\Trick;
-use App\Entity\User;
-use DateTime;
-use PHPUnit\Framework\TestCase;
+use App\Repository\UserRepository;
+use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
-class TricksControllerTest extends TestCase
+class TrickControllerTest extends WebTestCase
 {
-    public function testCreateNewTrickWithoutMedia()
+    //////// ALLOWED ////////////
+    public function testVisitorCanAccessHomepage()
     {
-        $trick = new Trick();
-        $trick->setTitle('Titre test')
-            ->setSlug('titre-test')
-            ->setDescription('Description test')
-            ->setCreated(new DateTime())
-            ->setLastUpdate(new DateTime());
+        $client = static::createClient();
+        $client->request('GET', '/');
+        $this->assertEquals(200, $client->getResponse()->getStatusCode());
+        $this->assertStringContainsString('Snowtricks', $client->getResponse()->getContent());
+    }      
 
-        $this->assertInstanceOf(Trick::class, $trick);
-        $this->assertIsString($trick->getTitle());
-        $this->assertIsString($trick->getDescription());
-        $this->assertInstanceOf(DateTime::class, $trick->getCreated());
-        $this->assertInstanceOf(DateTime::class, $trick->getLastUpdate());
+    public function testVisitorCanAccessSingleTrick()
+    {
+        $client = static::createClient();
+        $client->request('GET', '/trick/backside-air');
+        $this->assertEquals(200, $client->getResponse()->getStatusCode());
+        $this->assertStringContainsString('ajouté le', $client->getResponse()->getContent());        
     }
 
-    public function testCreateNewComment()
+    public function testMemberCanAccessEditTrick()
     {
-        $trick = new Trick();
-        $trick->setTitle('Titre test')
-            ->setSlug('titre-test')
-            ->setDescription('Description test')
-            ->setCreated(new DateTime())
-            ->setLastUpdate(new DateTime());
+        $client = static::createClient();
+        $userRepository = static::$container->get(UserRepository::class);
 
-        $user = new User();
-        $user->setUsername('jimmy')
-        ->setPassword('jimmy')
-        ->setEmail('jimmy@snowtricks.fr')
-        ->setPhoto('jimmy-avatar.jpg')
-        ->setActivated('1')
-        ->setCreated(new DateTime())
-        ->setLastUpdate(new DateTime());
+        $jimmy = $userRepository->findOneBy(['username' => 'jimmy']);
+        $client->loginUser($jimmy);
 
-        $comment = new Comment();
-        $comment->setContent('Commentaire de test');
-        $comment->setCreated(new DateTime());
-        $comment->setUser($user);
-        $comment->setTrick($trick);
-
-        $this->assertInstanceOf(Comment::class, $comment);
-        $this->assertIsString($comment->getContent());
-        $this->assertInstanceOf(DateTime::class, $comment->getCreated());
-        $this->assertInstanceOf(User::class, $comment->getUser());
-        $this->assertInstanceOf(Trick::class, $comment->getTrick());
+        $client->request('GET', '/edit/backside-air');
+        $this->assertEquals(200, $client->getResponse()->getStatusCode());
+        $this->assertStringContainsString('Modifiez le titre', $client->getResponse()->getContent());  
     }
 
-    public function testCreateNewTrickFormPersitsData()
+    public function testMemberCanAccessNewTrick()
     {
+        $client = static::createClient();
+        $userRepository = static::$container->get(UserRepository::class);
+
+        $jimmy = $userRepository->findOneBy(['username' => 'jimmy']);
+        $client->loginUser($jimmy);
+
+        $client->request('GET', '/new');
+        $this->assertEquals(200, $client->getResponse()->getStatusCode());
+        $this->assertStringContainsString('Nouveau Trick', $client->getResponse()->getContent());  
+    }
+    
+    //////////////// FORBIDDEN //////////
+    public function testVisitorCantAccessEditTrick()
+    {
+        $client = static::createClient();
+        $client->request('GET', '/edit/backside-air');
+        $this->assertEquals(302, $client->getResponse()->getStatusCode());
+    } 
+
+    public function testVisitorCantAccessNewTrick()
+    {
+        $client = static::createClient();
+        $client->request('GET', '/new');
+        $this->assertEquals(302, $client->getResponse()->getStatusCode());
+    } 
+
+    public function testVisitorCantAccessDeleteTrick()
+    {
+        $client = static::createClient();
+        $client->request('GET', '/delete/backside-air');
+        $this->assertEquals(302, $client->getResponse()->getStatusCode());
+    }
+
+    public function testVisitorCantAccessEditFeatured()
+    {
+        $client = static::createClient();
+        $client->request('GET', '/featured/4/9');
+        $this->assertEquals(302, $client->getResponse()->getStatusCode());
+    }
+
+    public function testVisitorCantAccessRemoveFeatured()
+    {
+        $client = static::createClient();
+        $client->request('GET', '/unfeatured/4');
+        $this->assertEquals(302, $client->getResponse()->getStatusCode());
     }
 }

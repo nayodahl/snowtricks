@@ -20,7 +20,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-class TricksController extends AbstractController
+class TrickController extends AbstractController
 {
     /**
      * @Route("/", defaults={"page": "1", "_format"="html"}, methods="GET", name="app_home")
