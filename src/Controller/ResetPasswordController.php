@@ -6,6 +6,7 @@ use App\Entity\User;
 use App\Form\ChangePasswordFormType;
 use App\Form\ResetPasswordRequestFormType;
 use App\Service\Mailer;
+use DateInterval;
 use DateTime;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -13,24 +14,12 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
-use SymfonyCasts\Bundle\ResetPassword\Controller\ResetPasswordControllerTrait;
-use SymfonyCasts\Bundle\ResetPassword\Exception\ResetPasswordExceptionInterface;
-use SymfonyCasts\Bundle\ResetPassword\ResetPasswordHelperInterface;
 
 /**
  * @Route("/reset-password")
  */
 class ResetPasswordController extends AbstractController
 {
-    use ResetPasswordControllerTrait;
-
-    private $resetPasswordHelper;
-
-    public function __construct(ResetPasswordHelperInterface $resetPasswordHelper)
-    {
-        $this->resetPasswordHelper = $resetPasswordHelper;
-    }
-
     /**
      * Display & process form to request a password reset.
      *
@@ -44,10 +33,7 @@ class ResetPasswordController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            return $this->processSendingPasswordResetEmail(
-                $form->get('email')->getData(),
-                $mailer
-            );
+            return $this->processSendingPasswordResetEmail($form->get('email')->getData(), $mailer);
         }
 
         return $this->render('request.html.twig', [
@@ -64,45 +50,42 @@ class ResetPasswordController extends AbstractController
     {
         $this->denyAccessUnlessGranted('IS_ANONYMOUS');
 
-        // We prevent users from directly accessing this page
-        if (!$this->canCheckEmail()) {
-            return $this->redirectToRoute('app_forgot_password_request');
-        }
-
         return $this->render('check_email.html.twig', [
-            'tokenLifetime' => $this->resetPasswordHelper->getTokenLifetime(),
+            'tokenLifetime' => 2,
         ]);
     }
 
     /**
      * Validates and process the reset URL that the user clicked in their email.
      *
-     * @Route("/reset/{token}", name="app_reset_password")
+     * @Route("/reset/{token}", name="app_reset_password", requirements={"token"="[0-9a-zA-Z]{32}"} )
      */
-    public function reset(Request $request, UserPasswordEncoderInterface $passwordEncoder, string $token = null): Response
+    public function resetPassword(Request $request, UserPasswordEncoderInterface $passwordEncoder, string $token = null): Response
     {
         $this->denyAccessUnlessGranted('IS_ANONYMOUS');
 
-        if ($token) {
-            // We store the token in session and remove it from the URL, to avoid the URL being
-            // loaded in a browser and potentially leaking the token to 3rd party JavaScript.
-            $this->storeTokenInSession($token);
-
-            return $this->redirectToRoute('app_reset_password');
-        }
-
-        $token = $this->getTokenFromSession();
         if (null === $token) {
-            throw $this->createNotFoundException('Pas de token trouvé dans l\'url ou dans la session.');
+            $this->addFlash('error', 'Il y a eu un problème pour valider votre demande');
+
+            return $this->redirectToRoute('app_forgot_password_request');
         }
 
-        try {
-            $user = $this->resetPasswordHelper->validateTokenAndFetchUser($token);
-        } catch (ResetPasswordExceptionInterface $e) {
-            $this->addFlash('reset_password_error', sprintf(
-                'Il y a eu un problème pour valider votre demande - %s',
-                $e->getReason()
-            ));
+        $user = $this->getDoctrine()->getRepository(User::class)->findOneBy([
+            'token' => $token,
+        ]);
+
+        if (null === $user) {
+            $this->addFlash('error', 'Il y a eu un problème pour valider votre demande, veuillez vérifier votre lien ou refaire une demande');
+
+            return $this->redirectToRoute('app_forgot_password_request');
+        }
+
+        //check if token has been inserted less than 2h app_forgot_password_request
+        $creation = $user->getLastUpdate();
+        $creation->add(new DateInterval('PT2H')); // add 2 hours
+        $now = new DateTime();
+        if ($creation < $now) {
+            $this->addFlash('error', 'Votre demande n\'est plus valide, veuillez refaire une demande');
 
             return $this->redirectToRoute('app_forgot_password_request');
         }
@@ -113,7 +96,7 @@ class ResetPasswordController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             // A password reset token should be used only once, remove it.
-            $this->resetPasswordHelper->removeResetRequest($token);
+            $user->setToken(null);
 
             // Encode the plain password, and set it.
             $encodedPassword = $passwordEncoder->encodePassword(
@@ -124,8 +107,6 @@ class ResetPasswordController extends AbstractController
             $user->setPassword($encodedPassword)->setLastUpdate(new DateTime());
             $this->getDoctrine()->getManager()->flush();
 
-            // The session is cleaned up after the password has been changed.
-            $this->cleanSessionAfterReset();
             $this->addFlash('success', 'Votre mot de passe a été réinitialisé ! Vous pouvez vous connecter');
 
             return $this->redirectToRoute('app_home', ['_fragment' => 'tricks']);
@@ -142,31 +123,28 @@ class ResetPasswordController extends AbstractController
             'email' => $emailFormData,
         ]);
 
-        // Marks that you are allowed to see the app_check_email page.
-        $this->setCanCheckEmailInSession();
-
         // Do not reveal whether a user account was found or not.
         if (!$user) {
             return $this->redirectToRoute('app_check_email');
         }
 
-        try {
-            $resetToken = $this->resetPasswordHelper->generateResetToken($user);
-        } catch (ResetPasswordExceptionInterface $e) {
-            // If you want to tell the user why a reset email was not sent, uncomment
-            // the lines below and change the redirect to 'app_forgot_password_request'.
-            // Caution: This may reveal if a user is registered or not.
-            //
-            // $this->addFlash('reset_password_error', sprintf(
-            //     'There was a problem handling your password reset request - %s',
-            //     $e->getReason()
-            // ));
-
+        // Do not reveal whether the found user is activated or not.
+        if (false === $user->getActivated()) {
             return $this->redirectToRoute('app_check_email');
         }
 
+        // generate token (length 32) and insert in User
+        $user->setToken(bin2hex(random_bytes(16)))
+        // this lastUpdate info will be used to check the age of the reset request
+            ->setLastUpdate(new DateTime());
+
+        // save entity
+        $em = $this->getDoctrine()->getManager();
+        $em->persist($user);
+        $em->flush();
+
         // send mail
-        $mailer->sendPasswordResetMessage($user, $resetToken, $this->resetPasswordHelper->getTokenLifetime());
+        $mailer->sendPasswordResetMessage($user, $user->getToken());
 
         return $this->redirectToRoute('app_check_email');
     }
