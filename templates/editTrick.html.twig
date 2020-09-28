@@ -74,8 +74,8 @@
             
                 <div class="row collapse dont-collapse-sm" id="collapseCards">
                     <div class="card-group col">            
-                        {% if (images is not empty) or (videos is not empty) %}                
-                            {% for image in images %}                                  
+                        {% if (trick.images is not empty) or (trick.videos is not empty) %}                
+                            {% for image in trick.images %}                                  
                                 <div class="col-lg-4">                                       
                                     <div class="card blog-item mb100 wow match-height">                                          
                                         <img class="card-img-top trickcard-thumbnail-medium" src="{{ asset(uploaded_trick(image.content)) }}" alt="photo de la figure">                                           
@@ -85,7 +85,7 @@
                                     </div>                                    
                                 </div>
                             {% endfor %}
-                            {% for video in videos %}                                    
+                            {% for video in trick.videos %}                                    
                                 <div class="col-lg-4">                                   
                                     <div class="card blog-item mb100 wow match-height">
                                         <iframe height="227" class="card-img-top" src="{{ video.address }}"></iframe>
@@ -102,7 +102,7 @@
             <div class="container section-inner">
                 <div class="row">
                     <div class="col-lg-10 mx-auto">
-                        {% if (images is empty) and (videos is empty) %}
+                        {% if (trick.images is empty) and (trick.videos is empty) %}
                             <div class="mt60 mb50 single-section-title">
                                 <h3>Aucun media</h3>
                             </div>
@@ -143,7 +143,7 @@
 
                             <div class="js-trick-image-wrapper">
                                 <h5>Images</h5>
-                                {% if images is not empty %}
+                                {% if trick.images is not empty %}
                                 <hr>                        
                                 {% endif %}        
                                 {% for image in trickForm.images %}
@@ -158,7 +158,7 @@
                             <hr>
                             <div class="js-trick-video-wrapper" data-prototype="{{ formMacros.printTrickVideoRow(trickForm.videos.vars.prototype)|e('html_attr') }}" data-index="{{ trickForm.videos|length }}">
                                 <h5>Vidéos</h5>
-                                {% if videos is not empty %}
+                                {% if trick.videos is not empty %}
                                 <hr>                        
                                 {% endif %}                                
                                 {% for video in trickForm.videos %}                                     
