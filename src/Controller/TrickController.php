@@ -7,10 +7,7 @@ use App\Entity\Trick;
 use App\Form\CommentFormType;
 use App\Form\TrickFormType;
 use App\Repository\CommentRepository;
-use App\Repository\ImageRepository;
 use App\Repository\TrickRepository;
-use App\Repository\UserRepository;
-use App\Repository\VideoRepository;
 use App\Service\Slugger;
 use App\Service\UploaderHelper;
 use DateTime;
@@ -41,14 +38,11 @@ class TrickController extends AbstractController
      *
      * @Route("/trick/{slug}/{page<[1-9]\d*>}", defaults={"_format"="html"}, name="app_trick_paginated")
      */
-    public function showTrick(Request $request, Trick $trick, int $page = 1, TrickRepository $trickRepo, CommentRepository $commentRepo, ImageRepository $imageRepo, VideoRepository $videoRepo, UserRepository $userRepository): Response
+    public function showTrick(Request $request, string $slug, int $page = 1, TrickRepository $trickRepo, CommentRepository $commentRepo): Response
     {
         // getting data
-        $id = $trick->getId();
-        $trickArray = $trickRepo->findOneByIdWithCategoryAndFeatured($id);
-        $latestComments = $commentRepo->findAllCommentsFromTrick($id, $page);
-        $images = $imageRepo->getImagesFromTrick($id);
-        $videos = $videoRepo->getVideosFromTrick($id);
+        $trick = $trickRepo->findCompleteTrick($slug);
+        $latestComments = $commentRepo->findAllCommentsFromTrick($trick->getId(), $page);
 
         // comment form generation
         $form = $this->createForm(CommentFormType::class);
@@ -72,10 +66,8 @@ class TrickController extends AbstractController
         }
 
         return $this->render('trick.html.twig', [
-            'trick' => $trickArray,
+            'trick' => $trick,
             'comments' => $latestComments,
-            'images' => $images,
-            'videos' => $videos,
             'commentForm' => $form->createView(),
         ]);
     }
@@ -85,16 +77,13 @@ class TrickController extends AbstractController
      *
      * @IsGranted("ROLE_USER")
      */
-    public function editTrick(Request $request, Trick $trick, UploaderHelper $uploaderHelper, Slugger $slugger, TrickRepository $trickRepo, ImageRepository $imageRepo, VideoRepository $videoRepo): Response
+    public function editTrick(Request $request, string $slug, UploaderHelper $uploaderHelper, Slugger $slugger, TrickRepository $trickRepo): Response
     {
         // getting data
-        $id = $trick->getId();
-        $trick = $trickRepo->findOneByIdWithCategoryAndFeatured($id);
-        $images = $imageRepo->getImagesFromTrick($id);
-        $videos = $videoRepo->getVideosFromTrick($id);
+        $trick = $trickRepo->findCompleteTrick($slug);
 
         // trick form generation
-        $form = $this->createForm(TrickFormType::class, $trickRepo->find($id));
+        $form = $this->createForm(TrickFormType::class, $trick);
 
         // handling comment form POST request if any
         $form->handleRequest($request);
@@ -126,8 +115,6 @@ class TrickController extends AbstractController
 
         return $this->render('editTrick.html.twig', [
             'trick' => $trick,
-            'images' => $images,
-            'videos' => $videos,
             'trickForm' => $form->createView(),
         ]);
     }

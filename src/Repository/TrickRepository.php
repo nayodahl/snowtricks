@@ -40,20 +40,18 @@ class TrickRepository extends ServiceEntityRepository
         return (new Paginator($query, $this->params->get('app.max_trick_number')))->paginate($currentPage);
     }
 
-    public function findOneByIdWithCategoryAndFeatured(int $id): array
+    // /**
+    //  * @return a trick with its category, its images, its videos
+    //  */
+    public function findCompleteTrick(string $slug)
     {
-        $entityManager = $this->getEntityManager();
-        $query = $entityManager->createQuery(
-            'SELECT t.id, t.title, t.description, t.created, t.lastUpdate, t.slug, c.name AS category, i AS featured
-            FROM App\Entity\Trick t
-            LEFT JOIN App\Entity\Image i
-            WITH i.featured = true
-            AND i.trick = :id
-            JOIN App\Entity\Category c
-            WHERE t.id = :id
-            AND t.category = c.id'
-        )->setParameter('id', $id);
-
-        return $query->getSingleResult();
+        return $this->createQueryBuilder('t')
+        ->leftJoin('t.videos', 'tv')->addSelect('tv')
+        ->leftJoin('t.images', 'ti')->addSelect('ti')
+        ->innerJoin('t.category', 'tc')->addSelect('tc')
+        ->where('t.slug = :slug')->setParameter('slug', $slug)
+        ->getQuery()
+        ->getOneOrNullResult()
+        ;
     }
 }
