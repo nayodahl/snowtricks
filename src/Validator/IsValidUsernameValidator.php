@@ -13,7 +13,7 @@ class IsValidUsernameValidator extends ConstraintValidator
     {
         /* @var $constraint \App\Validator\IsValidUsername */
         if (!$constraint instanceof IsValidUsername) {
-            throw new UnexpectedTypeException($constraint, IsValidPassword::class);
+            throw new UnexpectedTypeException($constraint, IsValidUsername::class);
         }
 
         // custom constraints should ignore null and empty values to allow
